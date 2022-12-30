@@ -1,6 +1,28 @@
 version: "3.8"
 
 services:
+   
+  frontend:
+    build: ./frontend/spiritanimal-frontend
+    image: frontend_vue
+    container_name: frontend
+    ports:
+      - 3000:8080
+    #    depends_on:
+    #      - backend
+    networks:
+      - spiritnet
+  
+  backend:
+    image: backend
+    build:
+      context: backend
+    container_name: backend
+    ports:
+      - 8080:8080
+    networks:
+      - spiritnet
+  
   mongodb:
     image: mongo
     container_name: mongodb
@@ -16,7 +38,7 @@ services:
     volumes:
       - data:/data
     networks:
-      - backdb
+      - spiritnet
     expose:
       - 27017
 
@@ -31,35 +53,11 @@ services:
       - ME_CONFIG_MONGODB_ADMINPASSWORD=rootpass
       - ME_CONFIG_MONGODB_SERVER=mongodb
     networks:
-      - backdb
-
-  front:
-    build: ./frontend/spiritanimal-frontend
-    image: de_frontend_vue
-    container_name: frontend
-    ports:
-      - 3000:8080
-#    depends_on:
-#      - backend
-    networks:
-      - frontback
-
-  backend:
-    image: backend
-    build:
-      context: backend
-    container_name: backend
-    ports:
-      - 8080:8080
-    networks:
-      - frontback
-      - backdb
+      - spiritnet
 
 volumes:
   data: {}
 
 networks:
-  backdb:
-    driver: bridge
-  frontback:
+  spiritnet:
     driver: bridge

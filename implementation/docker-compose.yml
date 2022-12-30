@@ -1,0 +1,19 @@
+version: "3.8"
+
+services:
+  backend:
+    image: backend
+    build:
+      context: backend
+    container_name: backend
+    ports:
+      - 8080:8080
+    networks:
+      main-network:
+        aliases:
+          - backend
+
+networks:
+  main-network:
+    name: main-network
+    driver: bridge

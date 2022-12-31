@@ -11,7 +11,7 @@ public class User {
     @Id
     private String username;
     private Präferenz präferenz;
-    private String passwort;
+    private String password;
     private String email;
     private String addresse;
     private String zahlungsdaten;
@@ -40,12 +40,12 @@ public class User {
         this.präferenz = präferenz;
     }
 
-    public String getPasswort() {
-        return passwort;
+    public String getPassword() {
+        return password;
     }
 
-    public void setPasswort(String passwort) {
-        this.passwort = passwort;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getEmail() {

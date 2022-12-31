@@ -4,10 +4,13 @@
     <input type="text" name="username" v-model="input.username" placeholder="Username" />
     <input type="password" name="password" v-model="input.password" placeholder="Password" />
     <button type="button" v-on:click="login()">Login</button>
+    <button v-on:click="sendData()">Send</button>
   </div>
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   name: 'Login',
   data() {
@@ -15,9 +18,17 @@ export default {
       input: {
         username: "",
         password: ""
-      }
+      },
+      response: ""
     }
   },
+  // mounted() {
+  //   axios({ method: "POST", "url": "https://localhost:8080/api/users", "data": this.input, "headers": { "content-type": "application/json" } }).then(result => {
+  //     this.response = result.data;
+  //   }, error => {
+  //     console.error(error);
+  //   })
+  // },
   methods: {
     login() {
       if(this.input.username != "" && this.input.password != "") {
@@ -30,6 +41,13 @@ export default {
       } else {
         console.log("A username and password must be present");
       }
+    },
+    sendData() {
+      axios({ method: "POST", "url": "https://localhost:8080/api/users", "data": this.input, "headers": { "content-type": "application/json" } }).then(result => {
+        this.response = result.data;
+      }, error => {
+        console.error(error);
+      })
     }
   }
 }

@@ -1,40 +1,6 @@
 version: "3.8"
 
 services:
-
-  frontproxy:
-    image: jwilder/nginx-proxy:latest
-    container_name: frontproxy
-    restart: always
-    environment:
-      DEFAULT_HOST: default.vhost
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - ./certs:/etc/nginx/certs
-      - /var/run/docker.sock:/tmp/docker.sock:ro
-
-  frontend:
-    build: ./frontend/spiritanimal-frontend
-    image: frontend_vue
-    container_name: frontend
-    ports:
-      - 3000:8080
-    #    depends_on:
-    #      - backend
-    networks:
-      - spiritnet
-  
-  backend:
-    image: backend
-    build:
-      context: backend
-    container_name: backend
-    ports:
-      - 8080:8080
-    networks:
-      - spiritnet
   
   mongodb:
     image: mongo
@@ -67,6 +33,42 @@ services:
       - ME_CONFIG_MONGODB_SERVER=mongodb
     networks:
       - spiritnet
+  
+  backend:
+    image: backend
+    build:
+      context: backend
+    container_name: backend
+    ports:
+      - 8080:8080
+    depends_on:
+      - mongodb
+    networks:
+      - spiritnet
+
+  frontend:
+    build: ./frontend/spiritanimal-frontend
+    image: frontend_vue
+    container_name: frontend
+    ports:
+      - 3000:8080
+#    depends_on:
+#      - backend
+    networks:
+      - spiritnet
+
+#  nginx:
+#    image: jwilder/nginx-proxy:latest
+#    container_name: nginx
+#    restart: always
+#    environment:
+#      DEFAULT_HOST: default.vhost
+#    ports:
+#      - "80:80"
+#      - "443:443"
+#    volumes:
+#      - ./certs:/etc/nginx/certs
+#      - /var/run/docker.sock:/tmp/docker.sock:ro
 
 volumes:
   data: {}

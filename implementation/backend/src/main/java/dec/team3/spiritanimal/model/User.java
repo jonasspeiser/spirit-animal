@@ -10,10 +10,15 @@ public class User {
 
     @Id
     private String username;
+    private Präferenz präferenz;
     private String passwort;
     private String email;
     private String addresse;
     private String zahlungsdaten;
+
+    // für gewerbliche User:
+    private String firma;
+    private String token;
 
     public String getUsername() {
         return username;
@@ -21,6 +26,14 @@ public class User {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public Präferenz getPräferenz() {
+        return präferenz;
+    }
+
+    public void setPräferenz(Präferenz präferenz) {
+        this.präferenz = präferenz;
     }
 
     public String getPasswort() {
@@ -53,5 +66,21 @@ public class User {
 
     public void setZahlungsdaten(String zahlungsdaten) {
         this.zahlungsdaten = zahlungsdaten;
+    }
+
+    public String getFirma() {
+        return firma;
+    }
+
+    public void setFirma(String firma) {
+        this.firma = firma;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }

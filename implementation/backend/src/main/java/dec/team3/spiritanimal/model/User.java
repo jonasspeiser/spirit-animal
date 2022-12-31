@@ -20,6 +20,10 @@ public class User {
     private String firma;
     private String token;
 
+    // für das Auswählen von Lieblingstieren
+    private Inserat[] geseheneInserate;
+    private Inserat[] favorisierteInserate;
+
     public String getUsername() {
         return username;
     }
@@ -83,4 +87,24 @@ public class User {
     public void setToken(String token) {
         this.token = token;
     }
+
+    public Inserat[] getGeseheneInserate() {
+        return geseheneInserate;
+    }
+
+    public void setGeseheneInserate(Inserat[] geseheneInserate) {
+        this.geseheneInserate = geseheneInserate;
+    }
+
+    // TODO: addGesehenesInserat, removeGesehenesInserat
+
+    public Inserat[] getFavorisierteInserate() {
+        return favorisierteInserate;
+    }
+
+    public void setFavorisierteInserate(Inserat[] favorisierteInserate) {
+        this.favorisierteInserate = favorisierteInserate;
+    }
+
+    // TODO: addFavorisiertesInserat, removeFavorisiertesInserat
 }

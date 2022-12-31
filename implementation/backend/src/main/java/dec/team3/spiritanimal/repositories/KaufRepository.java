@@ -1,8 +1,8 @@
 package dec.team3.spiritanimal.repositories;
 
-import dec.team3.spiritanimal.model.Inserat;
+import dec.team3.spiritanimal.model.Kauf;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
-public interface InseratRepository extends MongoRepository<Inserat, String> {
+public interface KaufRepository extends MongoRepository<Kauf, String> {
     // TODO
 }

@@ -12,7 +12,7 @@ public class Inserat {
     private String inseratID;
     private User inserent;
     private Kategorie kategorie;
-    private String status;
+    private InseratStatus status;
     private boolean premium;
     private String tiername;
     private String beschreibung;
@@ -36,11 +36,11 @@ public class Inserat {
         this.kategorie = kategorie;
     }
 
-    public String getStatus() {
+    public InseratStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(InseratStatus status) {
         this.status = status;
     }
 

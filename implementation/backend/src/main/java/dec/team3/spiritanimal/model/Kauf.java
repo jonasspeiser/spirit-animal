@@ -12,44 +12,38 @@ public class Kauf {
 
     @Id
     private String kaufID;
-    private Inserat inserat;
     private User käufer;
+    private Inserat inserat;
     private Date kaufdatum;
-    private String status;
+    private KaufStatus status;
+
+    public Kauf(User käufer, Inserat inserat, Date kaufdatum, KaufStatus status) {
+        this.käufer = käufer;
+        this.inserat = inserat;
+        this.kaufdatum = kaufdatum;
+        this.status = status;
+    }
 
     public String getKaufID() {
         return kaufID;
+    }
+    public User getKäufer() {
+        return käufer;
     }
 
     public Inserat getInserat() {
         return inserat;
     }
 
-    public void setInserat(Inserat inserat) {
-        this.inserat = inserat;
-    }
-
-    public User getKäufer() {
-        return käufer;
-    }
-
-    public void setKäufer(User käufer) {
-        this.käufer = käufer;
-    }
-
     public Date getKaufdatum() {
         return kaufdatum;
     }
 
-    public void setKaufdatum(Date kaufdatum) {
-        this.kaufdatum = kaufdatum;
-    }
-
-    public String getStatus() {
+    public KaufStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(KaufStatus status) {
         this.status = status;
     }
 }

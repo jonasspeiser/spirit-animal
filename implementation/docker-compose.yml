@@ -46,16 +46,16 @@ services:
     networks:
       - spiritnet
 
-  frontend:
-    build: ./frontend/spiritanimal-frontend
-    image: frontend_vue
-    container_name: frontend
-    ports:
-      - 3000:8080
-#    depends_on:
-#      - backend
-    networks:
-      - spiritnet
+#  frontend:
+#    build: ./frontend/spiritanimal-frontend
+#    image: frontend_vue
+#    container_name: frontend
+#    ports:
+#      - 3000:8080
+##    depends_on:
+##      - backend
+#    networks:
+#      - spiritnet
 
 #  nginx:
 #    image: jwilder/nginx-proxy:latest

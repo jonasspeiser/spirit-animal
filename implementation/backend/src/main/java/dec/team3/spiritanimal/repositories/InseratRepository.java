@@ -5,4 +5,6 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 
 public interface InseratRepository extends MongoRepository<Inserat, String> {
     // TODO
+
+    Inserat findInseratByInseratID(String inseratID);
 }

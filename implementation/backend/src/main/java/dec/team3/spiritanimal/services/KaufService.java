@@ -70,6 +70,24 @@ public class KaufService {
             return "Der Vorgang konnte nicht abgeschlossen werden: PaymentProvider returned " + response;
         }
     }
+
+    public String bestätigungKauf(String kaufID) {
+        Kauf kauf = kaufRepository.findKaufByKaufID(kaufID);
+        if (kauf != null) {
+            return bestätigungKauf(kauf);
+        } else {
+            return "Kauf \"" + kaufID + "\" konnte nicht gefunden werden";
+        }
+    }
+
+    public String ablehnungKauf(String kaufID) {
+        Kauf kauf = kaufRepository.findKaufByKaufID(kaufID);
+        if (kauf != null) {
+            return ablehnungKauf(kauf);
+        } else {
+            return "Kauf \"" + kaufID + "\" konnte nicht gefunden werden";
+        }
+    }
     public String bestätigungKauf(Kauf kauf) {
         // sende Geld an Inserent
         String zahlungsdaten = kauf.getInserat().getInserent().getZahlungsdaten();

@@ -4,5 +4,5 @@ import dec.team3.spiritanimal.model.Kauf;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 public interface KaufRepository extends MongoRepository<Kauf, String> {
-    // TODO
+    Kauf findKaufByKaufID(String kaufID);
 }

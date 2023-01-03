@@ -7,8 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 
 @Controller
 public class UserServiceController {
@@ -29,7 +27,13 @@ public class UserServiceController {
 
     @GetMapping("/api/users/{user}")
     @ResponseBody
-    public List<Präferenz> getPreferenceForUser(@PathVariable String user) {
+    public Präferenz getPreferenceForUser(@PathVariable String user) {
         return userService.getPreferenceForUser(user);
+    }
+
+    @PutMapping("/api/users/{user}")
+    @ResponseBody
+    public Präferenz updateUserPreference(@RequestBody Präferenz changes, @PathVariable String user) {
+        return userService.updateUserPreference(changes, user);
     }
 }

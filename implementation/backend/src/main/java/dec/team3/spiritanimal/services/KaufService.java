@@ -177,6 +177,11 @@ public class KaufService {
 
     public String schließeWiderruf(String kaufID) {
         Kauf kauf = kaufRepository.findKaufByKaufID(kaufID);
+
+        if (!(kauf.getStatus() == KaufStatus.WIDERRUF_EINGELEITET)) {
+            return "Vorgang abgebrochen: Für Kauf " + kaufID + " ist aktuell kein Widerruf eingeleitet";
+        }
+
         // sende Geld an Käufer
         String zahlungsdaten = kauf.getKäufer().getZahlungsdaten();
         String paymentResponse = geldSenden(zahlungsdaten);

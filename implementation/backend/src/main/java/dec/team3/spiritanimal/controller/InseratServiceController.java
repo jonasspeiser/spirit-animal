@@ -23,4 +23,10 @@ public class InseratServiceController {
     public String deleteInserat(@PathVariable String inseratID) {
         return inseratService.deleteInserat(inseratID);
     }
+
+    @PutMapping("/api/inserate/{inseratID}")
+    @ResponseBody
+    public Inserat updateInserat(@RequestBody Inserat changes, @PathVariable String inseratID) {
+        return inseratService.updateInserat(changes, inseratID);
+    }
 }

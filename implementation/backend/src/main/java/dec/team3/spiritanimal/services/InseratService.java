@@ -42,5 +42,18 @@ public class InseratService {
 
     // Methode zum Updaten eines Inserats
 
+    public Inserat updateInserat(Inserat changes, String inseratID) {
+        Inserat inseratToBeChanged = inseratRepository.findInseratByInseratID(inseratID);
+
+        inseratToBeChanged.setAlter(changes.getAlter());
+        inseratToBeChanged.setBeschreibung(changes.getBeschreibung());
+        inseratToBeChanged.setFoto(changes.getFoto());
+        inseratToBeChanged.setKategorie(changes.getKategorie());
+        inseratToBeChanged.setPreis(changes.getPreis());
+        inseratToBeChanged.setTiername(changes.getTiername());
+
+        inseratRepository.save(inseratToBeChanged);
+        return inseratRepository.findInseratByInseratID(inseratID);
+    }
 
 }

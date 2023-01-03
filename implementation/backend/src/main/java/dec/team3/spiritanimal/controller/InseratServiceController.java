@@ -4,9 +4,7 @@ import dec.team3.spiritanimal.model.Inserat;
 import dec.team3.spiritanimal.services.InseratService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class InseratServiceController {
@@ -18,5 +16,11 @@ public class InseratServiceController {
     @ResponseBody
     public Inserat createInserat(@RequestBody Inserat inserat) {
         return inseratService.createInserat(inserat);
+    }
+
+    @DeleteMapping("/api/inserate/{inseratID}")
+    @ResponseBody
+    public String deleteInserat(@PathVariable String inseratID) {
+        return inseratService.deleteInserat(inseratID);
     }
 }

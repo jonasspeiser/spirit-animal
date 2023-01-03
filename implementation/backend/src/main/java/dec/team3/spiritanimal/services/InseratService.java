@@ -32,4 +32,15 @@ public class InseratService {
         inseratRepository.save(inserat);
         return inseratRepository.findInseratByInseratID(inserat.getInseratID());
     }
+
+    // Methode zum Löschen eines Inserats
+
+    public String deleteInserat(String inseratID) {
+        inseratRepository.deleteById(inseratID);
+        return inseratID + " wurde gelöscht!";
+    }
+
+    // Methode zum Updaten eines Inserats
+
+
 }

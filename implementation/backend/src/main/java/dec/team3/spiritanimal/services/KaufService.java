@@ -149,11 +149,11 @@ public class KaufService {
     }
 
     public Kauf[] getKäufeFürKäufer(String username) {
-        return kaufRepository.getKaufsByKäufer_Username(username);
+        return kaufRepository.findKaufsByKäufer_Username(username);
     }
 
     public Kauf[] getKäufeFürAnbieter(String username) {
-        return kaufRepository.getKaufsByInserat_Inserent_Username(username);
+        return kaufRepository.findKaufsByInserat_Inserent_Username(username);
     }
 
     public String starteWiderruf(String kaufID, boolean tierBeiKäufer) {

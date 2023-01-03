@@ -155,4 +155,39 @@ public class KaufService {
     public Kauf[] getKäufeFürAnbieter(String username) {
         return kaufRepository.getKaufsByInserat_Inserent_Username(username);
     }
+
+    public String starteWiderruf(String kaufID, boolean tierBeiKäufer) {
+        Kauf kauf = kaufRepository.findKaufByKaufID(kaufID);
+        // ziehe Geld von Anbieter ein
+        String zahlungsdaten = kauf.getInserat().getInserent().getZahlungsdaten();
+        String paymentResponse = geldEinziehen(zahlungsdaten);
+        if (!paymentResponse.equals("success")) {
+            return "Der Vorgang konnte nicht abgeschlossen werden: PaymentProvider returned " + paymentResponse;
+        }
+        // aktualisiere Kaufstatus: "Widerruf eingeleitet"
+        kauf.setStatus(KaufStatus.WIDERRUF_EINGELEITET);
+
+        if (tierBeiKäufer) {
+            kaufRepository.save(kauf);
+            return "Widerruf eingeleitet, warte auf Bestätigung der Rückgabe des Tieres an den Anbieter";
+        }
+
+        return schließeWiderruf(kaufID);
+    }
+
+    public String schließeWiderruf(String kaufID) {
+        Kauf kauf = kaufRepository.findKaufByKaufID(kaufID);
+        // sende Geld an Käufer
+        String zahlungsdaten = kauf.getKäufer().getZahlungsdaten();
+        String paymentResponse = geldSenden(zahlungsdaten);
+        if (!paymentResponse.equals("success")) {
+            return "Der Vorgang konnte nicht abgeschlossen werden: PaymentProvider returned " + paymentResponse;
+        }
+        // aktualisiere Kaufstatus: "Widerruf abgeschlossen"
+        kauf.setStatus(KaufStatus.WIDERRRUF_ABGESCHLOSSEN);
+        kaufRepository.save(kauf);
+
+        // TODO: benachrichtige Käufer per E-Mail
+        return "Rückzahlung bestätigt, Widerruf abgeschlossen";
+    }
 }

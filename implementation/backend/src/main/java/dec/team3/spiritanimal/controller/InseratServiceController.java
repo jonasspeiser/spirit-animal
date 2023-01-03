@@ -29,4 +29,10 @@ public class InseratServiceController {
     public Inserat updateInserat(@RequestBody Inserat changes, @PathVariable String inseratID) {
         return inseratService.updateInserat(changes, inseratID);
     }
+
+    @PatchMapping("/api/inserate/{inseratID}")
+    @ResponseBody
+    public String updatePremium(@PathVariable String inseratID) {
+        return inseratService.updatePremium(inseratID);
+    }
 }

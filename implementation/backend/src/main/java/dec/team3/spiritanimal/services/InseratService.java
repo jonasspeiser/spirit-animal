@@ -56,4 +56,15 @@ public class InseratService {
         return inseratRepository.findInseratByInseratID(inseratID);
     }
 
+    // Methode zur Premium-Schaltung eines Inserats
+
+    public String updatePremium(String inseratID) {
+        Inserat inseratToBeChanged = inseratRepository.findInseratByInseratID(inseratID);
+
+        inseratToBeChanged.setPremium(true);
+
+        inseratRepository.save(inseratToBeChanged);
+        return inseratID + " ist jetzt Premium";
+    }
+
 }

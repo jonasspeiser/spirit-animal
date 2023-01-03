@@ -6,7 +6,7 @@ import dec.team3.spiritanimal.repositories.InseratRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import java.util.List;
 
 @Service
 public class InseratService {
@@ -65,6 +65,18 @@ public class InseratService {
 
         inseratRepository.save(inseratToBeChanged);
         return inseratID + " ist jetzt Premium";
+    }
+
+    // Methode zur Rückgabe aller Inserate
+
+    public List<Inserat> getAllInserate() {
+        return inseratRepository.findAll();
+    }
+
+    // Methode zur Rückgabe aller Inserate/User
+
+    public List<Inserat> getInserateProUser (String user) {
+        return inseratRepository.findInseratsByInserent_Username(user);
     }
 
 }

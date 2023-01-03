@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 public class KaufServiceController {
 
+
+    // TODO: apis vereinheitlichen (aktuell gibts unterschiede bei der /-Nutzung: /kaeufe/ und /kaeufe/widerruf)
+
     @Autowired
     private KaufService kaufService;
 
@@ -59,6 +62,7 @@ public class KaufServiceController {
         }
     }
 
+    // TODO: Rausfinden, warum widerruf-call nicht funktioniert (hängt das vllt mit getString() statt get().toString() zusammen?
     @PostMapping("/widerruf")
     @ResponseBody
     public String widerrufeKauf(@RequestBody String request) {

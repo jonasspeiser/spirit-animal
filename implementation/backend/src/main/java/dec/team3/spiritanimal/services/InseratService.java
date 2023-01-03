@@ -67,6 +67,8 @@ public class InseratService {
         return inseratID + " ist jetzt Premium";
     }
 
+    // TODO: Batch-Funktionalität implementieren
+
     // Methode zur Rückgabe aller Inserate
 
     public List<Inserat> getAllInserate() {

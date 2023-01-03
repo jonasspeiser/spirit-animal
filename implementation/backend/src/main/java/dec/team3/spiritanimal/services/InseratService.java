@@ -25,4 +25,11 @@ public class InseratService {
         inseratRepository.save(inserat);
         return "Inserat deaktiviert";
     }
+
+    // Methode zur Erstellung eines neuen Inserats
+
+    public Inserat createInserat(Inserat inserat) {
+        inseratRepository.save(inserat);
+        return inseratRepository.findInseratByInseratID(inserat.getInseratID());
+    }
 }

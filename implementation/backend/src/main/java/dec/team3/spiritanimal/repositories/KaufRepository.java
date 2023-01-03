@@ -5,4 +5,6 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 
 public interface KaufRepository extends MongoRepository<Kauf, String> {
     Kauf findKaufByKaufID(String kaufID);
+    // TODO
+    Kauf[] findKaufsByKäufer_Username(String username);
 }

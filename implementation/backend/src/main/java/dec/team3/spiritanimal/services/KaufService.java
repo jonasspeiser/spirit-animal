@@ -1,15 +1,13 @@
 package dec.team3.spiritanimal.services;
 
-import dec.team3.spiritanimal.model.Inserat;
-import dec.team3.spiritanimal.model.Kauf;
-import dec.team3.spiritanimal.model.KaufStatus;
-import dec.team3.spiritanimal.model.User;
+import dec.team3.spiritanimal.model.*;
 import dec.team3.spiritanimal.repositories.KaufRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class KaufService {
@@ -55,6 +53,11 @@ public class KaufService {
     }
 
     public String starteKauf(User käufer, Inserat inserat, String zahlungsdaten) {
+
+        if (!inserat.getStatus().equals(InseratStatus.ONLINE)) {
+            return "Vorgang abgebrochen. Nur Inserate mit Status \"online\" können gekauft werden.";
+        }
+
         // erstelle neuen Kauf
         Date kaufdatum = new Date();
         Kauf kauf = new Kauf(käufer, inserat, kaufdatum, KaufStatus.INITIIERT);
@@ -90,8 +93,19 @@ public class KaufService {
             return "Kauf \"" + kaufID + "\" konnte nicht gefunden werden";
         }
     }
+
     public String bestätigungKauf(Kauf kauf) {
+        Inserat inserat = kauf.getInserat();
+        // TODO: Die Abfrage ist eigentlich nur sinnvoll, wenn inserat den tatsächlich aktuellen Stand widerspiegelt
+        // -> Per "Fremdschlüssel" Abfrage aus dem InseratService holen, statt embedded Objekt zu verwenden
+        if (!inserat.getStatus().equals(InseratStatus.ONLINE)) {
+            return "Vorgang abgebrochen. Nur Inserate mit Status \"online\" können gekauft werden.";
+        }
+
         // sende Geld an Inserent
+        // TODO: Was tun, wenn zahlungsdaten == null?
+        // -> Zahlungsdaten müssen entweder bei Registrierung oder bei Aufgeben eines Inserats angegeben werden
+        // -> Wenn User eigene Konten bei uns haben, ist das egal, dann haben sie ab der Registrierung das Geldkonto und ich brauche diese zahlungsdaten nicht mehr
         String zahlungsdaten = kauf.getInserat().getInserent().getZahlungsdaten();
         String paymentResponse = geldSenden(zahlungsdaten);
 
@@ -101,6 +115,11 @@ public class KaufService {
             // aktualisiere Kaufstatus "abgeschlossen"
             kauf.setStatus(KaufStatus.ABGESCHLOSSEN);
             kaufRepository.save(kauf);
+            // lehne alle weiteren Käufe für dieses Inserat ab
+            List<Kauf> weitereKäufe = getKäufeFürInseratID(inserat.getInseratID());
+            for (Kauf weitererKauf : weitereKäufe) {
+                ablehnungKauf(weitererKauf);
+            }
             // benachrichtige Käufer per E-Mail
             String empfänger = kauf.getKäufer().getEmail();
             String betreff = "Kauf abgeschlossen";
@@ -118,6 +137,13 @@ public class KaufService {
     }
 
     public String ablehnungKauf(Kauf kauf) {
+        Inserat inserat = kauf.getInserat();
+        // TODO: Die Abfrage ist eigentlich nur sinnvoll, wenn inserat den tatsächlich aktuellen Stand widerspiegelt
+        // -> Per "Fremdschlüssel" Abfrage aus dem InseratService holen, statt embedded Objekt zu verwenden
+        if (!inserat.getStatus().equals(InseratStatus.ONLINE)) {
+            return "Vorgang abgebrochen. Nur Inserate mit Status \"online\" können gekauft werden.";
+        }
+
         // sende Geld zurück an Käufer
         String zahlungsdaten = kauf.getKäufer().getZahlungsdaten();
         // TODO: Inkonsistenz auflösen: Käufer gibt bei Kauf Zahlungsdaten an, diese werden aber nicht im Kauf gespeichert
@@ -127,8 +153,6 @@ public class KaufService {
         String paymentResponse = geldSenden(zahlungsdaten);
 
         if (paymentResponse.equals("success")) {
-            // deaktiviere Inserat
-            inseratService.deaktiviereInserat(kauf.getInserat());
             // aktualisiere Kaufstatus "abgebrochen"
             kauf.setStatus(KaufStatus.ABGEBROCHEN);
             kaufRepository.save(kauf);
@@ -148,16 +172,30 @@ public class KaufService {
         }
     }
 
-    public Kauf[] getKäufeFürKäufer(String username) {
+    public List<Kauf> getKäufeFürKäufer(String username) {
         return kaufRepository.findKaufsByKäufer_Username(username);
     }
 
-    public Kauf[] getKäufeFürAnbieter(String username) {
+    public List<Kauf> getKäufeFürAnbieter(String username) {
         return kaufRepository.findKaufsByInserat_Inserent_Username(username);
+    }
+
+    public List<Kauf> getKäufeFürInseratID(String inseratID) {
+        return kaufRepository.findKaufsByInserat_InseratID(inseratID);
     }
 
     public String starteWiderruf(String kaufID, boolean tierBeiKäufer) {
         Kauf kauf = kaufRepository.findKaufByKaufID(kaufID);
+
+        if (kauf == null) {
+            return "Der Vorgang konnte nicht abgeschlossen werden: Ungültige kaufID";
+        }
+
+        if (!(kauf.getStatus() == KaufStatus.ABGESCHLOSSEN)) {
+            return "Vorgang abgebrochen: Ein Widerruf kann nur für abgeschlossene Käufe eingereicht werden. "
+                    + "Kaufstatus ist: " + kauf.getStatus();
+        }
+
         // ziehe Geld von Anbieter ein
         String zahlungsdaten = kauf.getInserat().getInserent().getZahlungsdaten();
         String paymentResponse = geldEinziehen(zahlungsdaten);
@@ -178,8 +216,13 @@ public class KaufService {
     public String schließeWiderruf(String kaufID) {
         Kauf kauf = kaufRepository.findKaufByKaufID(kaufID);
 
+        if (kauf == null) {
+            return "Der Vorgang konnte nicht abgeschlossen werden: Ungültige kaufID";
+        }
+
         if (!(kauf.getStatus() == KaufStatus.WIDERRUF_EINGELEITET)) {
-            return "Vorgang abgebrochen: Für Kauf " + kaufID + " ist aktuell kein Widerruf eingeleitet";
+            return "Vorgang abgebrochen: Für Kauf " + kaufID + " ist aktuell kein Widerruf eingeleitet. "
+                    + "Kaufstatus ist: " + kauf.getStatus();
         }
 
         // sende Geld an Käufer

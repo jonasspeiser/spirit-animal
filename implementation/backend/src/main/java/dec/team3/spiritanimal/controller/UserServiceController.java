@@ -1,13 +1,11 @@
 package dec.team3.spiritanimal.controller;
 
+import dec.team3.spiritanimal.model.Präferenz;
 import dec.team3.spiritanimal.model.User;
 import dec.team3.spiritanimal.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
-import java.awt.*;
 
 
 @Controller
@@ -25,5 +23,17 @@ public class UserServiceController {
         }else{
             throw new Exception("Please add a Username.");
         }
+    }
+
+    @GetMapping("/api/users/{user}")
+    @ResponseBody
+    public Präferenz getPreferenceForUser(@PathVariable String user) {
+        return userService.getPreferenceForUser(user);
+    }
+
+    @PutMapping("/api/users/{user}")
+    @ResponseBody
+    public Präferenz updateUserPreference(@RequestBody Präferenz changes, @PathVariable String user) {
+        return userService.updateUserPreference(changes, user);
     }
 }

@@ -6,7 +6,7 @@ import dec.team3.spiritanimal.repositories.InseratRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import java.util.List;
 
 @Service
 public class InseratService {
@@ -25,4 +25,60 @@ public class InseratService {
         inseratRepository.save(inserat);
         return "Inserat deaktiviert";
     }
+
+    // Methode zur Erstellung eines neuen Inserats
+
+    public Inserat createInserat(Inserat inserat) {
+        inseratRepository.save(inserat);
+        return inseratRepository.findInseratByInseratID(inserat.getInseratID());
+    }
+
+    // Methode zum Löschen eines Inserats
+
+    public String deleteInserat(String inseratID) {
+        inseratRepository.deleteById(inseratID);
+        return inseratID + " wurde gelöscht!";
+    }
+
+    // Methode zum Updaten eines Inserats
+
+    public Inserat updateInserat(Inserat changes, String inseratID) {
+        Inserat inseratToBeChanged = inseratRepository.findInseratByInseratID(inseratID);
+
+        inseratToBeChanged.setAlter(changes.getAlter());
+        inseratToBeChanged.setBeschreibung(changes.getBeschreibung());
+        inseratToBeChanged.setFoto(changes.getFoto());
+        inseratToBeChanged.setKategorie(changes.getKategorie());
+        inseratToBeChanged.setPreis(changes.getPreis());
+        inseratToBeChanged.setTiername(changes.getTiername());
+
+        inseratRepository.save(inseratToBeChanged);
+        return inseratRepository.findInseratByInseratID(inseratID);
+    }
+
+    // Methode zur Premium-Schaltung eines Inserats
+
+    public String updatePremium(String inseratID) {
+        Inserat inseratToBeChanged = inseratRepository.findInseratByInseratID(inseratID);
+
+        inseratToBeChanged.setPremium(true);
+
+        inseratRepository.save(inseratToBeChanged);
+        return inseratID + " ist jetzt Premium";
+    }
+
+    // TODO: Batch-Funktionalität implementieren
+
+    // Methode zur Rückgabe aller Inserate
+
+    public List<Inserat> getAllInserate() {
+        return inseratRepository.findAll();
+    }
+
+    // Methode zur Rückgabe aller Inserate/User
+
+    public List<Inserat> getInserateProUser (String user) {
+        return inseratRepository.findInseratsByInserent_Username(user);
+    }
+
 }

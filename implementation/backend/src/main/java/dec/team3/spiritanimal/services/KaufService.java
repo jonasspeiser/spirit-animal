@@ -204,9 +204,9 @@ public class KaufService {
         }
         // aktualisiere Kaufstatus: "Widerruf eingeleitet"
         kauf.setStatus(KaufStatus.WIDERRUF_EINGELEITET);
+        kaufRepository.save(kauf);
 
         if (tierBeiKäufer) {
-            kaufRepository.save(kauf);
             return "Widerruf eingeleitet, warte auf Bestätigung der Rückgabe des Tieres an den Anbieter";
         }
 

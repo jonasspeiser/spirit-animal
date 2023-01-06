@@ -13,6 +13,7 @@ public class UserService {
     UserRepository userRepository;
 
     public User storeUser(User user) {
+        // Todo: Aktuell werden user einfach überschrieben. Soll aber Fehler schmeißen, wenn User bereits existiert
         userRepository.save(user);
         return userRepository.findUserByUsername(user.getUsername());
     }

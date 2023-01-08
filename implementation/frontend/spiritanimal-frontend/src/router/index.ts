@@ -21,8 +21,13 @@ export default new VueRouter({
     },
     {
       path: "/soulsearch",
-      name: "soulsearch",
-      component: SoulSearch
+      name: "Soul Search",
+      component: () => import(/* webpackChunkName: "home" */ '@/views/SoulSearch.vue')
+    },
+    {
+      path: "/mydarlings",
+      name: "My Darlings",
+      component: () => import(/* webpackChunkName: "home" */ '@/views/MyDarlings.vue')
     },
     {
       path: "/apitest",

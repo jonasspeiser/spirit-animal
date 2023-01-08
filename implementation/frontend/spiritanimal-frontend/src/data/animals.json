@@ -1,0 +1,55 @@
+{
+  "animals" : [ {
+    "id" : 1,
+    "image" : "animal1.png",
+    "name" : "Ludo",
+    "animal": "Hund",
+    "description": "Hallo Text ueber Tier akjdhfkjahsdkjfhalksdhflkajshdlfjahsldk hadkfjhalsdjhflkajsh dfhalksdjhf lakjshdf haldkjhf asdkjhfla djfhla",
+    "price":  1300,
+    "age": 3
+  }, {
+    "id" : 2,
+    "image" : "animal2.png",
+    "name" : "Miss Piggy",
+    "animal": "Katze",
+    "description": "Hallo Text ueber Tier akjdhfkjahsdkjfhalksdhflkajshdlfjahsldk hadkfjhalsdjhflkajsh dfhalksdjhf lakjshdf haldkjhf asdkjhfla djfhla",
+    "price":  500,
+    "age": 2
+  },
+    {
+      "id" : 3,
+      "image" : "animal3.png",
+      "name" : "Quellon",
+      "animal": "Qualle",
+      "description": "Hallo Text ueber Tier akjdhfkjahsdkjfhalksdhflkajshdlfjahsldk hadkfjhalsdjhflkajsh dfhalksdjhf lakjshdf haldkjhf asdkjhfla djfhla",
+      "price":  20000,
+      "age": 100
+    },
+    {
+      "id" : 4,
+      "image" : "animal4.png",
+      "name" : "Struppi",
+      "animal": "Hund",
+      "description": "Hallo Text ueber Tier akjdhfkjahsdkjfhalksdhflkajshdlfjahsldk hadkfjhalsdjhflkajsh dfhalksdjhf lakjshdf haldkjhf asdkjhfla djfhla",
+      "price":  950,
+      "age": 5
+    },
+    {
+      "id" : 5,
+      "image" : "animal5.png",
+      "name" : "Stinker",
+      "animal": "Hund",
+      "description": "Hallo Text ueber Tier akjdhfkjahsdkjfhalksdhflkajshdlfjahsldk hadkfjhalsdjhflkajsh dfhalksdjhf lakjshdf haldkjhf asdkjhfla djfhla",
+      "price":  520,
+      "age": 10
+    },
+    {
+      "id" : 6,
+      "image" : "animal6.png",
+      "name" : "Green Apple Delicious",
+      "animal": "Pferd",
+      "description": "Hallo Text ueber Tier akjdhfkjahsdkjfhalksdhflkajshdlfjahsldk hadkfjhalsdjhflkajsh dfhalksdjhf lakjshdf haldkjhf asdkjhfla djfhla",
+      "price":  15000,
+      "age": 5
+    }]
+}

@@ -3,6 +3,7 @@ package dec.team3.spiritanimal.controller;
 import dec.team3.spiritanimal.model.Präferenz;
 import dec.team3.spiritanimal.model.User;
 import dec.team3.spiritanimal.services.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +17,7 @@ public class UserServiceController {
 
     @PostMapping("/api/users")
     @ResponseBody
-    public String storeUser(@RequestBody User user) throws Exception {
+    public String storeUser(@Valid @RequestBody User user) throws Exception {
         if(user.getUsername()!=null){
             User newUser = userService.storeUser(user);
             return "User " + newUser.getUsername() + " created successfully.";

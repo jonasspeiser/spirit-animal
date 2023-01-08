@@ -44,6 +44,11 @@ export default new VueRouter({
       path: "/neuesinserat",
       name: "neues Inserat",
       component: ()=> import("@/views/Inserieren.vue")
+    },
+    {
+      path: "/inserate",
+      name: "Meine Inserate",
+      component: ()=> import("@/views/MeineInserate.vue")
     }
   ]
 })

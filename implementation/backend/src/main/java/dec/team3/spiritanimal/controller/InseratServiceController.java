@@ -39,6 +39,7 @@ public class InseratServiceController {
         return inseratService.updatePremium(inseratID);
     }
 
+    @CrossOrigin
     @GetMapping("/api/inserate")
     @ResponseBody
     public List<Inserat> getAllInserate() {

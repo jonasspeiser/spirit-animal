@@ -33,7 +33,7 @@
     <v-spacer></v-spacer>
 
     <v-btn
-        to="/inserieren"
+        to="/neuesinserat"
         text
     >
       <v-icon>mdi-folder</v-icon>

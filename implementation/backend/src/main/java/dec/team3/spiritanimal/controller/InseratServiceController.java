@@ -14,6 +14,7 @@ public class InseratServiceController {
     @Autowired
     private InseratService inseratService;
 
+    @CrossOrigin
     @PostMapping("/api/inserate")
     @ResponseBody
     public Inserat createInserat(@RequestBody Inserat inserat) {

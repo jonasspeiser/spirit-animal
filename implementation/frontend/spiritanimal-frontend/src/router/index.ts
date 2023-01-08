@@ -38,6 +38,11 @@ export default new VueRouter({
       path: "/apitest",
       name: "apitest",
       component: ()=> import("@/views/APItestview.vue")
+    },
+    {
+      path: "/neuesinserat",
+      name: "neues Inserat",
+      component: ()=> import("@/views/Inserieren.vue")
     }
   ]
 })

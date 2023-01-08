@@ -14,28 +14,28 @@
               <v-col style="max-width: 10%;">
                 <v-avatar>
                   <!-- TODO: change path to images html - https://www.w3schools.com/html/html_filepaths.asp-->
-                  <img src="https://www.scinexx.de/wp-content/uploads/b/i/bildsynthese_g.jpg" height="70" width="70"/>
+                  <img :src="item.foto" height="70" width="70"/>
                 </v-avatar>
               </v-col>
               <v-col style="max-width: 80%;  padding-top: 35px">
                 <v-row>
-                  {{item.name}}
+                  {{item.tiername}}
                 </v-row>
                 <v-row>
-                  {{item.animal}}
+                  {{item.kategorie}}
                 </v-row>
               </v-col>
             </v-row>
           </v-expansion-panel-header>
           <v-expansion-panel-content>
             <v-row style="padding-top: 5px">
-              {{item.description}}
+              {{item.beschreibung}}
             </v-row>
             <v-row style="padding-top: 5px">
-              Age: {{item.age}}
+              Age: {{item.alter}}
             </v-row>
             <v-row style="padding-top: 5px">
-              Preis: {{item.price}}
+              Preis: {{item.preis}}
             </v-row>
             <v-row>
               <v-col>
@@ -61,8 +61,6 @@
 <script lang="ts">
 import Vue, { PropType } from "vue";
 import axios from "axios"
-/*TODO: change path to json + change values on top, based on how it is called*/
-import Animals from "@/data/animals.json";
 
 export default Vue.extend({
   name: "DashboardView",
@@ -72,8 +70,7 @@ export default Vue.extend({
   data: () => ({
     iconDelete: "mdi-delete",
     iconBuy: "mdi-cart-outline",
-    animals: Animals.animals,
-    info: null
+    animals: null,
   }),
   computed: {},
   beforeCreate() {},
@@ -81,7 +78,7 @@ export default Vue.extend({
   async mounted() {
     axios
         .get('http://localhost:8080/api/inserate/Herbert')
-        .then(response => (this.info = response.data))
+        .then(response => (this.animals = response.data))
   },
   watch: {},
   methods: {

@@ -13,7 +13,7 @@
           <v-btn class=" ma-5" fab v-bind="attrs" v-on="on" style="margin-left: 80%" @click="showMenu = !showMenu">
             <v-icon>{{ setting }} </v-icon>
           </v-btn>
-          <v-card v-if="showMenu" style="min-width: 300px">
+          <v-card v-if="showMenu" style="min-width: 800px">
             <v-row>
               <v-subheader>Alter</v-subheader>
               <v-card-text>

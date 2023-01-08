@@ -46,6 +46,7 @@ public class InseratServiceController {
         return inseratService.getAllInserate();
     }
 
+    @CrossOrigin
     @GetMapping("/api/inserate/{user}")
     @ResponseBody
     public List<Inserat> getInserateProUser(@PathVariable String user) {

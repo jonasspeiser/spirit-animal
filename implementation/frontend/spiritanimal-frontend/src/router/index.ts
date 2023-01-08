@@ -20,6 +20,11 @@ export default new VueRouter({
       component: Login
     },
     {
+      path: "/inserieren",
+      name: "Inserieren",
+      component: () => import(/* webpackChunkName: "home" */ '@/views/Inserieren.vue')
+    },
+    {
       path: "/soulsearch",
       name: "Soul Search",
       component: () => import(/* webpackChunkName: "home" */ '@/views/SoulSearch.vue')

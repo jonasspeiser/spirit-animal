@@ -1,5 +1,8 @@
 package dec.team3.spiritanimal.model;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -12,8 +15,10 @@ public class User {
     private String username;
     private Präferenz präferenz;
     private String password;
+    @Email
     private String email;
     private String addresse;
+    @NotEmpty
     private String zahlungsdaten;
 
     // für gewerbliche User:

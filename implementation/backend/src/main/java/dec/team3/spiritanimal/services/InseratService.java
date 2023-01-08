@@ -29,6 +29,7 @@ public class InseratService {
     // Methode zur Erstellung eines neuen Inserats
 
     public Inserat createInserat(Inserat inserat) {
+        inserat.setStatus(InseratStatus.ONLINE);
         inseratRepository.save(inserat);
         return inseratRepository.findInseratByInseratID(inserat.getInseratID());
     }

@@ -2,7 +2,7 @@
   <div>
     <v-app-bar color="white" class="ml-0" flat dense>
       <v-col>
-        <div class="title">Test</div>
+        <div class="title">{{ info }}</div>
       </v-col>
       <v-spacer></v-spacer>
     </v-app-bar>
@@ -60,6 +60,7 @@
 
 <script lang="ts">
 import Vue, { PropType } from "vue";
+import axios from "axios"
 /*TODO: change path to json + change values on top, based on how it is called*/
 import Animals from "@/data/animals.json";
 
@@ -72,11 +73,16 @@ export default Vue.extend({
     iconDelete: "mdi-delete",
     iconBuy: "mdi-cart-outline",
     animals: Animals.animals,
+    info: null
   }),
   computed: {},
   beforeCreate() {},
   created() {},
-  async mounted() {},
+  async mounted() {
+    axios
+        .get('http://localhost:8080/api/inserate/Herbert')
+        .then(response => (this.info = response.data))
+  },
   watch: {},
   methods: {
     deleteDarling(){

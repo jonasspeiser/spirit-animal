@@ -1,12 +1,13 @@
 import Vue from 'vue'
 import VueRouter, { RouteConfig } from 'vue-router'
 // import HomeView from '../views/HomeView.vue'
-import Login from '../views/Login.vue'
-import SoulSearch from '../views/SoulSearch.vue'
+//import Login from '../views/Login.vue'
+//import SoulSearch from '../views/SoulSearch.vue'
 
 Vue.use(VueRouter)
 
 export default new VueRouter({
+  mode: "history",
   routes: [
     {
       path: '/',
@@ -17,7 +18,7 @@ export default new VueRouter({
     {
       path: "/login",
       name: "login",
-      component: Login
+      component: () => import( "@/views/Login.vue")
     },
     {
       path: "/inserieren",

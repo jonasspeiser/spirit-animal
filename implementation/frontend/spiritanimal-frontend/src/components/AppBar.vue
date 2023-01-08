@@ -59,7 +59,14 @@
       <!--        <v-icon>mdi-open-in-new</v-icon>-->
     </v-btn>
 
-
+    <v-btn
+        to="/inserate"
+        text
+    >
+      <v-icon>mdi-dog</v-icon>
+      <span class="mr-2">Meine Inserate</span>
+      <!--        <v-icon>mdi-open-in-new</v-icon>-->
+    </v-btn>
 
     <v-spacer></v-spacer>
 

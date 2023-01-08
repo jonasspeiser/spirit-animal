@@ -97,7 +97,7 @@ export default Vue.extend({
   data: () => ({
     valueAge: 0,
     valuePrice: 0,
-    categories: ["Hund", "Katze", "Vogel", "QUALLEN", "Pferd", "..."],
+    categories: ["HUNDE", "KATZEN", "PFERDE", "QUALLEN", "VÖGEL", "EXOTEN", "WEITERE_NAGER", "FISCHE", "NAGER", "KATZENARTIGE_TIERE", "HAUSELFEN", "DAMMWILD", "SCHNABELTIERE", "PINGUINE"],
     input: {
       tiername: "",
       kategorie: "",
@@ -115,6 +115,7 @@ export default Vue.extend({
     sendData() {
       axios({ method: "POST", "url": "http://localhost:8080/api/inserate", "data": this.input, "headers": { "content-type": "application/json" } }).then(result => {
         this.response = result.data;
+        window.location.href="/meineinserate"
       }, error => {
         console.error(error);
       })

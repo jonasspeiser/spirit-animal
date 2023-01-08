@@ -34,17 +34,17 @@ services:
     networks:
       - spiritnet
   
-  backend:
-    image: backend
-    build:
-      context: backend
-    container_name: backend
-    ports:
-      - 8080:8080
-    depends_on:
-      - mongodb
-    networks:
-      - spiritnet
+#  backend:
+#    image: backend
+#    build:
+#      context: backend
+#    container_name: backend
+#    ports:
+#      - 8080:8080
+#    depends_on:
+#      - mongodb
+#    networks:
+#      - spiritnet
 
 #  frontend:
 #    build: ./frontend/spiritanimal-frontend

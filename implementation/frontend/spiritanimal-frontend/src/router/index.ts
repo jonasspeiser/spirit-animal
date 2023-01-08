@@ -23,6 +23,11 @@ export default new VueRouter({
       path: "/soulsearch",
       name: "soulsearch",
       component: SoulSearch
+    },
+    {
+      path: "/apitest",
+      name: "apitest",
+      component: ()=> import("@/views/APItestview.vue")
     }
   ]
 })

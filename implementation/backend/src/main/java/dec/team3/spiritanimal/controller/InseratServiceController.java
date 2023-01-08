@@ -49,4 +49,12 @@ public class InseratServiceController {
     public List<Inserat> getInserateProUser(@PathVariable String user) {
         return inseratService.getInserateProUser(user);
     }
+
+    //test API
+    @CrossOrigin
+    @GetMapping("/api/test")
+    @ResponseBody
+    public String string() {
+        return "sucess";
+    }
 }

@@ -8,14 +8,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-
+@CrossOrigin
+@RequestMapping("/api/users")
 @Controller
 public class UserServiceController {
 
     @Autowired
     private UserService userService;
 
-    @PostMapping("/api/users")
+    @PostMapping("")
     @ResponseBody
     public String storeUser(@Valid @RequestBody User user) throws Exception {
         if(user.getUsername()!=null){
@@ -26,13 +27,13 @@ public class UserServiceController {
         }
     }
 
-    @GetMapping("/api/users/{user}")
+    @GetMapping("/{user}")
     @ResponseBody
     public Präferenz getPreferenceForUser(@PathVariable String user) {
         return userService.getPreferenceForUser(user);
     }
 
-    @PutMapping("/api/users/{user}")
+    @PutMapping("/{user}")
     @ResponseBody
     public Präferenz updateUserPreference(@RequestBody Präferenz changes, @PathVariable String user) {
         return userService.updateUserPreference(changes, user);

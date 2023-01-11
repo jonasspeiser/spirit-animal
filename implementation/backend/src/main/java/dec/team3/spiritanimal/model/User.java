@@ -13,7 +13,7 @@ public class User {
 
     @Id
     private String username;
-    private Präferenz präferenz;
+    @NotEmpty
     private String password;
     @Email
     private String email;
@@ -26,6 +26,7 @@ public class User {
     private String token;
 
     // für das Auswählen von Lieblingstieren
+    private Präferenz präferenz;
     private Inserat[] geseheneInserate;
     private Inserat[] favorisierteInserate;
 
@@ -35,14 +36,6 @@ public class User {
 
     public void setUsername(String username) {
         this.username = username;
-    }
-
-    public Präferenz getPräferenz() {
-        return präferenz;
-    }
-
-    public void setPräferenz(Präferenz präferenz) {
-        this.präferenz = präferenz;
     }
 
     public String getPassword() {
@@ -91,6 +84,14 @@ public class User {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public Präferenz getPräferenz() {
+        return präferenz;
+    }
+
+    public void setPräferenz(Präferenz präferenz) {
+        this.präferenz = präferenz;
     }
 
     public Inserat[] getGeseheneInserate() {

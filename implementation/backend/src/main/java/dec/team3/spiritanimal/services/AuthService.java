@@ -16,15 +16,6 @@ import java.util.stream.Collectors;
 @Service
 public class AuthService{
 
-    // TODO: AuthService testen.
-    //  Dazu: schnell API anlegen und zunächst über Postman testen, ob Funktionen arbeiten wie erwartet
-
-    // TODO:
-    //  In allen Controllern wird zunächst der Token im Header geprüft, bevor der Call durchgelassen wird
-    //  Frontend Seite zum Anzeigen und kopieren des Tokens anlegen (für B2B Kunden)
-    //  Ist der Token abgelaufen, muss der User sich wieder übers Frontend einloggen um einen neuen Token zu erhalten.
-    //  Der Authenticator überprüft also schlicht, ob ein Token gültig ist
-
     String secretKey = "animallover";
 
     // create token from username and role

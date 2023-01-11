@@ -1,65 +1,74 @@
+<!--source: https://www.youtube.com/watch?v=Re7FnxBVNoA-->
+
 <template>
-  <div id="login">
-    <h1>Login</h1>
-    <input type="text" name="username" v-model="input.username" placeholder="Username" />
-    <input type="password" name="password" v-model="input.password" placeholder="Password" />
-    <button type="button" v-on:click="login()">Login</button>
-    <button v-on:click="sendData()">Send</button>
-  </div>
+  <v-container class="fill-height" fluid>
+    <v-row align="center" justify="center" dense>
+      <v-col cols="12" sm="8" md="4" lg="4">
+        <v-card elevation="0">
+          <div class="text-center">
+            <h1 class="mb-2">Login</h1>
+          </div>
+          <a href="" name="Spirit Animal" title="Spirit Animal" target="_blank">
+            <v-img src="@/assets/logo.png" alt="Spirit Animal Logo" contain height="200"></v-img>
+          </a>
+          <v-card-text>
+            <v-form>
+              <v-text-field v-model="input.username" label="Username" name="username" prepend-inner-icon="mdi-email" type="username" class="rounded-0" outlined></v-text-field>
+              <v-text-field v-model="input.password" label="Passwort" name="password" prepend-inner-icon="mdi-lock" type="password" suffix="| Vergessen?" class="rounded-0" outlined></v-text-field>
+              <v-btn class="rounded-0" color="#000000" v-on:click="sendData()" x-large block dark>Login</v-btn>
+              <a>{{this.response}}</a>
+              <v-card-actions class="text--secondary">
+                <v-checkbox color="#000000" label="Remember me"></v-checkbox>
+                <v-spacer></v-spacer>
+                Kein Account?&nbsp; <router-link style="text-decoration: underline; color: black;" to="/register"> Kein Problem!</router-link>
+              </v-card-actions>
+            </v-form>
+          </v-card-text>
+          <v-card-actions class="ml-6 mr-6 text-center">
+            <p>Mit der weiteren Nutzung stimmen Sie unserer <a href="#" class="pl-2" style="color: #000000">Policy</a> und<a href="#" class="pl-2" style="color: #000000">Terms of Use</a> zu.</p>
+          </v-card-actions>
+        </v-card>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
-<script>
-import axios from "axios";
+<script lang="ts">
+import Vue, { PropType } from "vue";
+import axios from "axios"
 
-export default {
-  name: 'Login',
-  data() {
-    return {
-      input: {
-        username: "",
-        password: ""
-      },
-      response: ""
-    }
-  },
-  // mounted() {
-  //   axios({ method: "POST", "url": "https://localhost:8080/api/users", "data": this.input, "headers": { "content-type": "application/json" } }).then(result => {
-  //     this.response = result.data;
-  //   }, error => {
-  //     console.error(error);
-  //   })
-  // },
+export default Vue.extend({
+  name: 'app-login',
+  // TODO: alles hierunter anpassen auf Login
+  components: {},
+  data: () => ({
+    input: {},
+    response: ""
+  }),
+  computed: {},
+  beforeCreate() {},
+  created() {},
+  async mounted() {},
+  watch: {},
   methods: {
-    login() {
-      if(this.input.username != "" && this.input.password != "") {
-        if(this.input.username == this.$parent.mockAccount.username && this.input.password == this.$parent.mockAccount.password) {
-          this.$emit("authenticated", true);
-          this.$router.replace({ name: "secure" });
-        } else {
-          console.log("The username and / or password is incorrect");
-        }
-      } else {
-        console.log("A username and password must be present");
-      }
+    getData() {
+
     },
     sendData() {
-      axios({ method: "POST", "url": "https://localhost:8080/api/users", "data": this.input, "headers": { "content-type": "application/json" } }).then(result => {
+      console.log(this.input);
+      axios({ method: "POST", "url": "http://localhost:8080/api/login", "data": this.input, "headers": { "content-type": "application/json" } }).then(result => {
         this.response = result.data;
+        if (this.response.includes("Bearer")) {
+          sessionStorage.setItem('accessToken', this.response);
+          window.location.href="/inserate";
+        }
       }, error => {
         console.error(error);
       })
     }
-  }
-}
+  },
+});
 </script>
 
-<style scoped>
-#login {
-  width: 500px;
-  border: 1px solid #CCCCCC;
-  background-color: aliceblue;
-  margin: auto;
-  margin-top: 200px;
-  padding: 20px;
-}
+<style lang="css" scoped>
 </style>

@@ -12,13 +12,18 @@ export default new VueRouter({
     {
       path: '/',
       redirect: {
-        name: "login"
+        name: "Login"
       }
     },
     {
       path: "/login",
-      name: "login",
+      name: "Login",
       component: () => import( "@/views/Login.vue")
+    },
+    {
+      path: "/register",
+      name: "Registrierung",
+      component: () => import( "@/views/Register.vue")
     },
     {
       path: "/inserieren",

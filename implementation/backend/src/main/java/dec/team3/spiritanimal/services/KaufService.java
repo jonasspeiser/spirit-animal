@@ -53,9 +53,10 @@ public class KaufService {
         }
 
         // erstelle neuen Kauf
+        String anbieterUsername = inserat.getInserentUsername();
         String zahlungsdaten = käufer.getZahlungsdaten();
         Date kaufdatum = new Date();
-        Kauf kauf = new Kauf(käuferUsername, inseratID, kaufdatum, KaufStatus.INITIIERT);
+        Kauf kauf = new Kauf(käuferUsername, anbieterUsername, inseratID, kaufdatum, KaufStatus.INITIIERT);
 
         // ziehe Geld von käufer ein
         String response = geldEinziehen(zahlungsdaten);
@@ -179,15 +180,15 @@ public class KaufService {
     }
 
     public List<Kauf> getKäufeFürKäufer(String username) {
-        return kaufRepository.findKaufsByKäufer_Username(username);
+        return kaufRepository.findKaufsByKäuferUsername(username);
     }
 
     public List<Kauf> getKäufeFürAnbieter(String username) {
-        return kaufRepository.findKaufsByInserat_Inserent_Username(username);
+        return kaufRepository.findKaufsByAnbieterUsername(username);
     }
 
     public List<Kauf> getKäufeFürInseratID(String inseratID) {
-        return kaufRepository.findKaufsByInserat_InseratID(inseratID);
+        return kaufRepository.findKaufsByInseratID(inseratID);
     }
 
     public String starteWiderruf(String kaufID, boolean tierBeiKäufer) {

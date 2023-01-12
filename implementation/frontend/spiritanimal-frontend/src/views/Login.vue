@@ -60,6 +60,7 @@ export default Vue.extend({
         this.response = result.data;
         if (this.response.includes("Bearer")) {
           sessionStorage.setItem('accessToken', this.response);
+          sessionStorage.setItem('username', this.input.username);
           window.location.href="/inserate";
         }
       }, error => {

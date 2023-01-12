@@ -40,7 +40,7 @@
             <v-row>
               <v-col>
                 <!-- TODO: function when delete button clicked-->
-                <v-btn style="margin-left: 60%" @click="deleteInserate">
+                <v-btn style="margin-left: 60%" @click="deleteInserat(item.inseratID)">
                   <v-icon>{{iconDelete}}</v-icon>
                 </v-btn>
               </v-col>
@@ -79,14 +79,13 @@ export default Vue.extend({
     axios({method: "GET", "url": "http://localhost:8080/api/inserate/" + sessionStorage.getItem("username"), "headers": { "content-type": "application/json" } }).then(response => {
       this.animal = response.data;})
   },
-  created() {
-
-  },
+  created() {},
   async mounted() {},
   watch: {},
   methods: {
-    deleteInserat(){
-
+    deleteInserat(inseratID){
+      axios.delete("http://localhost:8080/api/inserate/" + inseratID, {headers: {Authorization: sessionStorage.getItem("accessToken")}})
+      window.location.reload()
     },
     changeInserat(){}
   },

@@ -42,8 +42,9 @@ public class KaufService {
         // -> Auch Datenschutztechnisch besser. So fliegen die Userdaten nicht überall im System rum.
     }
 
-    public String starteKauf(String käuferUsername, String inseratID, String zahlungsdaten) {
+    public String starteKauf(String käuferUsername, String inseratID) {
         User käufer = userService.getUser(käuferUsername);
+        String zahlungsdaten = käufer.getZahlungsdaten();
         Inserat inserat = inseratService.getInserat(inseratID);
         if (käufer != null && inserat != null) {
             return starteKauf(käufer, inserat, zahlungsdaten);

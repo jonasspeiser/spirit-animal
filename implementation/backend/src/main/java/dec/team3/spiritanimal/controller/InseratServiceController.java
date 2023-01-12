@@ -8,45 +8,43 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin
 @Controller
 public class InseratServiceController {
 
     @Autowired
     private InseratService inseratService;
 
-    @CrossOrigin
     @PostMapping("/api/inserate")
     @ResponseBody
-    public Inserat createInserat(@RequestBody Inserat inserat) {
+    public Inserat createInserat(@RequestBody Inserat inserat, @RequestHeader("accessToken") String token) {
         return inseratService.createInserat(inserat);
     }
 
     @DeleteMapping("/api/inserate/{inseratID}")
     @ResponseBody
-    public String deleteInserat(@PathVariable String inseratID) {
+    public String deleteInserat(@PathVariable String inseratID, @RequestHeader("accessToken") String token) {
         return inseratService.deleteInserat(inseratID);
     }
 
     @PutMapping("/api/inserate/{inseratID}")
     @ResponseBody
-    public Inserat updateInserat(@RequestBody Inserat changes, @PathVariable String inseratID) {
+    public Inserat updateInserat(@RequestBody Inserat changes, @PathVariable String inseratID, @RequestHeader("accessToken") String token) {
         return inseratService.updateInserat(changes, inseratID);
     }
 
     @PatchMapping("/api/inserate/{inseratID}")
     @ResponseBody
-    public String updatePremium(@PathVariable String inseratID) {
+    public String updatePremium(@PathVariable String inseratID, @RequestHeader("accessToken") String token) {
         return inseratService.updatePremium(inseratID);
     }
 
-    @CrossOrigin
     @GetMapping("/api/inserate")
     @ResponseBody
     public List<Inserat> getAllInserate() {
         return inseratService.getAllInserate();
     }
 
-    @CrossOrigin
     @GetMapping("/api/inserate/{user}")
     @ResponseBody
     public List<Inserat> getInserateProUser(@PathVariable String user) {
@@ -54,7 +52,6 @@ public class InseratServiceController {
     }
 
     //test API
-    @CrossOrigin
     @GetMapping("/api/test")
     @ResponseBody
     public String string() {

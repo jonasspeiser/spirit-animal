@@ -1,5 +1,6 @@
 package dec.team3.spiritanimal.model;
 
+import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -10,8 +11,11 @@ public class Inserat {
 
     @Id
     private String inseratID;
+    @NotEmpty
     private User inserent;
+    @NotEmpty
     private Kategorie kategorie;
+    @NotEmpty
     private InseratStatus status;
     private boolean premium;
     private String tiername;

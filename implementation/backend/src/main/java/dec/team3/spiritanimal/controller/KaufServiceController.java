@@ -1,11 +1,14 @@
 package dec.team3.spiritanimal.controller;
 
 import dec.team3.spiritanimal.model.Kauf;
+import dec.team3.spiritanimal.services.AuthService;
 import dec.team3.spiritanimal.services.KaufService;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -16,20 +19,35 @@ public class KaufServiceController {
     @Autowired
     private KaufService kaufService;
 
+    @Autowired
+    private AuthService authService;
+
     // TODO: DTOs statt Strings als RequestBodies erwarten (sprich, DTOs entsprechend der EDI-Sprache aus A2 definieren)
     // -> Alternativ Request-payload anhand des json-Schemas aus A2 überprüfen
     // TODO: Fehlercode 400 retournieren falls verlangtes Zeug nicht enthalten ist (ergibt sich wahrscheinlich aus obigem Todo)
+
+    private String authenticateAndGetUsername(String token) {
+        // Authentication
+        if (!authService.isTokenValid(token)) {
+            throw new ResponseStatusException(HttpStatusCode.valueOf(401), "Invalid AccessToken");
+        }
+        // Authorisation by name
+        return authService.getUsername(token);
+    }
+
     @GetMapping(value = "", params = "kaeufer")
     @ResponseBody
-    public List<Kauf> getKäufeFürKäufer(@RequestParam String kaeuferUsername) {
-        // TODO: Absichern, dass ein User wirklich nur eigene Käufe einsehen kann (Authorisierung)
+    public List<Kauf> getKäufeFürKäufer(@RequestHeader("accessToken") String token) {
+        // Authorisation: User kann nur eigene Käufe sehen
+        String kaeuferUsername = authenticateAndGetUsername(token);
         return kaufService.getKäufeFürKäufer(kaeuferUsername);
     }
 
     @GetMapping(value = "", params = "anbieter")
     @ResponseBody
-    public List<Kauf> getKäufeFürAnbieter(@RequestParam String anbieterUsername) {
-        // TODO: Absichern, dass ein User wirklich nur eigene Käufe einsehen kann (Authorisierung)
+    public List<Kauf> getKäufeFürAnbieter(@RequestHeader("accessToken") String token) {
+        // Authorisation: User kann nur eigene Käufe sehen
+        String anbieterUsername = authenticateAndGetUsername(token);
         return kaufService.getKäufeFürAnbieter(anbieterUsername);
     }
 
@@ -37,18 +55,20 @@ public class KaufServiceController {
     // TODO: Batchfähigkeit wie in A2 beschrieben (Übergabe eines Arrays mit mehreren IDs)
     @PostMapping("")
     @ResponseBody
-    public String starteKauf(@RequestBody String request) {
+    public String starteKauf(@RequestBody String request, @RequestHeader("accessToken") String token) {
+        String username = authenticateAndGetUsername(token);
+
         JSONObject json = new JSONObject(request);
-        String username = json.get("username").toString();
         String inseratID = json.get("inseratID").toString();
-        String zahlungsdaten = json.get("zahlungsdaten").toString();
-        return kaufService.starteKauf(username, inseratID, zahlungsdaten);
+        return kaufService.starteKauf(username, inseratID);
     }
 
     // TODO: User kann nur eigene Verkäufe akzeptieren oder ablehnen (Authorisierung)
     @PostMapping("/akzeptieren")
     @ResponseBody
-    public String bestätigungKauf(@RequestBody String request) {
+    public String bestätigungKauf(@RequestBody String request, @RequestHeader("accessToken") String token) {
+        String username = authenticateAndGetUsername(token);
+
         JSONObject json = new JSONObject(request);
         String kaufID = json.get("kaufID").toString();
         return kaufService.bestätigungKauf(kaufID);
@@ -57,7 +77,9 @@ public class KaufServiceController {
     // TODO: User kann nur eigene Verkäufe akzeptieren oder ablehnen (Authorisierung)
     @PostMapping("/ablehnen")
     @ResponseBody
-    public String ablehnungKauf(@RequestBody String request) {
+    public String ablehnungKauf(@RequestBody String request, @RequestHeader("accessToken") String token) {
+        String username = authenticateAndGetUsername(token);
+
         JSONObject json = new JSONObject(request);
         String kaufID = json.get("kaufID").toString();
         return kaufService.ablehnungKauf(kaufID);
@@ -66,7 +88,9 @@ public class KaufServiceController {
     // TODO: User kann nur eigene Käufe widerrufen (Authorisierung)
     @PostMapping("/widerruf")
     @ResponseBody
-    public String widerrufeKauf(@RequestBody String request) {
+    public String widerrufeKauf(@RequestBody String request, @RequestHeader("accessToken") String token) {
+        String username = authenticateAndGetUsername(token);
+
         JSONObject json = new JSONObject(request);
         String kaufID = json.getString("kaufID");
         boolean tierBeiKäufer = json.getBoolean("tierBeiKäufer");
@@ -76,7 +100,9 @@ public class KaufServiceController {
     // TODO: User kann nur eigene Käufe widerrufen (Authorisierung)
     @PostMapping("/widerruf/schliessen")
     @ResponseBody
-    public String schließeWiderruf(@RequestBody String request) {
+    public String schließeWiderruf(@RequestBody String request, @RequestHeader("accessToken") String token) {
+        String username = authenticateAndGetUsername(token);
+
         JSONObject json = new JSONObject(request);
         String kaufID = json.getString("kaufID");
         return kaufService.schließeWiderruf(kaufID);

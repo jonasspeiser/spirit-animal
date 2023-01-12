@@ -13,6 +13,8 @@ public class InseratService {
 
     @Autowired
     InseratRepository inseratRepository;
+    @Autowired
+    UserService userService;
 
     // TODO
 
@@ -28,7 +30,9 @@ public class InseratService {
 
     // Methode zur Erstellung eines neuen Inserats
 
-    public Inserat createInserat(Inserat inserat) {
+    public Inserat createInserat(Inserat inserat, String inserentUsername) {
+
+        inserat.setInserentUsername(inserentUsername);
         inserat.setStatus(InseratStatus.ONLINE);
         inseratRepository.save(inserat);
         return inseratRepository.findInseratByInseratID(inserat.getInseratID());

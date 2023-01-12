@@ -1,10 +1,13 @@
 package dec.team3.spiritanimal.controller;
 
 import dec.team3.spiritanimal.model.Inserat;
+import dec.team3.spiritanimal.services.AuthService;
 import dec.team3.spiritanimal.services.InseratService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -14,12 +17,26 @@ public class InseratServiceController {
 
     @Autowired
     private InseratService inseratService;
+    @Autowired
+    private AuthService authService;
+
+    private String authenticateAndGetUsername(String token) {
+        // Authentication
+        if (!authService.isTokenValid(token)) {
+            throw new ResponseStatusException(HttpStatusCode.valueOf(401), "Invalid Authorization");
+        }
+        // Authorisation by name
+        return authService.getUsername(token);
+    }
 
     // TODO: Authorization einrichten
     @PostMapping("/api/inserate")
     @ResponseBody
     public Inserat createInserat(@RequestBody Inserat inserat, @RequestHeader("Authorization") String token) {
-        return inseratService.createInserat(inserat);
+        // Authorisation: User kann nur eigene Käufe sehen
+        String username = authenticateAndGetUsername(token);
+
+        return inseratService.createInserat(inserat, username);
     }
 
     // TODO: Authorization einrichten

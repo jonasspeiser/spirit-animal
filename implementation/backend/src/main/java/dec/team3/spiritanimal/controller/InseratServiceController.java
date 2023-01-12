@@ -59,6 +59,6 @@ public class InseratServiceController {
     @GetMapping("/api/test")
     @ResponseBody
     public String string() {
-        return "sucess";
+        return "success";
     }
 }

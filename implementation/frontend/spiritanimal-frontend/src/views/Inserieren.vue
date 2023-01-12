@@ -113,7 +113,7 @@ export default Vue.extend({
   watch: {},
   methods: {
     sendData() {
-      axios({ method: "POST", "url": "http://localhost:8080/api/inserate", "data": this.input, "headers": { "content-type": "application/json", "token": sessionStorage.getItem("accessToken") } }).then(result => {
+      axios({ method: "POST", "url": "http://localhost:8080/api/inserate", "data": this.input, "headers": { "content-type": "application/json", "Authorization": sessionStorage.getItem("accessToken") } }).then(result => {
         this.response = result.data;
         window.location.href="/inserate"
       }, error => {

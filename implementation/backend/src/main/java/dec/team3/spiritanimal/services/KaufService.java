@@ -44,9 +44,9 @@ public class KaufService {
 
     public String starteKauf(String käuferUsername, String inseratID) {
         User käufer = userService.getUser(käuferUsername);
-        String zahlungsdaten = käufer.getZahlungsdaten();
         Inserat inserat = inseratService.getInserat(inseratID);
         if (käufer != null && inserat != null) {
+            String zahlungsdaten = käufer.getZahlungsdaten();
             return starteKauf(käufer, inserat, zahlungsdaten);
         } else {
             return "Username \"" + käuferUsername + "\" oder Inserat \"" + inseratID + "\" konnte nicht gefunden werden";

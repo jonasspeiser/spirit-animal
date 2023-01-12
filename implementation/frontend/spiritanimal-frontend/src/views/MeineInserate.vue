@@ -76,7 +76,7 @@ export default Vue.extend({
   }),
   computed: {},
   beforeCreate() {
-    axios({method: "GET", "url": "http://localhost:8080/api/inserate", "headers": { "content-type": "application/json" } }).then(response => {
+    axios({method: "GET", "url": "http://localhost:8080/api/inserate/" + sessionStorage.getItem("username"), "headers": { "content-type": "application/json" } }).then(response => {
       this.animal = response.data;})
   },
   created() {

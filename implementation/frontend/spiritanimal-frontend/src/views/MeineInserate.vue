@@ -14,7 +14,7 @@
               <v-col style="max-width: 10%;">
                 <v-avatar>
                   <!-- TODO: change path to images html - https://www.w3schools.com/html/html_filepaths.asp-->
-                  <img src="https://www.scinexx.de/wp-content/uploads/b/i/bildsynthese_g.jpg" height="70" width="70"/>
+                  <img :src="item.foto" height="70" width="70"/>
                 </v-avatar>
               </v-col>
               <v-col style="max-width: 80%;  padding-top: 35px">

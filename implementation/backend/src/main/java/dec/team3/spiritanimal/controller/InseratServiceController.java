@@ -15,27 +15,31 @@ public class InseratServiceController {
     @Autowired
     private InseratService inseratService;
 
+    // TODO: Authorization einrichten
     @PostMapping("/api/inserate")
     @ResponseBody
-    public Inserat createInserat(@RequestBody Inserat inserat, @RequestHeader("accessToken") String token) {
+    public Inserat createInserat(@RequestBody Inserat inserat, @RequestHeader("Authorization") String token) {
         return inseratService.createInserat(inserat);
     }
 
+    // TODO: Authorization einrichten
     @DeleteMapping("/api/inserate/{inseratID}")
     @ResponseBody
-    public String deleteInserat(@PathVariable String inseratID, @RequestHeader("accessToken") String token) {
+    public String deleteInserat(@PathVariable String inseratID, @RequestHeader("Authorization") String token) {
         return inseratService.deleteInserat(inseratID);
     }
 
+    // TODO: Authorization einrichten
     @PutMapping("/api/inserate/{inseratID}")
     @ResponseBody
-    public Inserat updateInserat(@RequestBody Inserat changes, @PathVariable String inseratID, @RequestHeader("accessToken") String token) {
+    public Inserat updateInserat(@RequestBody Inserat changes, @PathVariable String inseratID, @RequestHeader("Authorization") String token) {
         return inseratService.updateInserat(changes, inseratID);
     }
 
+    // TODO: Authorization einrichten
     @PatchMapping("/api/inserate/{inseratID}")
     @ResponseBody
-    public String updatePremium(@PathVariable String inseratID, @RequestHeader("accessToken") String token) {
+    public String updatePremium(@PathVariable String inseratID, @RequestHeader("Authorization") String token) {
         return inseratService.updatePremium(inseratID);
     }
 

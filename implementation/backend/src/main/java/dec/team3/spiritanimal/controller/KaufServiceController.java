@@ -29,7 +29,7 @@ public class KaufServiceController {
     private String authenticateAndGetUsername(String token) {
         // Authentication
         if (!authService.isTokenValid(token)) {
-            throw new ResponseStatusException(HttpStatusCode.valueOf(401), "Invalid AccessToken");
+            throw new ResponseStatusException(HttpStatusCode.valueOf(401), "Invalid Authorization");
         }
         // Authorisation by name
         return authService.getUsername(token);
@@ -37,7 +37,7 @@ public class KaufServiceController {
 
     @GetMapping(value = "", params = "kaeufer")
     @ResponseBody
-    public List<Kauf> getKäufeFürKäufer(@RequestHeader("accessToken") String token) {
+    public List<Kauf> getKäufeFürKäufer(@RequestHeader("Authorization") String token) {
         // Authorisation: User kann nur eigene Käufe sehen
         String kaeuferUsername = authenticateAndGetUsername(token);
         return kaufService.getKäufeFürKäufer(kaeuferUsername);
@@ -45,7 +45,7 @@ public class KaufServiceController {
 
     @GetMapping(value = "", params = "anbieter")
     @ResponseBody
-    public List<Kauf> getKäufeFürAnbieter(@RequestHeader("accessToken") String token) {
+    public List<Kauf> getKäufeFürAnbieter(@RequestHeader("Authorization") String token) {
         // Authorisation: User kann nur eigene Käufe sehen
         String anbieterUsername = authenticateAndGetUsername(token);
         return kaufService.getKäufeFürAnbieter(anbieterUsername);
@@ -55,7 +55,7 @@ public class KaufServiceController {
     // TODO: Batchfähigkeit wie in A2 beschrieben (Übergabe eines Arrays mit mehreren IDs)
     @PostMapping("")
     @ResponseBody
-    public String starteKauf(@RequestBody String request, @RequestHeader("accessToken") String token) {
+    public String starteKauf(@RequestBody String request, @RequestHeader("Authorization") String token) {
         String username = authenticateAndGetUsername(token);
 
         JSONObject json = new JSONObject(request);
@@ -66,7 +66,7 @@ public class KaufServiceController {
     // TODO: User kann nur eigene Verkäufe akzeptieren oder ablehnen (Authorisierung)
     @PostMapping("/akzeptieren")
     @ResponseBody
-    public String bestätigungKauf(@RequestBody String request, @RequestHeader("accessToken") String token) {
+    public String bestätigungKauf(@RequestBody String request, @RequestHeader("Authorization") String token) {
         String username = authenticateAndGetUsername(token);
 
         JSONObject json = new JSONObject(request);
@@ -77,7 +77,7 @@ public class KaufServiceController {
     // TODO: User kann nur eigene Verkäufe akzeptieren oder ablehnen (Authorisierung)
     @PostMapping("/ablehnen")
     @ResponseBody
-    public String ablehnungKauf(@RequestBody String request, @RequestHeader("accessToken") String token) {
+    public String ablehnungKauf(@RequestBody String request, @RequestHeader("Authorization") String token) {
         String username = authenticateAndGetUsername(token);
 
         JSONObject json = new JSONObject(request);
@@ -88,7 +88,7 @@ public class KaufServiceController {
     // TODO: User kann nur eigene Käufe widerrufen (Authorisierung)
     @PostMapping("/widerruf")
     @ResponseBody
-    public String widerrufeKauf(@RequestBody String request, @RequestHeader("accessToken") String token) {
+    public String widerrufeKauf(@RequestBody String request, @RequestHeader("Authorization") String token) {
         String username = authenticateAndGetUsername(token);
 
         JSONObject json = new JSONObject(request);
@@ -100,7 +100,7 @@ public class KaufServiceController {
     // TODO: User kann nur eigene Käufe widerrufen (Authorisierung)
     @PostMapping("/widerruf/schliessen")
     @ResponseBody
-    public String schließeWiderruf(@RequestBody String request, @RequestHeader("accessToken") String token) {
+    public String schließeWiderruf(@RequestBody String request, @RequestHeader("Authorization") String token) {
         String username = authenticateAndGetUsername(token);
 
         JSONObject json = new JSONObject(request);

@@ -45,23 +45,18 @@ public class KaufService {
     public String starteKauf(String käuferUsername, String inseratID) {
         User käufer = userService.getUser(käuferUsername);
         Inserat inserat = inseratService.getInserat(inseratID);
-        if (käufer != null && inserat != null) {
-            String zahlungsdaten = käufer.getZahlungsdaten();
-            return starteKauf(käufer, inserat, zahlungsdaten);
-        } else {
+        if (käufer == null || inserat == null) {
             return "Username \"" + käuferUsername + "\" oder Inserat \"" + inseratID + "\" konnte nicht gefunden werden";
         }
-    }
-
-    public String starteKauf(User käufer, Inserat inserat, String zahlungsdaten) {
-
         if (!inserat.getStatus().equals(InseratStatus.ONLINE)) {
             return "Vorgang abgebrochen. Nur Inserate mit Status \"online\" können gekauft werden.";
         }
 
         // erstelle neuen Kauf
+        String anbieterUsername = inserat.getInserentUsername();
+        String zahlungsdaten = käufer.getZahlungsdaten();
         Date kaufdatum = new Date();
-        Kauf kauf = new Kauf(käufer, inserat, kaufdatum, KaufStatus.INITIIERT);
+        Kauf kauf = new Kauf(käuferUsername, anbieterUsername, inseratID, kaufdatum, KaufStatus.INITIIERT);
 
         // ziehe Geld von käufer ein
         String response = geldEinziehen(zahlungsdaten);
@@ -76,6 +71,7 @@ public class KaufService {
             return "Der Vorgang konnte nicht abgeschlossen werden: PaymentProvider returned " + response;
         }
     }
+
 
     public String bestätigungKauf(String kaufID) {
         Kauf kauf = kaufRepository.findKaufByKaufID(kaufID);
@@ -96,7 +92,8 @@ public class KaufService {
     }
 
     public String bestätigungKauf(Kauf kauf) {
-        Inserat inserat = kauf.getInserat();
+        String inseratID = kauf.getInseratID();
+        Inserat inserat = inseratService.getInserat(inseratID);
         // TODO: Die Abfrage ist eigentlich nur sinnvoll, wenn inserat den tatsächlich aktuellen Stand widerspiegelt
         // -> Per "Fremdschlüssel" Abfrage aus dem InseratService holen, statt embedded Objekt zu verwenden
         if (!inserat.getStatus().equals(InseratStatus.ONLINE)) {
@@ -107,12 +104,14 @@ public class KaufService {
         // TODO: Was tun, wenn zahlungsdaten == null?
         // -> Zahlungsdaten müssen entweder bei Registrierung oder bei Aufgeben eines Inserats angegeben werden
         // -> Wenn User eigene Konten bei uns haben, ist das egal, dann haben sie ab der Registrierung das Geldkonto und ich brauche diese zahlungsdaten nicht mehr
-        String zahlungsdaten = kauf.getInserat().getInserent().getZahlungsdaten();
+        String inserentUsername = inserat.getInserentUsername();
+        User inserent = userService.getUser(inserentUsername);
+        String zahlungsdaten = inserent.getZahlungsdaten();
         String paymentResponse = geldSenden(zahlungsdaten);
 
         if (paymentResponse.equals("success")) {
             // deaktiviere Inserat
-            inseratService.deaktiviereInserat(kauf.getInserat());
+            inseratService.deaktiviereInserat(inserat);
             // aktualisiere Kaufstatus "abgeschlossen"
             kauf.setStatus(KaufStatus.ABGESCHLOSSEN);
             kaufRepository.save(kauf);
@@ -122,14 +121,16 @@ public class KaufService {
                 ablehnungKauf(weitererKauf);
             }
             // benachrichtige Käufer per E-Mail
-            String empfänger = kauf.getKäufer().getEmail();
+            String käuferUsername = kauf.getKäuferUsername();
+            User käufer = userService.getUser(käuferUsername);
+            String empfänger = käufer.getEmail();
             String betreff = "Kauf abgeschlossen";
             String inhalt = "Kauf abgeschlossen";
             sendeMail(empfänger, betreff, inhalt);
             return "Kauf abgeschlossen";
         } else {
             // sende mail an Inserent: "Etwas ist schiefgelaufen, bitte bestätigen Sie nochmals den Kauf"
-            String empfänger = kauf.getInserat().getInserent().getEmail();
+            String empfänger = inserent.getEmail();
             String betreff = "Der Vorgang konnte nicht abgeschlossen werden";
             String inhalt = "Etwas ist schiefgelaufen, bitte bestätigen Sie nochmals den Kauf";
             sendeMail(empfänger, betreff, inhalt);
@@ -138,7 +139,8 @@ public class KaufService {
     }
 
     public String ablehnungKauf(Kauf kauf) {
-        Inserat inserat = kauf.getInserat();
+        String inseratID = kauf.getInseratID();
+        Inserat inserat = inseratService.getInserat(inseratID);
         // TODO: Die Abfrage ist eigentlich nur sinnvoll, wenn inserat den tatsächlich aktuellen Stand widerspiegelt
         // -> Per "Fremdschlüssel" Abfrage aus dem InseratService holen, statt embedded Objekt zu verwenden
         if (!inserat.getStatus().equals(InseratStatus.ONLINE)) {
@@ -146,7 +148,9 @@ public class KaufService {
         }
 
         // sende Geld zurück an Käufer
-        String zahlungsdaten = kauf.getKäufer().getZahlungsdaten();
+        String käuferUsername = kauf.getKäuferUsername();
+        User käufer = userService.getUser(käuferUsername);
+        String zahlungsdaten = käufer.getZahlungsdaten();
         // TODO: Inkonsistenz auflösen: Käufer gibt bei Kauf Zahlungsdaten an, diese werden aber nicht im Kauf gespeichert
         // -> hier müssten also die Zahlungsdaten aus dem Kauf statt die des Users verwendet werden? Oder verwende ich einfach durchgehend die des User-Accounts? (auch für den Payment provider)
         // -> Testen, ob sich der im Inserat genestete User nicht zufällig magisch mitaktualisiert
@@ -158,14 +162,16 @@ public class KaufService {
             kauf.setStatus(KaufStatus.ABGEBROCHEN);
             kaufRepository.save(kauf);
             // benachrichtige Käufer per E-Mail
-            String empfänger = kauf.getKäufer().getEmail();
+            String empfänger = käufer.getEmail();
             String betreff = "Kauf abgebrochen";
             String inhalt = "Kauf abgebrochen";
             sendeMail(empfänger, betreff, inhalt);
             return "Kauf abgebrochen";
         } else {
             // sende mail an Inserent: "Etwas ist schiefgelaufen, bitte bestätigen Sie nochmals den Kauf"
-            String empfänger = kauf.getInserat().getInserent().getEmail();
+            String inserent_username = inserat.getInserentUsername();
+            User inserent = userService.getUser(inserent_username);
+            String empfänger = inserent.getEmail();
             String betreff = "Der Vorgang konnte nicht abgeschlossen werden";
             String inhalt = "Etwas ist schiefgelaufen, bitte bestätigen Sie nochmals den Kauf";
             sendeMail(empfänger, betreff, inhalt);
@@ -174,15 +180,15 @@ public class KaufService {
     }
 
     public List<Kauf> getKäufeFürKäufer(String username) {
-        return kaufRepository.findKaufsByKäufer_Username(username);
+        return kaufRepository.findKaufsByKäuferUsername(username);
     }
 
     public List<Kauf> getKäufeFürAnbieter(String username) {
-        return kaufRepository.findKaufsByInserat_Inserent_Username(username);
+        return kaufRepository.findKaufsByAnbieterUsername(username);
     }
 
     public List<Kauf> getKäufeFürInseratID(String inseratID) {
-        return kaufRepository.findKaufsByInserat_InseratID(inseratID);
+        return kaufRepository.findKaufsByInseratID(inseratID);
     }
 
     public String starteWiderruf(String kaufID, boolean tierBeiKäufer) {
@@ -198,7 +204,11 @@ public class KaufService {
         }
 
         // ziehe Geld von Anbieter ein
-        String zahlungsdaten = kauf.getInserat().getInserent().getZahlungsdaten();
+        String inseratID = kauf.getInseratID();
+        Inserat inserat = inseratService.getInserat(inseratID);
+        String username = inserat.getInserentUsername();
+        User inserent = userService.getUser(username);
+        String zahlungsdaten = inserent.getZahlungsdaten();
         String paymentResponse = geldEinziehen(zahlungsdaten);
         if (!paymentResponse.equals("success")) {
             return "Der Vorgang konnte nicht abgeschlossen werden: PaymentProvider returned " + paymentResponse;
@@ -227,7 +237,9 @@ public class KaufService {
         }
 
         // sende Geld an Käufer
-        String zahlungsdaten = kauf.getKäufer().getZahlungsdaten();
+        String käuferUsername = kauf.getKäuferUsername();
+        User käufer = userService.getUser(käuferUsername);
+        String zahlungsdaten = käufer.getZahlungsdaten();
         String paymentResponse = geldSenden(zahlungsdaten);
         if (!paymentResponse.equals("success")) {
             return "Der Vorgang konnte nicht abgeschlossen werden: PaymentProvider returned " + paymentResponse;

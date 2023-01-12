@@ -79,7 +79,7 @@ public class InseratService {
     // Methode zur Rückgabe aller Inserate/User
 
     public List<Inserat> getInserateProUser (String user) {
-        return inseratRepository.findInseratsByInserent_Username(user);
+        return inseratRepository.findInseratsByInserentUsername(user);
     }
 
 }

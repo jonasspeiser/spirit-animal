@@ -40,13 +40,13 @@ public class UserServiceController {
 
     @GetMapping("/users/{user}")
     @ResponseBody
-    public Präferenz getPreferenceForUser(@PathVariable String user, @RequestHeader("accessToken") String token) {
+    public Präferenz getPreferenceForUser(@PathVariable String user, @RequestHeader("Authorization") String token) {
         return userService.getPreferenceForUser(user);
     }
 
     @PutMapping("/users/{user}")
     @ResponseBody
-    public Präferenz updateUserPreference(@RequestBody Präferenz changes, @PathVariable String user, @RequestHeader("accessToken") String token) {
+    public Präferenz updateUserPreference(@RequestBody Präferenz changes, @PathVariable String user, @RequestHeader("Authorization") String token) {
         return userService.updateUserPreference(changes, user);
     }
 }

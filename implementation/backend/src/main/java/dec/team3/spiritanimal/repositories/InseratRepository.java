@@ -10,5 +10,5 @@ public interface InseratRepository extends MongoRepository<Inserat, String> {
 
     Inserat findInseratByInseratID(String inseratID);
 
-    List<Inserat> findInseratsByInserent_Username(String userName);
+    List<Inserat> findInseratsByInserentUsername(String userName);
 }

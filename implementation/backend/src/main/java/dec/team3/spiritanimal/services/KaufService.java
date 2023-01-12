@@ -45,23 +45,17 @@ public class KaufService {
     public String starteKauf(String käuferUsername, String inseratID) {
         User käufer = userService.getUser(käuferUsername);
         Inserat inserat = inseratService.getInserat(inseratID);
-        if (käufer != null && inserat != null) {
-            String zahlungsdaten = käufer.getZahlungsdaten();
-            return starteKauf(käuferUsername, inserat, zahlungsdaten);
-        } else {
+        if (käufer == null || inserat == null) {
             return "Username \"" + käuferUsername + "\" oder Inserat \"" + inseratID + "\" konnte nicht gefunden werden";
         }
-    }
-
-    public String starteKauf(String käuferUsername, Inserat inserat, String zahlungsdaten) {
-
         if (!inserat.getStatus().equals(InseratStatus.ONLINE)) {
             return "Vorgang abgebrochen. Nur Inserate mit Status \"online\" können gekauft werden.";
         }
 
         // erstelle neuen Kauf
+        String zahlungsdaten = käufer.getZahlungsdaten();
         Date kaufdatum = new Date();
-        Kauf kauf = new Kauf(käuferUsername, inserat, kaufdatum, KaufStatus.INITIIERT);
+        Kauf kauf = new Kauf(käuferUsername, inseratID, kaufdatum, KaufStatus.INITIIERT);
 
         // ziehe Geld von käufer ein
         String response = geldEinziehen(zahlungsdaten);
@@ -76,6 +70,7 @@ public class KaufService {
             return "Der Vorgang konnte nicht abgeschlossen werden: PaymentProvider returned " + response;
         }
     }
+
 
     public String bestätigungKauf(String kaufID) {
         Kauf kauf = kaufRepository.findKaufByKaufID(kaufID);
@@ -96,7 +91,8 @@ public class KaufService {
     }
 
     public String bestätigungKauf(Kauf kauf) {
-        Inserat inserat = kauf.getInserat();
+        String inseratID = kauf.getInseratID();
+        Inserat inserat = inseratService.getInserat(inseratID);
         // TODO: Die Abfrage ist eigentlich nur sinnvoll, wenn inserat den tatsächlich aktuellen Stand widerspiegelt
         // -> Per "Fremdschlüssel" Abfrage aus dem InseratService holen, statt embedded Objekt zu verwenden
         if (!inserat.getStatus().equals(InseratStatus.ONLINE)) {
@@ -114,7 +110,7 @@ public class KaufService {
 
         if (paymentResponse.equals("success")) {
             // deaktiviere Inserat
-            inseratService.deaktiviereInserat(kauf.getInserat());
+            inseratService.deaktiviereInserat(inserat);
             // aktualisiere Kaufstatus "abgeschlossen"
             kauf.setStatus(KaufStatus.ABGESCHLOSSEN);
             kaufRepository.save(kauf);
@@ -142,7 +138,8 @@ public class KaufService {
     }
 
     public String ablehnungKauf(Kauf kauf) {
-        Inserat inserat = kauf.getInserat();
+        String inseratID = kauf.getInseratID();
+        Inserat inserat = inseratService.getInserat(inseratID);
         // TODO: Die Abfrage ist eigentlich nur sinnvoll, wenn inserat den tatsächlich aktuellen Stand widerspiegelt
         // -> Per "Fremdschlüssel" Abfrage aus dem InseratService holen, statt embedded Objekt zu verwenden
         if (!inserat.getStatus().equals(InseratStatus.ONLINE)) {
@@ -206,7 +203,8 @@ public class KaufService {
         }
 
         // ziehe Geld von Anbieter ein
-        Inserat inserat = kauf.getInserat();
+        String inseratID = kauf.getInseratID();
+        Inserat inserat = inseratService.getInserat(inseratID);
         String username = inserat.getInserentUsername();
         User inserent = userService.getUser(username);
         String zahlungsdaten = inserent.getZahlungsdaten();

@@ -71,11 +71,10 @@
     <v-spacer></v-spacer>
 
     <v-btn
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
+        to="/profil"
         text
     >
-      <span class="mr-2">Latest Release</span>
+      <span class="mr-2">Mein Profil</span>
       <!--        <v-icon>mdi-open-in-new</v-icon>-->
     </v-btn>
   </v-app-bar>

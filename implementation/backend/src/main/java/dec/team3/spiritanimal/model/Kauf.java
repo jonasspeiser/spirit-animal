@@ -1,5 +1,6 @@
 package dec.team3.spiritanimal.model;
 
+import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -12,13 +13,16 @@ public class Kauf {
 
     @Id
     private String kaufID;
-    private User käufer;
+    @NotEmpty
+    private String käuferUsername;
+    @NotEmpty
     private Inserat inserat;
     private Date kaufdatum;
+    @NotEmpty
     private KaufStatus status;
 
-    public Kauf(User käufer, Inserat inserat, Date kaufdatum, KaufStatus status) {
-        this.käufer = käufer;
+    public Kauf(String käuferUsername, Inserat inserat, Date kaufdatum, KaufStatus status) {
+        this.käuferUsername = käuferUsername;
         this.inserat = inserat;
         this.kaufdatum = kaufdatum;
         this.status = status;
@@ -27,8 +31,8 @@ public class Kauf {
     public String getKaufID() {
         return kaufID;
     }
-    public User getKäufer() {
-        return käufer;
+    public String getKäuferUsername() {
+        return käuferUsername;
     }
 
     public Inserat getInserat() {

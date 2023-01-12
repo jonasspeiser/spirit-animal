@@ -47,13 +47,13 @@ public class KaufService {
         Inserat inserat = inseratService.getInserat(inseratID);
         if (käufer != null && inserat != null) {
             String zahlungsdaten = käufer.getZahlungsdaten();
-            return starteKauf(käufer, inserat, zahlungsdaten);
+            return starteKauf(käuferUsername, inserat, zahlungsdaten);
         } else {
             return "Username \"" + käuferUsername + "\" oder Inserat \"" + inseratID + "\" konnte nicht gefunden werden";
         }
     }
 
-    public String starteKauf(User käufer, Inserat inserat, String zahlungsdaten) {
+    public String starteKauf(String käuferUsername, Inserat inserat, String zahlungsdaten) {
 
         if (!inserat.getStatus().equals(InseratStatus.ONLINE)) {
             return "Vorgang abgebrochen. Nur Inserate mit Status \"online\" können gekauft werden.";
@@ -61,7 +61,7 @@ public class KaufService {
 
         // erstelle neuen Kauf
         Date kaufdatum = new Date();
-        Kauf kauf = new Kauf(käufer, inserat, kaufdatum, KaufStatus.INITIIERT);
+        Kauf kauf = new Kauf(käuferUsername, inserat, kaufdatum, KaufStatus.INITIIERT);
 
         // ziehe Geld von käufer ein
         String response = geldEinziehen(zahlungsdaten);
@@ -107,8 +107,8 @@ public class KaufService {
         // TODO: Was tun, wenn zahlungsdaten == null?
         // -> Zahlungsdaten müssen entweder bei Registrierung oder bei Aufgeben eines Inserats angegeben werden
         // -> Wenn User eigene Konten bei uns haben, ist das egal, dann haben sie ab der Registrierung das Geldkonto und ich brauche diese zahlungsdaten nicht mehr
-        String username = inserat.getInserent_username();
-        User inserent = userService.getUser(username);
+        String inserentUsername = inserat.getInserentUsername();
+        User inserent = userService.getUser(inserentUsername);
         String zahlungsdaten = inserent.getZahlungsdaten();
         String paymentResponse = geldSenden(zahlungsdaten);
 
@@ -124,7 +124,8 @@ public class KaufService {
                 ablehnungKauf(weitererKauf);
             }
             // benachrichtige Käufer per E-Mail
-            User käufer = kauf.getKäufer();
+            String käuferUsername = kauf.getKäuferUsername();
+            User käufer = userService.getUser(käuferUsername);
             String empfänger = käufer.getEmail();
             String betreff = "Kauf abgeschlossen";
             String inhalt = "Kauf abgeschlossen";
@@ -149,7 +150,8 @@ public class KaufService {
         }
 
         // sende Geld zurück an Käufer
-        User käufer = kauf.getKäufer();
+        String käuferUsername = kauf.getKäuferUsername();
+        User käufer = userService.getUser(käuferUsername);
         String zahlungsdaten = käufer.getZahlungsdaten();
         // TODO: Inkonsistenz auflösen: Käufer gibt bei Kauf Zahlungsdaten an, diese werden aber nicht im Kauf gespeichert
         // -> hier müssten also die Zahlungsdaten aus dem Kauf statt die des Users verwendet werden? Oder verwende ich einfach durchgehend die des User-Accounts? (auch für den Payment provider)
@@ -169,7 +171,7 @@ public class KaufService {
             return "Kauf abgebrochen";
         } else {
             // sende mail an Inserent: "Etwas ist schiefgelaufen, bitte bestätigen Sie nochmals den Kauf"
-            String inserent_username = inserat.getInserent_username();
+            String inserent_username = inserat.getInserentUsername();
             User inserent = userService.getUser(inserent_username);
             String empfänger = inserent.getEmail();
             String betreff = "Der Vorgang konnte nicht abgeschlossen werden";
@@ -205,7 +207,7 @@ public class KaufService {
 
         // ziehe Geld von Anbieter ein
         Inserat inserat = kauf.getInserat();
-        String username = inserat.getInserent_username();
+        String username = inserat.getInserentUsername();
         User inserent = userService.getUser(username);
         String zahlungsdaten = inserent.getZahlungsdaten();
         String paymentResponse = geldEinziehen(zahlungsdaten);
@@ -236,7 +238,9 @@ public class KaufService {
         }
 
         // sende Geld an Käufer
-        String zahlungsdaten = kauf.getKäufer().getZahlungsdaten();
+        String käuferUsername = kauf.getKäuferUsername();
+        User käufer = userService.getUser(käuferUsername);
+        String zahlungsdaten = käufer.getZahlungsdaten();
         String paymentResponse = geldSenden(zahlungsdaten);
         if (!paymentResponse.equals("success")) {
             return "Der Vorgang konnte nicht abgeschlossen werden: PaymentProvider returned " + paymentResponse;

@@ -107,7 +107,9 @@ public class KaufService {
         // TODO: Was tun, wenn zahlungsdaten == null?
         // -> Zahlungsdaten müssen entweder bei Registrierung oder bei Aufgeben eines Inserats angegeben werden
         // -> Wenn User eigene Konten bei uns haben, ist das egal, dann haben sie ab der Registrierung das Geldkonto und ich brauche diese zahlungsdaten nicht mehr
-        String zahlungsdaten = kauf.getInserat().getInserent().getZahlungsdaten();
+        String username = inserat.getInserent_username();
+        User inserent = userService.getUser(username);
+        String zahlungsdaten = inserent.getZahlungsdaten();
         String paymentResponse = geldSenden(zahlungsdaten);
 
         if (paymentResponse.equals("success")) {
@@ -122,14 +124,15 @@ public class KaufService {
                 ablehnungKauf(weitererKauf);
             }
             // benachrichtige Käufer per E-Mail
-            String empfänger = kauf.getKäufer().getEmail();
+            User käufer = kauf.getKäufer();
+            String empfänger = käufer.getEmail();
             String betreff = "Kauf abgeschlossen";
             String inhalt = "Kauf abgeschlossen";
             sendeMail(empfänger, betreff, inhalt);
             return "Kauf abgeschlossen";
         } else {
             // sende mail an Inserent: "Etwas ist schiefgelaufen, bitte bestätigen Sie nochmals den Kauf"
-            String empfänger = kauf.getInserat().getInserent().getEmail();
+            String empfänger = inserent.getEmail();
             String betreff = "Der Vorgang konnte nicht abgeschlossen werden";
             String inhalt = "Etwas ist schiefgelaufen, bitte bestätigen Sie nochmals den Kauf";
             sendeMail(empfänger, betreff, inhalt);
@@ -146,7 +149,8 @@ public class KaufService {
         }
 
         // sende Geld zurück an Käufer
-        String zahlungsdaten = kauf.getKäufer().getZahlungsdaten();
+        User käufer = kauf.getKäufer();
+        String zahlungsdaten = käufer.getZahlungsdaten();
         // TODO: Inkonsistenz auflösen: Käufer gibt bei Kauf Zahlungsdaten an, diese werden aber nicht im Kauf gespeichert
         // -> hier müssten also die Zahlungsdaten aus dem Kauf statt die des Users verwendet werden? Oder verwende ich einfach durchgehend die des User-Accounts? (auch für den Payment provider)
         // -> Testen, ob sich der im Inserat genestete User nicht zufällig magisch mitaktualisiert
@@ -158,14 +162,16 @@ public class KaufService {
             kauf.setStatus(KaufStatus.ABGEBROCHEN);
             kaufRepository.save(kauf);
             // benachrichtige Käufer per E-Mail
-            String empfänger = kauf.getKäufer().getEmail();
+            String empfänger = käufer.getEmail();
             String betreff = "Kauf abgebrochen";
             String inhalt = "Kauf abgebrochen";
             sendeMail(empfänger, betreff, inhalt);
             return "Kauf abgebrochen";
         } else {
             // sende mail an Inserent: "Etwas ist schiefgelaufen, bitte bestätigen Sie nochmals den Kauf"
-            String empfänger = kauf.getInserat().getInserent().getEmail();
+            String inserent_username = inserat.getInserent_username();
+            User inserent = userService.getUser(inserent_username);
+            String empfänger = inserent.getEmail();
             String betreff = "Der Vorgang konnte nicht abgeschlossen werden";
             String inhalt = "Etwas ist schiefgelaufen, bitte bestätigen Sie nochmals den Kauf";
             sendeMail(empfänger, betreff, inhalt);
@@ -198,7 +204,10 @@ public class KaufService {
         }
 
         // ziehe Geld von Anbieter ein
-        String zahlungsdaten = kauf.getInserat().getInserent().getZahlungsdaten();
+        Inserat inserat = kauf.getInserat();
+        String username = inserat.getInserent_username();
+        User inserent = userService.getUser(username);
+        String zahlungsdaten = inserent.getZahlungsdaten();
         String paymentResponse = geldEinziehen(zahlungsdaten);
         if (!paymentResponse.equals("success")) {
             return "Der Vorgang konnte nicht abgeschlossen werden: PaymentProvider returned " + paymentResponse;

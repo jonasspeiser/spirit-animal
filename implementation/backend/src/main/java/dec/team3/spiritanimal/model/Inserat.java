@@ -12,7 +12,7 @@ public class Inserat {
     @Id
     private String inseratID;
     @NotEmpty
-    private User inserent;
+    private String inserent_username;
     @NotEmpty
     private Kategorie kategorie;
     @NotEmpty
@@ -28,8 +28,8 @@ public class Inserat {
         return inseratID;
     }
 
-    public User getInserent() {
-        return inserent;
+    public String getInserent_username() {
+        return inserent_username;
     }
 
     public Kategorie getKategorie() {

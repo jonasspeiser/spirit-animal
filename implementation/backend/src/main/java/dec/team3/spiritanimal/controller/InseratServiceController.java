@@ -29,35 +29,49 @@ public class InseratServiceController {
         return authService.getUsername(token);
     }
 
-    // TODO: Authorization einrichten
     @PostMapping("/api/inserate")
     @ResponseBody
     public Inserat createInserat(@RequestBody Inserat inserat, @RequestHeader("Authorization") String token) {
-        // Authorisation: User kann nur eigene Käufe sehen
+        // Authorisation: User kann nur für sich selbst Inserate erstellen
         String username = authenticateAndGetUsername(token);
 
         return inseratService.createInserat(inserat, username);
     }
 
-    // TODO: Authorization einrichten
     @DeleteMapping("/api/inserate/{inseratID}")
     @ResponseBody
     public String deleteInserat(@PathVariable String inseratID, @RequestHeader("Authorization") String token) {
-        return inseratService.deleteInserat(inseratID);
+        // Authorisation: User kann nur eigene Inserate löschen
+        String username = authenticateAndGetUsername(token);
+        String result = inseratService.deleteInserat(inseratID, username);
+        if (result.equals("Unauthorized")) {
+            throw new ResponseStatusException(HttpStatusCode.valueOf(401), "Sie sind nicht authorisiert, die Inserate anderer User zu löschen.");
+        }
+        return result;
     }
 
-    // TODO: Authorization einrichten
     @PutMapping("/api/inserate/{inseratID}")
     @ResponseBody
     public Inserat updateInserat(@RequestBody Inserat changes, @PathVariable String inseratID, @RequestHeader("Authorization") String token) {
-        return inseratService.updateInserat(changes, inseratID);
+        // Authorisation: User kann nur eigene Inserate bearbeiten
+        String username = authenticateAndGetUsername(token);
+        try {
+            return inseratService.updateInserat(changes, inseratID, username);
+        } catch (IllegalAccessException e) {
+            throw new ResponseStatusException(HttpStatusCode.valueOf(401), "Sie sind nicht authorisiert, die Inserate anderer User zu bearbeiten.");
+        }
     }
 
-    // TODO: Authorization einrichten
     @PatchMapping("/api/inserate/{inseratID}")
     @ResponseBody
     public String updatePremium(@PathVariable String inseratID, @RequestHeader("Authorization") String token) {
-        return inseratService.updatePremium(inseratID);
+        // Authorisation: User kann nur für eigene Inserate Premiumstatus beantragen
+        String username = authenticateAndGetUsername(token);
+        String result = inseratService.updatePremium(inseratID, username);
+        if (result.equals("Unauthorized")) {
+            throw new ResponseStatusException(HttpStatusCode.valueOf(401), "Sie sind nicht authorisiert, die Inserate anderer User zu löschen.");
+        }
+        return result;
     }
 
     @GetMapping("/api/inserate")

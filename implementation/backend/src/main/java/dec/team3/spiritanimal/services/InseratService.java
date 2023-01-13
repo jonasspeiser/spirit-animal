@@ -40,36 +40,55 @@ public class InseratService {
 
     // Methode zum Löschen eines Inserats
 
-    public String deleteInserat(String inseratID) {
-        inseratRepository.deleteById(inseratID);
-        return inseratID + " wurde gelöscht!";
+    public String deleteInserat(String inseratID, String username) {
+        Inserat inserat = inseratRepository.findInseratByInseratID(inseratID);
+        if (inserat == null) {
+            return "Inserat existiert nicht.";
+        }
+        // lösche nur, wenn inserent und übergebener Username übereinstimmen
+        if (username.equals(inserat.getInserentUsername())) {
+            inseratRepository.deleteById(inseratID);
+            return inseratID + " wurde gelöscht!";
+        }
+        return "Unauthorized";
     }
 
     // Methode zum Updaten eines Inserats
 
-    public Inserat updateInserat(Inserat changes, String inseratID) {
+    public Inserat updateInserat(Inserat changes, String inseratID, String username) throws IllegalAccessException {
         Inserat inseratToBeChanged = inseratRepository.findInseratByInseratID(inseratID);
 
-        inseratToBeChanged.setAlter(changes.getAlter());
-        inseratToBeChanged.setBeschreibung(changes.getBeschreibung());
-        inseratToBeChanged.setFoto(changes.getFoto());
-        inseratToBeChanged.setKategorie(changes.getKategorie());
-        inseratToBeChanged.setPreis(changes.getPreis());
-        inseratToBeChanged.setTiername(changes.getTiername());
+        if (username.equals(inseratToBeChanged.getInserentUsername())) {
+            inseratToBeChanged.setAlter(changes.getAlter());
+            inseratToBeChanged.setBeschreibung(changes.getBeschreibung());
+            inseratToBeChanged.setFoto(changes.getFoto());
+            inseratToBeChanged.setKategorie(changes.getKategorie());
+            inseratToBeChanged.setPreis(changes.getPreis());
+            inseratToBeChanged.setTiername(changes.getTiername());
 
-        inseratRepository.save(inseratToBeChanged);
-        return inseratRepository.findInseratByInseratID(inseratID);
+            inseratRepository.save(inseratToBeChanged);
+            return inseratRepository.findInseratByInseratID(inseratID);
+        } else {
+            throw new IllegalAccessException();
+        }
+
+
     }
 
     // Methode zur Premium-Schaltung eines Inserats
-
-    public String updatePremium(String inseratID) {
+    public String updatePremium(String inseratID, String username) {
         Inserat inseratToBeChanged = inseratRepository.findInseratByInseratID(inseratID);
 
-        inseratToBeChanged.setPremium(true);
-
-        inseratRepository.save(inseratToBeChanged);
-        return inseratID + " ist jetzt Premium";
+        if (inseratToBeChanged == null) {
+            return "Inserat existiert nicht.";
+        }
+        // setze nur auf premium, wenn inserent und übergebener Username übereinstimmen
+        if (username.equals(inseratToBeChanged.getInserentUsername())) {
+            inseratToBeChanged.setPremium(true);
+            inseratRepository.save(inseratToBeChanged);
+            return inseratID + " ist jetzt Premium";
+        }
+        return "Unauthorized";
     }
 
     // TODO: Batch-Funktionalität implementieren

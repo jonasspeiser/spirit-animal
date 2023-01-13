@@ -34,12 +34,11 @@
 </template>
 
 <script lang="ts">
-import Vue, { PropType } from "vue";
+import Vue from "vue";
 import axios from "axios"
 
 export default Vue.extend({
   name: 'app-login',
-  // TODO: alles hierunter anpassen auf Login
   components: {},
   data: () => ({
     input: {},

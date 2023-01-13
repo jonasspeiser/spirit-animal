@@ -71,11 +71,19 @@
     <v-spacer></v-spacer>
 
     <v-btn
+        to="/anfragen"
+        text
+    >
+      <!--      <span class="mr-2">Mein Profil</span>-->
+      <v-icon>mdi-message</v-icon>
+    </v-btn>
+
+    <v-btn
         to="/profil"
         text
     >
-      <span class="mr-2">Mein Profil</span>
-      <!--        <v-icon>mdi-open-in-new</v-icon>-->
+<!--      <span class="mr-2">Mein Profil</span>-->
+      <v-icon>mdi-account-circle</v-icon>
     </v-btn>
   </v-app-bar>
 </template>

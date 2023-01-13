@@ -56,7 +56,7 @@ export default Vue.extend({
     },
     sendData() {
       console.log(this.input);
-      axios({ method: "POST", "url": "http://localhost:8080/api/users", "data": this.input, "headers": { "content-type": "application/json" } }).then(result => {
+      axios({ method: "POST", "url": this.$apiUrl + "/users", "data": this.input, "headers": { "content-type": "application/json" } }).then(result => {
         this.response = result.data;
         window.location.href="/login";
       }, error => {

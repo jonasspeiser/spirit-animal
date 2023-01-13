@@ -8,7 +8,7 @@
     </v-app-bar>
     <v-container style="margin-left: 20px">
       <v-expansion-panels>
-        <v-expansion-panel v-for="(item,i) in animal ":key="i">
+        <v-expansion-panel v-for="(item,i) in animal " :key="i">
           <v-expansion-panel-header>
             <v-row>
               <v-col style="max-width: 10%;">
@@ -58,8 +58,8 @@
   </div>
 </template>
 
-<script lang="ts">
-import Vue, { PropType } from "vue";
+<script>
+import Vue from "vue";
 /*TODO: change path to json + change values on top, based on how it is called*/
 import Animals from "@/data/animals.json";
 import axios from "axios";
@@ -76,7 +76,7 @@ export default Vue.extend({
   }),
   computed: {},
   beforeCreate() {
-    axios({method: "GET", "url": "http://localhost:8080/api/inserate/" + sessionStorage.getItem("username"), "headers": { "content-type": "application/json" } }).then(response => {
+    axios({method: "GET", "url": this.$apiUrl + "/inserate/" + sessionStorage.getItem("username"), "headers": { "content-type": "application/json" } }).then(response => {
       this.animal = response.data;})
   },
   created() {},
@@ -84,7 +84,7 @@ export default Vue.extend({
   watch: {},
   methods: {
     deleteInserat(inseratID){
-      axios.delete("http://localhost:8080/api/inserate/" + inseratID, {headers: {Authorization: sessionStorage.getItem("accessToken")}})
+      axios.delete(this.$apiUrl + "/inserate/" + inseratID, {headers: {Authorization: sessionStorage.getItem("accessToken")}})
       window.location.reload()
     },
     changeInserat(){}

@@ -33,7 +33,7 @@
   </v-container>
 </template>
 
-<script lang="ts">
+<script>
 import Vue from "vue";
 import axios from "axios"
 
@@ -58,7 +58,7 @@ export default Vue.extend({
     },
     sendData() {
       console.log(this.input);
-      axios({ method: "POST", "url": "http://localhost:8080/api/login", "data": this.input, "headers": { "content-type": "application/json" } }).then(result => {
+      axios({ method: "POST", "url": this.$apiUrl + "/login", "data": this.input, "headers": { "content-type": "application/json" } }).then(result => {
         this.response = result.data;
         if (this.response.includes("Bearer")) {
           sessionStorage.setItem('accessToken', this.response);

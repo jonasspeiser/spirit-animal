@@ -7,6 +7,8 @@ import dec.team3.spiritanimal.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserService {
 
@@ -71,5 +73,34 @@ public class UserService {
         userRepository.save(userToBeChanged);
         return preferenceToBeChanged;
     }
+
+    public void addGesehenesInserat(String inseratID, String username) {
+        User user = getUser(username);
+        List<String> geseheneInserateIDs = user.getGeseheneInserateIDs();
+        geseheneInserateIDs.add(inseratID);
+        userRepository.save(user);
+    }
+
+    public void removeGesehenesInserat(String inseratID, String username) {
+        User user = getUser(username);
+        List<String> geseheneInserateIDs = user.getGeseheneInserateIDs();
+        geseheneInserateIDs.remove(inseratID);
+        userRepository.save(user);
+    }
+
+    public void addFavorisiertesInserat(String inseratID, String username) {
+        User user = getUser(username);
+        List<String> favorisierteInserateIDs = user.getFavorisierteInserateIDs();
+        favorisierteInserateIDs.add(inseratID);
+        userRepository.save(user);
+    }
+
+    public void removeFavorisiertesInserat(String inseratID, String username) {
+        User user = getUser(username);
+        List<String> favorisierteInserateIDs = user.getFavorisierteInserateIDs();
+        favorisierteInserateIDs.remove(inseratID);
+        userRepository.save(user);
+    }
+
 
 }

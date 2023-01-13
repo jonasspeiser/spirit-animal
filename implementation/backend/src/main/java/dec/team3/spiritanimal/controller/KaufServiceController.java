@@ -97,7 +97,7 @@ public class KaufServiceController {
         return kaufService.starteWiderruf(kaufID, tierBeiKäufer);
     }
 
-    // TODO: User kann nur eigene Käufe widerrufen (Authorisierung)
+//     TODO: User kann nur eigene Käufe widerrufen (Authorisierung)
     @PostMapping("/widerruf/schliessen")
     @ResponseBody
     public String schließeWiderruf(@RequestBody String request, @RequestHeader("Authorization") String token) {

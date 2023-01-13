@@ -1,5 +1,6 @@
 package dec.team3.spiritanimal.controller;
 
+import dec.team3.spiritanimal.model.Inserat;
 import dec.team3.spiritanimal.model.Präferenz;
 import dec.team3.spiritanimal.model.Role;
 import dec.team3.spiritanimal.model.User;
@@ -9,6 +10,8 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @CrossOrigin
 @RequestMapping("/api")

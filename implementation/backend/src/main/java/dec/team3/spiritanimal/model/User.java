@@ -2,10 +2,11 @@ package dec.team3.spiritanimal.model;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.util.List;
 
 @Data
 @Document
@@ -27,8 +28,8 @@ public class User {
 
     // für das Auswählen von Lieblingstieren
     private Präferenz präferenz;
-    private Inserat[] geseheneInserate;
-    private Inserat[] favorisierteInserate;
+    private List<String> geseheneInserateIDs;
+    private List<String> favorisierteInserateIDs;
 
     public String getUsername() {
         return username;
@@ -94,23 +95,20 @@ public class User {
         this.präferenz = präferenz;
     }
 
-    public Inserat[] getGeseheneInserate() {
-        return geseheneInserate;
+    public List<String> getGeseheneInserateIDs() {
+        return geseheneInserateIDs;
     }
 
-    public void setGeseheneInserate(Inserat[] geseheneInserate) {
-        this.geseheneInserate = geseheneInserate;
+    public void setGeseheneInserateIDs(List<String> geseheneInserateIDs) {
+        this.geseheneInserateIDs = geseheneInserateIDs;
     }
 
-    // TODO: addGesehenesInserat, removeGesehenesInserat
-
-    public Inserat[] getFavorisierteInserate() {
-        return favorisierteInserate;
+    public List<String> getFavorisierteInserateIDs() {
+        return favorisierteInserateIDs;
     }
 
-    public void setFavorisierteInserate(Inserat[] favorisierteInserate) {
-        this.favorisierteInserate = favorisierteInserate;
+    public void setFavorisierteInserateIDs(List<String> favorisierteInserateIDs) {
+        this.favorisierteInserateIDs = favorisierteInserateIDs;
     }
 
-    // TODO: addFavorisiertesInserat, removeFavorisiertesInserat
 }

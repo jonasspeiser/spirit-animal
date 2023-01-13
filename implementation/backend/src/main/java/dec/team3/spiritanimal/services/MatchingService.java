@@ -17,18 +17,21 @@ public class MatchingService {
     @Autowired
     InseratService inseratService;
     public List<Inserat> getSwipeStack(String username) {
-        List<Inserat> alleInserate = inseratService.getAllInserate();
+        List<Inserat> swipeStack = inseratService.getAllInserate();
         List<Inserat> eigeneInserate = inseratService.getInserateProUser(username);
         List<String> geseheneInserateIDs = userService.getUser(username).getGeseheneInserateIDs();
-        List<Inserat> geseheneInserate = new ArrayList<>();
-        for (String inseratID : geseheneInserateIDs) {
-            geseheneInserate.add(inseratService.getInserat(inseratID));
+
+        if (eigeneInserate != null) {
+            swipeStack.removeAll(eigeneInserate);
         }
 
-        List<Inserat> swipeStack = alleInserate;
-        swipeStack.removeAll(eigeneInserate);
-        swipeStack.removeAll(geseheneInserate);
-
+        if (geseheneInserateIDs != null) {
+            List<Inserat> geseheneInserate = new ArrayList<>();
+            for (String inseratID : geseheneInserateIDs) {
+                geseheneInserate.add(inseratService.getInserat(inseratID));
+            }
+            swipeStack.removeAll(geseheneInserate);
+        }
         return swipeStack;
     }
 

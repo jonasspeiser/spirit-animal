@@ -3,6 +3,7 @@ package dec.team3.spiritanimal.controller;
 import dec.team3.spiritanimal.model.Inserat;
 import dec.team3.spiritanimal.services.AuthService;
 import dec.team3.spiritanimal.services.MatchingService;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.aggregation.ArrayOperators;
 import org.springframework.http.HttpStatusCode;
@@ -12,6 +13,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
+@CrossOrigin
 @RequestMapping("/api/soulsearch")
 @Controller
 public class MatchingServiceController {
@@ -54,15 +56,19 @@ public class MatchingServiceController {
 
     @PostMapping("/like")
     @ResponseBody
-    public String likeInserat(@RequestBody String inseratID, @RequestHeader("Authorization") String token) {
+    public String likeInserat(@RequestBody String request, @RequestHeader("Authorization") String token) {
         String username = authenticateAndGetUsername(token);
+        JSONObject userdata = new JSONObject(request);
+        String inseratID = userdata.getString("inseratID");
         return matchingService.likeInserat(inseratID, username);
     }
 
     @PostMapping("/dislike")
     @ResponseBody
-    public String dislikeInserat(@RequestBody String inseratID, @RequestHeader("Authorization") String token) {
+    public String dislikeInserat(@RequestBody String request, @RequestHeader("Authorization") String token) {
         String username = authenticateAndGetUsername(token);
+        JSONObject userdata = new JSONObject(request);
+        String inseratID = userdata.getString("inseratID");
         return matchingService.dislikeInserat(inseratID, username);
     }
 }

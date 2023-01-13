@@ -40,7 +40,7 @@
             <v-row>
               <v-col>
                 <!-- TODO: function when delete button clicked-->
-                <v-btn style="margin-left: 60%" @click="deleteDarling">
+                <v-btn style="margin-left: 60%" @click="deleteDarling(item.inseratID)">
                   <v-icon>{{iconDelete}}</v-icon>
                 </v-btn>
               </v-col>
@@ -58,14 +58,14 @@
   </div>
 </template>
 
-<script lang="ts">
-import Vue, { PropType } from "vue";
+<script>
+import Vue from "vue";
 import axios from "axios"
 
 export default Vue.extend({
-  name: "DashboardView",
+  name: "MyDarlings",
   components: {
-    // Dashboard
+
   },
   data: () => ({
     iconDelete: "mdi-delete",
@@ -77,13 +77,19 @@ export default Vue.extend({
   created() {},
   async mounted() {
     axios
-        .get('http://localhost:8080/api/inserate/Herbert')
+        .get( this.$apiUrl + '/soulsearch/mydarlings',
+            {headers: {Authorization: sessionStorage.getItem("accessToken")}}
+        )
         .then(response => (this.animals = response.data))
   },
   watch: {},
   methods: {
-    deleteDarling(){
-
+    deleteDarling(inseratID){
+      axios
+          .delete( this.$apiUrl + '/soulsearch/mydarlings/' + inseratID,
+              {headers: {Authorization: sessionStorage.getItem("accessToken")}}
+          )
+      window.location.reload()
     }
   },
 });

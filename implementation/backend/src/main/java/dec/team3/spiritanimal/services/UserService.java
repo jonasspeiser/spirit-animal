@@ -7,6 +7,7 @@ import dec.team3.spiritanimal.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -77,7 +78,11 @@ public class UserService {
     public void addGesehenesInserat(String inseratID, String username) {
         User user = getUser(username);
         List<String> geseheneInserateIDs = user.getGeseheneInserateIDs();
+        if (geseheneInserateIDs == null) {
+            geseheneInserateIDs = new ArrayList<>();
+        }
         geseheneInserateIDs.add(inseratID);
+        user.setGeseheneInserateIDs(geseheneInserateIDs);
         userRepository.save(user);
     }
 
@@ -85,13 +90,18 @@ public class UserService {
         User user = getUser(username);
         List<String> geseheneInserateIDs = user.getGeseheneInserateIDs();
         geseheneInserateIDs.remove(inseratID);
+        user.setGeseheneInserateIDs(geseheneInserateIDs);
         userRepository.save(user);
     }
 
     public void addFavorisiertesInserat(String inseratID, String username) {
         User user = getUser(username);
         List<String> favorisierteInserateIDs = user.getFavorisierteInserateIDs();
+        if (favorisierteInserateIDs == null) {
+            favorisierteInserateIDs = new ArrayList<>();
+        }
         favorisierteInserateIDs.add(inseratID);
+        user.setFavorisierteInserateIDs(favorisierteInserateIDs);
         userRepository.save(user);
     }
 
@@ -99,6 +109,7 @@ public class UserService {
         User user = getUser(username);
         List<String> favorisierteInserateIDs = user.getFavorisierteInserateIDs();
         favorisierteInserateIDs.remove(inseratID);
+        user.setFavorisierteInserateIDs(favorisierteInserateIDs);
         userRepository.save(user);
     }
 

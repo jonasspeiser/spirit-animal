@@ -41,7 +41,10 @@ export default Vue.extend({
   name: 'app-login',
   components: {},
   data: () => ({
-    input: {},
+    input: {
+      username: "",
+      password: "",
+    },
     response: ""
   }),
   computed: {},

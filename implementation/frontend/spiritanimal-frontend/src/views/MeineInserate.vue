@@ -20,6 +20,10 @@
               <v-col style="max-width: 80%;  padding-top: 35px">
                 <v-row>
                   {{item.tiername}}
+                  <v-spacer></v-spacer>
+                  <p v-if="item.premium===true">
+                    PREMIUM
+                  </p>
                 </v-row>
                 <v-row>
                   {{item.kategorie}}
@@ -30,6 +34,8 @@
           <v-expansion-panel-content>
             <v-row style="padding-top: 5px">
               {{item.beschreibung}}
+              <v-spacer></v-spacer>
+              Status: {{item.status}}
             </v-row>
             <v-row style="padding-top: 5px">
               Age: {{item.alter}}

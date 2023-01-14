@@ -13,7 +13,6 @@
             <v-row>
               <v-col style="max-width: 10%;">
                 <v-avatar>
-                  <!-- TODO: change path to images html - https://www.w3schools.com/html/html_filepaths.asp-->
                   <img :src="item.foto" height="70" width="70"/>
                 </v-avatar>
               </v-col>

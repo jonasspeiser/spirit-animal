@@ -9,7 +9,7 @@
             <h1 class="mb-2">Register</h1>
           </div>
           <a href="" name="Spirit Animal" title="Spirit Animal" target="_blank">
-            <v-img src="@/assets/logo.png" alt="Spirit Animal Logo" contain height="200"></v-img>
+            <v-img src="@/assets/animal-logo.png" alt="Spirit Animal Logo" contain height="200"></v-img>
           </a>
           <v-card-text>
             <v-form>

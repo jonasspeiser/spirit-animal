@@ -1,6 +1,10 @@
 <template>
 <v-row>
-  <v-col>Mein API-Token</v-col>
+  <v-col>
+    <v-icon>mdi-jellyfish</v-icon>
+    Mein API-Token
+    <v-icon>mdi-jellyfish</v-icon>
+  </v-col>
   <v-col>
     <code>
       {{token}}

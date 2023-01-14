@@ -33,19 +33,49 @@
             <v-row style="padding-top: 5px">
               {{item.inserat.beschreibung}}
               <v-spacer></v-spacer>
-              Status: {{item.status}}
+              Status:&nbsp;
+              <span v-if="item.status==='BEZAHLT'">
+                ANFRAGE - BITTE UM BESTÄTIGUNG
+              </span>
+              <span v-else>
+                {{item.status}}
+              </span>
             </v-row>
             <v-row style="padding-top: 5px">
               Age: {{item.inserat.alter}}
               <v-spacer></v-spacer>
-              Anbieter: {{item.anbieterUsername}}
+              Interessent: {{item.käuferUsername}}
             </v-row>
             <v-row style="padding-top: 5px">
               Preis: {{item.inserat.preis}}
               <v-spacer></v-spacer>
-              Gekauft am: {{item.kaufdatum}}
+              Kaufangebot vom: {{item.kaufdatum}}
             </v-row>
-            <v-row>
+
+            <v-row v-if="item.status==='BEZAHLT'">
+              <v-col>
+                <v-tooltip bottom>
+                  <template #activator="{ on:tooltip, attrs }">
+                    <v-btn @click="akzeptieren(item.kaufID)" style="margin-left: 60%"  v-bind="attrs" v-on="{ ...tooltip}">
+                      <v-icon>{{ iconAkzeptieren }}</v-icon>
+                    </v-btn>
+                  </template>
+                  <span>Akzeptieren</span>
+                </v-tooltip>
+              </v-col>
+              <v-col>
+                <v-tooltip bottom>
+                  <template #activator="{ on:tooltip, attrs }">
+                    <v-btn @click="ablehnen(item.kaufID)" style="margin-left: 10%"  v-bind="attrs" v-on="{ ...tooltip}">
+                      <v-icon>{{ iconAblehnen }}</v-icon>
+                    </v-btn>
+                  </template>
+                  <span>Ablehnen</span>
+                </v-tooltip>
+              </v-col>
+            </v-row>
+
+            <v-row v-if="item.status==='WIDERRUF_EINGELEITET'">
               <v-col>
                 <v-dialog
                     transition="dialog-bottom-transition"
@@ -56,10 +86,10 @@
                     <v-tooltip bottom>
                       <template #activator="{ on:tooltip, attrs }">
                         <v-btn style="margin-left: 50%"  v-bind="attrs" v-on="{ ...tooltip, ...dialog }">
-                          <v-icon>{{iconWiderruf}}</v-icon>
+                          <v-icon>{{ iconTierAngekommen }}</v-icon>
                         </v-btn>
                       </template>
-                      <span>Beanstanden</span>
+                      <span>Tier zurückerhalten</span>
                     </v-tooltip>
 
                   </template>
@@ -68,28 +98,15 @@
                       <v-toolbar
                           color="primary"
                           dark
-                      >Widerruf starten</v-toolbar>
+                      >Widerruf schließen</v-toolbar>
                       <v-card-text>
-                        <div class="text-h6 pa-12">Ist das Tier bereits bei Ihnen angekommen?</div>
-                        <v-radio-group
-                            v-model="requestData.tierBeiKäufer"
-                            column
-                        >
-                          <v-radio
-                              label="Ja"
-                              v-bind:value="true"
-                          ></v-radio>
-                          <v-radio
-                              label="Nein"
-                              v-bind:value="false"
-                          ></v-radio>
-                        </v-radio-group>
+                        <div class="text-h6 pa-12">Bitte bestätigen Sie, dass sie das Tier vom Käufer zurück erhalten haben.</div>
                       </v-card-text>
                       <v-card-actions class="justify-end">
 
                         <v-btn
                             text
-                            @click="starteWiderruf(item.kaufID), dialog.value = false"
+                            @click="schließeWiderruf(item.kaufID), dialog.value = false"
                         >Bestätigen</v-btn>
 
                       </v-card-actions>
@@ -111,10 +128,12 @@ import Vue from "vue";
 import axios from "axios"
 
 export default Vue.extend({
-  name: "Meine Käufe",
+  name: "Anfragencenter",
   components: {},
   data: () => ({
-    iconWiderruf: "mdi-alert-outline",
+    iconAkzeptieren: "mdi-check",
+    iconAblehnen: "mdi-close",
+    iconTierAngekommen: "mdi-horse-variant-fast",
     käufe: null,
     requestData: {
       kaufID: "",
@@ -127,21 +146,48 @@ export default Vue.extend({
   created() {},
   async mounted() {
     axios
-        .get( this.$apiUrl + '/kaeufe?kaeufer',
+        .get( this.$apiUrl + '/kaeufe?anbieter',
             {headers: {Authorization: sessionStorage.getItem("accessToken")}}
         )
         .then(result => (this.käufe = result.data))
   },
   watch: {},
   methods: {
-
-    starteWiderruf(kaufID) {
+    akzeptieren(kaufID) {
       this.requestData.kaufID = kaufID;
-      axios({ method: "POST", "url": this.$apiUrl + "/kaeufe/widerruf", "data": this.requestData, "headers": { "content-type": "application/json", "Authorization": sessionStorage.getItem("accessToken") } })
+      axios({ method: "POST", "url": this.$apiUrl + "/kaeufe/akzeptieren", "data": this.requestData, "headers": { "content-type": "application/json", "Authorization": sessionStorage.getItem("accessToken") } })
           .then(result => {
             this.response = result.data;
             console.log(this.response)
-            if (this.response.includes("Widerruf eingeleitet")) {
+            if (this.response.includes("Kauf abgeschlossen")) {
+              window.location.reload();
+            }
+          }, error => {
+            console.error(error);
+          })
+    },
+
+    ablehnen(kaufID) {
+      this.requestData.kaufID = kaufID;
+      axios({ method: "POST", "url": this.$apiUrl + "/kaeufe/ablehnen", "data": this.requestData, "headers": { "content-type": "application/json", "Authorization": sessionStorage.getItem("accessToken") } })
+          .then(result => {
+            this.response = result.data;
+            console.log(this.response)
+            if (this.response.includes("Kauf abgebrochen")) {
+              window.location.reload();
+            }
+          }, error => {
+            console.error(error);
+          })
+    },
+
+    schließeWiderruf(kaufID) {
+      this.requestData.kaufID = kaufID;
+      axios({ method: "POST", "url": this.$apiUrl + "/kaeufe/widerruf/schliessen", "data": this.requestData, "headers": { "content-type": "application/json", "Authorization": sessionStorage.getItem("accessToken") } })
+          .then(result => {
+            this.response = result.data;
+            console.log(this.response)
+            if (this.response.includes("Widerruf abgeschlossen")) {
               window.location.reload();
             }
           }, error => {

@@ -65,6 +65,11 @@ export default new VueRouter({
       name: "Meine Käufe",
       component: ()=> import("@/views/MeineKäufe.vue")
     },
+    {
+      path: "/anfragen",
+      name: "Anfragencenter",
+      component: ()=> import("@/views/Anfragencenter.vue")
+    },
   ]
 })
 

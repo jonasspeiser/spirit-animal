@@ -179,7 +179,7 @@ public class KaufService {
     }
 
     public List<Kauf> getKäufeFürInseratID(String inseratID) {
-        return kaufRepository.findKaufsByInseratID(inseratID);
+        return kaufRepository.findKaufsByInserat_InseratID(inseratID);
     }
 
     public String starteWiderruf(String kaufID, boolean tierBeiKäufer) {

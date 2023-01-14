@@ -12,5 +12,5 @@ public interface KaufRepository extends MongoRepository<Kauf, String> {
 
     List<Kauf> findKaufsByAnbieterUsername(String anbieterUsername);
 
-    List<Kauf> findKaufsByInseratID(String inseratID);
+    List<Kauf> findKaufsByInserat_InseratID(String inseratID);
 }

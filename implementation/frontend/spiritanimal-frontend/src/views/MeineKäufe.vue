@@ -8,7 +8,7 @@
     </v-app-bar>
     <v-container style="margin-left: 20px">
       <v-expansion-panels>
-        <v-expansion-panel v-for="(item,i) in animals" :key="i">
+        <v-expansion-panel v-for="(item,i) in käufe" :key="i">
           <v-expansion-panel-header>
             <v-row>
               <v-col style="max-width: 10%;">
@@ -23,9 +23,9 @@
                 <v-row>
                   {{item.kategorie}}
                 </v-row>
-<!--                <v-row>-->
-<!--                  {{this.response}}-->
-<!--                </v-row>-->
+                <!--                <v-row>-->
+                <!--                  {{this.response}}-->
+                <!--                </v-row>-->
               </v-col>
             </v-row>
           </v-expansion-panel-header>
@@ -42,14 +42,8 @@
             <v-row>
               <v-col>
                 <!-- TODO: function when delete button clicked-->
-                <v-btn style="margin-left: 60%" @click="deleteDarling(item.inseratID)">
-                  <v-icon>{{iconDelete}}</v-icon>
-                </v-btn>
-              </v-col>
-              <v-col>
-                <!-- TODO: function when buy button clicked-->
-                <v-btn style="margin-right: 40%" @click="buyDarling(item.inseratID)">
-                  <v-icon>{{iconBuy}}</v-icon>
+                <v-btn style="margin-left: 60%" @click="starteWiderruf(item.kaufID)">
+                  <v-icon>{{iconWiderruf}}</v-icon>
                 </v-btn>
               </v-col>
             </v-row>
@@ -65,14 +59,13 @@ import Vue from "vue";
 import axios from "axios"
 
 export default Vue.extend({
-  name: "MyDarlings",
+  name: "Meine Käufe",
   components: {},
   data: () => ({
-    iconDelete: "mdi-delete",
-    iconBuy: "mdi-cart-outline",
-    animals: null,
+    iconWiderruf: "mdi-alert-outline",
+    käufe: null,
     requestData: {
-      inseratID: ""
+      kaufID: ""
     },
     response: ""
   }),
@@ -81,23 +74,19 @@ export default Vue.extend({
   created() {},
   async mounted() {
     axios
-        .get( this.$apiUrl + '/soulsearch/mydarlings',
+        .get( this.$apiUrl + '/kaeufe?kaeufer',
             {headers: {Authorization: sessionStorage.getItem("accessToken")}}
         )
-        .then(result => (this.animals = result.data))
+        .then(result => (this.käufe = result.data))
   },
   watch: {},
   methods: {
-    deleteDarling(inseratID){
-      axios
-          .delete( this.$apiUrl + '/soulsearch/mydarlings/' + inseratID,
-              {headers: {Authorization: sessionStorage.getItem("accessToken")}}
-          )
-      window.location.reload()
-    },
-    buyDarling(inseratID) {
-      this.requestData.inseratID = inseratID;
-      axios({ method: "POST", "url": this.$apiUrl + "/kaeufe", "data": this.requestData, "headers": { "content-type": "application/json", "Authorization": sessionStorage.getItem("accessToken") } })
+
+    // TODO!
+
+    starteWiderruf(kaufID) {
+      this.requestData.kaufID = kaufID;
+      axios({ method: "POST", "url": this.$apiUrl + "/widerruf", "data": this.requestData, "headers": { "content-type": "application/json", "Authorization": sessionStorage.getItem("accessToken") } })
           .then(result => {
             this.response = result.data;
             console.log(this.response)

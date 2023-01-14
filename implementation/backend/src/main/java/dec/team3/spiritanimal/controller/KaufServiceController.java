@@ -12,6 +12,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
+@CrossOrigin
 @RequestMapping("/api/kaeufe")
 @Controller
 public class KaufServiceController {

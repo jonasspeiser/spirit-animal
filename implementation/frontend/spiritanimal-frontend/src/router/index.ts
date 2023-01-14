@@ -57,8 +57,13 @@ export default new VueRouter({
     },
     {
       path: "/profil",
-      name: "Main Profil",
+      name: "Mein Profil",
       component: ()=> import("@/views/MeinProfil.vue")
+    },
+    {
+      path: "/kaeufe",
+      name: "Meine Käufe",
+      component: ()=> import("@/views/MeineKäufe.vue")
     },
   ]
 })

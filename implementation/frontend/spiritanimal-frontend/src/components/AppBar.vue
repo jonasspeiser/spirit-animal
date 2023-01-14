@@ -71,6 +71,14 @@
     <v-spacer></v-spacer>
 
     <v-btn
+        to="/kaeufe"
+        text
+    >
+      <!--      <span class="mr-2">Mein Profil</span>-->
+      <v-icon>mdi-cart</v-icon>
+    </v-btn>
+
+    <v-btn
         to="/anfragen"
         text
     >

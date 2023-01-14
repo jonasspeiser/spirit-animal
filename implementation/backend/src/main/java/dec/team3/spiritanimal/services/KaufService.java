@@ -56,7 +56,7 @@ public class KaufService {
         String anbieterUsername = inserat.getInserentUsername();
         String zahlungsdaten = käufer.getZahlungsdaten();
         Date kaufdatum = new Date();
-        Kauf kauf = new Kauf(käuferUsername, anbieterUsername, inseratID, kaufdatum, KaufStatus.INITIIERT);
+        Kauf kauf = new Kauf(käuferUsername, anbieterUsername, inserat, kaufdatum, KaufStatus.INITIIERT);
 
         // ziehe Geld von käufer ein
         String response = geldEinziehen(zahlungsdaten);
@@ -92,18 +92,14 @@ public class KaufService {
     }
 
     public String bestätigungKauf(Kauf kauf) {
-        String inseratID = kauf.getInseratID();
+        // Überprüfe, ob das Inserat tatsächlich noch ONLINE ist
+        String inseratID = kauf.getInserat().getInseratID();
         Inserat inserat = inseratService.getInserat(inseratID);
-        // TODO: Die Abfrage ist eigentlich nur sinnvoll, wenn inserat den tatsächlich aktuellen Stand widerspiegelt
-        // -> Per "Fremdschlüssel" Abfrage aus dem InseratService holen, statt embedded Objekt zu verwenden
         if (!inserat.getStatus().equals(InseratStatus.ONLINE)) {
             return "Vorgang abgebrochen. Nur Inserate mit Status \"online\" können gekauft werden.";
         }
 
         // sende Geld an Inserent
-        // TODO: Was tun, wenn zahlungsdaten == null?
-        // -> Zahlungsdaten müssen entweder bei Registrierung oder bei Aufgeben eines Inserats angegeben werden
-        // -> Wenn User eigene Konten bei uns haben, ist das egal, dann haben sie ab der Registrierung das Geldkonto und ich brauche diese zahlungsdaten nicht mehr
         String inserentUsername = inserat.getInserentUsername();
         User inserent = userService.getUser(inserentUsername);
         String zahlungsdaten = inserent.getZahlungsdaten();
@@ -139,10 +135,9 @@ public class KaufService {
     }
 
     public String ablehnungKauf(Kauf kauf) {
-        String inseratID = kauf.getInseratID();
+        // Überprüfe, ob das Inserat tatsächlich noch ONLINE ist
+        String inseratID = kauf.getInserat().getInseratID();
         Inserat inserat = inseratService.getInserat(inseratID);
-        // TODO: Die Abfrage ist eigentlich nur sinnvoll, wenn inserat den tatsächlich aktuellen Stand widerspiegelt
-        // -> Per "Fremdschlüssel" Abfrage aus dem InseratService holen, statt embedded Objekt zu verwenden
         if (!inserat.getStatus().equals(InseratStatus.ONLINE)) {
             return "Vorgang abgebrochen. Nur Inserate mit Status \"online\" können gekauft werden.";
         }
@@ -151,10 +146,6 @@ public class KaufService {
         String käuferUsername = kauf.getKäuferUsername();
         User käufer = userService.getUser(käuferUsername);
         String zahlungsdaten = käufer.getZahlungsdaten();
-        // TODO: Inkonsistenz auflösen: Käufer gibt bei Kauf Zahlungsdaten an, diese werden aber nicht im Kauf gespeichert
-        // -> hier müssten also die Zahlungsdaten aus dem Kauf statt die des Users verwendet werden? Oder verwende ich einfach durchgehend die des User-Accounts? (auch für den Payment provider)
-        // -> Testen, ob sich der im Inserat genestete User nicht zufällig magisch mitaktualisiert
-        // -> Hinten angestellt, da ich mir eh noch Gedanken darüber machen wollte, ob wir nicht Geldkonten für den User vorhalten um einen komplexeren Handshake beim Kauf implementieren zu können
         String paymentResponse = geldSenden(zahlungsdaten);
 
         if (paymentResponse.equals("success")) {
@@ -204,8 +195,7 @@ public class KaufService {
         }
 
         // ziehe Geld von Anbieter ein
-        String inseratID = kauf.getInseratID();
-        Inserat inserat = inseratService.getInserat(inseratID);
+        Inserat inserat = kauf.getInserat();
         String username = inserat.getInserentUsername();
         User inserent = userService.getUser(username);
         String zahlungsdaten = inserent.getZahlungsdaten();

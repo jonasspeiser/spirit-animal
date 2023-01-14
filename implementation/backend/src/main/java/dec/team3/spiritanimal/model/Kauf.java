@@ -18,15 +18,15 @@ public class Kauf {
     @NotEmpty
     private String anbieterUsername;
     @NotEmpty
-    private String inseratID;
+    private Inserat inserat;
     private Date kaufdatum;
     @NotEmpty
     private KaufStatus status;
 
-    public Kauf(String käuferUsername, String anbieterUsername, String inseratID, Date kaufdatum, KaufStatus status) {
+    public Kauf(String käuferUsername, String anbieterUsername, Inserat inserat, Date kaufdatum, KaufStatus status) {
         this.käuferUsername = käuferUsername;
         this.anbieterUsername = anbieterUsername;
-        this.inseratID = inseratID;
+        this.inserat = inserat;
         this.kaufdatum = kaufdatum;
         this.status = status;
     }
@@ -42,8 +42,8 @@ public class Kauf {
         return anbieterUsername;
     }
 
-    public String getInseratID() {
-        return inseratID;
+    public Inserat getInserat() {
+        return inserat;
     }
 
     public Date getKaufdatum() {

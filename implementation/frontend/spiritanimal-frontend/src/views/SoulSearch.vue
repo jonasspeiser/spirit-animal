@@ -104,11 +104,10 @@
   </div>
 </template>
 
-<script lang="ts">
+<script>
 import Vue, { PropType } from "vue";
 import axios from "axios";
 /*TODO: change path to json + change values on top, based on how it is called*/
-import Animals from "@/data/animals.json";
 
 export default Vue.extend({
   name: "TinderView",
@@ -145,6 +144,7 @@ export default Vue.extend({
           .then(result => {
             this.response = result.data;
             console.log(this.response)
+            window.location.reload();
           }, error => {
             console.error(error);
           })
@@ -159,6 +159,7 @@ export default Vue.extend({
           .then(result => {
             this.response = result.data;
             console.log(this.response)
+            window.location.reload();
           }, error => {
             console.error(error);
           })

@@ -4,12 +4,15 @@ import dec.team3.spiritanimal.model.Inserat;
 import dec.team3.spiritanimal.model.Präferenz;
 import dec.team3.spiritanimal.model.Role;
 import dec.team3.spiritanimal.model.User;
+import dec.team3.spiritanimal.services.AuthService;
 import dec.team3.spiritanimal.services.UserService;
 import jakarta.validation.Valid;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -20,6 +23,9 @@ public class UserServiceController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private AuthService authService;
 
     @PostMapping("/login")
     @ResponseBody
@@ -51,5 +57,16 @@ public class UserServiceController {
     @ResponseBody
     public Präferenz updateUserPreference(@RequestBody Präferenz changes, @PathVariable String user, @RequestHeader("Authorization") String token) {
         return userService.updateUserPreference(changes, user);
+    }
+
+//    Admin Usecase
+    @GetMapping
+    @ResponseBody
+    public List<User> getAllUsers(@RequestHeader("Authorization") String token) {
+//        require Admin Authorization
+        if (!authService.authorizeUserRole(Role.ADMIN, token)) {
+            throw new ResponseStatusException(HttpStatusCode.valueOf(401), "Only Admins allowed!");
+        }
+        return userService.getAlleUser();
     }
 }

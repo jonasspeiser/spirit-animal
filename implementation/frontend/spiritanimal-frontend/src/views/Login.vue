@@ -63,7 +63,7 @@ export default Vue.extend({
         if (this.response.includes("Bearer")) {
           sessionStorage.setItem('accessToken', this.response);
           sessionStorage.setItem('username', this.input.username);
-          window.location.href="/inserate";
+          window.location.href="/soulsearch";
         }
       }, error => {
         console.error(error);

@@ -73,12 +73,20 @@ public class MatchingService {
     }
 
     public String likeInserat(String inseratID, String username) {
+        Inserat inserat = inseratService.getInserat(inseratID);
+        if (inserat == null) {
+            return "Inserat " + inseratID + " nicht vorhanden.";
+        }
         userService.addGesehenesInserat(inseratID, username);
         userService.addFavorisiertesInserat(inseratID, username);
         return "Inserat zu Favoriten hinzugefügt.";
     }
 
     public String dislikeInserat(String inseratID, String username) {
+        Inserat inserat = inseratService.getInserat(inseratID);
+        if (inserat == null) {
+            return "Inserat " + inseratID + " nicht vorhanden.";
+        }
         userService.addGesehenesInserat(inseratID, username);
         return "Inserat zu bereits gesehenen hinzugefügt.";
     }

@@ -24,6 +24,19 @@ public class Inserat {
     private double preis;
     private String foto;
 
+    public Inserat(String inseratID, String inserentUsername, Kategorie kategorie, InseratStatus status, boolean premium, String tiername, String beschreibung, String alter, double preis, String foto) {
+        this.inseratID = inseratID;
+        this.inserentUsername = inserentUsername;
+        this.kategorie = kategorie;
+        this.status = status;
+        this.premium = premium;
+        this.tiername = tiername;
+        this.beschreibung = beschreibung;
+        this.alter = alter;
+        this.preis = preis;
+        this.foto = foto;
+    }
+
     public String getInseratID() {
         return inseratID;
     }

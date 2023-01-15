@@ -2,6 +2,7 @@ package dec.team3.spiritanimal.services;
 
 import dec.team3.spiritanimal.model.Inserat;
 import dec.team3.spiritanimal.model.InseratStatus;
+import dec.team3.spiritanimal.model.Role;
 import dec.team3.spiritanimal.repositories.InseratRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -40,13 +41,13 @@ public class InseratService {
 
     // Methode zum Löschen eines Inserats
 
-    public String deleteInserat(String inseratID, String username) {
+    public String deleteInserat(String inseratID, String username, Role rolle) {
         Inserat inserat = inseratRepository.findInseratByInseratID(inseratID);
         if (inserat == null) {
             return "Inserat existiert nicht.";
         }
         // lösche nur, wenn inserent und übergebener Username übereinstimmen
-        if (username.equals(inserat.getInserentUsername())) {
+        if (username.equals(inserat.getInserentUsername()) || rolle == Role.ADMIN) {
             inseratRepository.deleteById(inseratID);
             return inseratID + " wurde gelöscht!";
         }

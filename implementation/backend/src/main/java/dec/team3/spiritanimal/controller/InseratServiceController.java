@@ -1,6 +1,7 @@
 package dec.team3.spiritanimal.controller;
 
 import dec.team3.spiritanimal.model.Inserat;
+import dec.team3.spiritanimal.model.Role;
 import dec.team3.spiritanimal.services.AuthService;
 import dec.team3.spiritanimal.services.InseratService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +44,11 @@ public class InseratServiceController {
     public String deleteInserat(@PathVariable String inseratID, @RequestHeader("Authorization") String token) {
         // Authorisation: User kann nur eigene Inserate löschen
         String username = authenticateAndGetUsername(token);
-        String result = inseratService.deleteInserat(inseratID, username);
+        Role rolle = Role.USER;
+        if (authService.authorizeUserRole(Role.ADMIN, token)) {
+            rolle = Role.ADMIN;
+        }
+        String result = inseratService.deleteInserat(inseratID, username, rolle);
         if (result.equals("Unauthorized")) {
             throw new ResponseStatusException(HttpStatusCode.valueOf(401), "Sie sind nicht authorisiert, die Inserate anderer User zu löschen.");
         }

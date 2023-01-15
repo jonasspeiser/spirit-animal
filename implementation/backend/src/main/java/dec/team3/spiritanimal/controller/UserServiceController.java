@@ -60,7 +60,8 @@ public class UserServiceController {
     }
 
 //    Admin Usecase
-    @GetMapping
+    @CrossOrigin
+    @GetMapping("/users")
     @ResponseBody
     public List<User> getAllUsers(@RequestHeader("Authorization") String token) {
 //        require Admin Authorization

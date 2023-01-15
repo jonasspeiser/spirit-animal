@@ -111,6 +111,7 @@ public class KaufServiceController {
     }
 
 //    Admin Usecase
+    @CrossOrigin
     @GetMapping("")
     @ResponseBody
     public List<Kauf> getAlleKäufe(@RequestHeader("Authorization") String token) {

@@ -45,7 +45,7 @@ services:
 #      - mongodb
 #    networks:
 #      - spiritnet
-
+#
 #  frontend:
 #    build: ./frontend/spiritanimal-frontend
 #    image: frontend_vue

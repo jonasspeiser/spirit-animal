@@ -72,7 +72,7 @@
             </template>
             <v-img
                 height="250"
-                src="item.foto"
+                :src="item.foto"
             ></v-img>
             <v-card-title style="margin-bottom: 10px">{{item.tiername}}</v-card-title>
             <v-card-text>
@@ -119,7 +119,10 @@ export default Vue.extend({
     setting: "mdi-cog-outline",
     animalYes:  "mdi-checkbox-marked-circle",
     animalNo: "mdi-close-circle-outline",
-    animal: null
+    animal: null,
+    requestData: {
+      inseratID: ""
+    }
   }),
   computed: {},
   beforeCreate() {
@@ -127,14 +130,40 @@ export default Vue.extend({
       "Content-Type": "application/json",
       "Authorization": sessionStorage.getItem("accessToken")
     }
-    axios.get(this.$apiUrl + "/soulsearch/start", { headers }).then(response => this.data = response)
+    axios.get(this.$apiUrl + "/soulsearch/start", { headers }).then(response => {this.animal = response.data})
   },
   created() {},
   async mounted() {},
   watch: {},
   methods: {
-    likeinserate(){},
-    dislikeinserate(){}
+    likeinserate(inseratID){
+      this.requestData.inseratID = inseratID
+      const headers = {
+        "Content-Type": "application/json",
+        "Authorization": sessionStorage.getItem("accessToken")
+      }
+      axios.post(this.$apiUrl + "/soulsearch/like", [{data: this.requestData}], { headers })
+          .then(result => {
+            this.response = result.data;
+            console.log(this.response)
+          }, error => {
+            console.error(error);
+          })
+    },
+    dislikeinserate(inseratID){
+      this.requestData.inseratID = inseratID
+      const headers = {
+        "Content-Type": "application/json",
+        "Authorization": sessionStorage.getItem("accessToken")
+      }
+      axios.post(this.$apiUrl + "/soulsearch/dislike", { headers })
+          .then(result => {
+            this.response = result.data;
+            console.log(this.response)
+          }, error => {
+            console.error(error);
+          })
+    }
   },
 });
 </script>

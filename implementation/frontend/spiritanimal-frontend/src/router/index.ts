@@ -76,6 +76,11 @@ export default new VueRouter({
       component: ()=> import("@/views/InseratÄndern.vue"),
       props: true
     },
+    {
+      path: "/adminspace",
+      name: "AdminSpace",
+      component: ()=> import("@/views/AdminSpace.vue")
+    }
   ]
 })
 

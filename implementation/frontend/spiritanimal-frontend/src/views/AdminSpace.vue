@@ -5,26 +5,26 @@
         color="primary"
         dark
     >
-      <v-toolbar-title>User Profile</v-toolbar-title>
+      <v-toolbar-title>Admin Space</v-toolbar-title>
     </v-toolbar>
     <v-tabs vertical>
       <v-tab>
         <v-icon left>
           mdi-account
         </v-icon>
-        Option 1
+        Alle User
       </v-tab>
       <v-tab>
         <v-icon left>
-          mdi-lock
+          mdi-dog
         </v-icon>
-        Option 2
+        Alle Inserate
       </v-tab>
       <v-tab>
         <v-icon left>
-          mdi-access-point
+          mdi-cart
         </v-icon>
-        Option 3
+        Alle Käufe
       </v-tab>
 
       <v-tab-item>
@@ -41,33 +41,69 @@
             <p class="mb-0">
               Phasellus dolor. Fusce neque. Fusce fermentum odio nec arcu. Pellentesque libero tortor, tincidunt et, tincidunt eget, semper nec, quam. Phasellus blandit leo ut odio.
             </p>
+            <p>
+              Text text
+            </p>
+            <p>
+              test test
+            </p>
           </v-card-text>
         </v-card>
       </v-tab-item>
       <v-tab-item>
-        <v-card flat>
-          <v-card-text>
-            <p>
-              Morbi nec metus. Suspendisse faucibus, nunc et pellentesque egestas, lacus ante convallis tellus, vitae iaculis lacus elit id tortor. Sed mollis, eros et ultrices tempus, mauris ipsum aliquam libero, non adipiscing dolor urna a orci. Curabitur ligula sapien, tincidunt non, euismod vitae, posuere imperdiet, leo. Nunc sed turpis.
-            </p>
-
-            <p>
-              Suspendisse feugiat. Suspendisse faucibus, nunc et pellentesque egestas, lacus ante convallis tellus, vitae iaculis lacus elit id tortor. Proin viverra, ligula sit amet ultrices semper, ligula arcu tristique sapien, a accumsan nisi mauris ac eros. In hac habitasse platea dictumst. Fusce ac felis sit amet ligula pharetra condimentum.
-            </p>
-
-            <p>
-              Sed consequat, leo eget bibendum sodales, augue velit cursus nunc, quis gravida magna mi a libero. Nam commodo suscipit quam. In consectetuer turpis ut velit. Sed cursus turpis vitae tortor. Aliquam eu nunc.
-            </p>
-
-            <p>
-              Etiam ut purus mattis mauris sodales aliquam. Ut varius tincidunt libero. Aenean viverra rhoncus pede. Duis leo. Fusce fermentum odio nec arcu.
-            </p>
-
-            <p class="mb-0">
-              Donec venenatis vulputate lorem. Aenean viverra rhoncus pede. In dui magna, posuere eget, vestibulum et, tempor auctor, justo. Fusce commodo aliquam arcu. Suspendisse enim turpis, dictum sed, iaculis a, condimentum nec, nisi.
-            </p>
-          </v-card-text>
-        </v-card>
+        <v-expansion-panels>
+          <v-expansion-panel v-for="(item,i) in animal " :key="i">
+            <v-expansion-panel-header>
+              <v-row>
+                <v-col style="max-width: 10%;">
+                  <v-avatar>
+                    <img :src="item.foto" height="70" width="70"/>
+                  </v-avatar>
+                </v-col>
+                <v-col style="max-width: 80%;  padding-top: 35px">
+                  <v-row>
+                    {{item.tiername}}
+                    <v-spacer></v-spacer>
+                    <p v-if="item.premium===true">
+                      PREMIUM
+                    </p>
+                  </v-row>
+                  <v-row>
+                    {{item.kategorie}}
+                  </v-row>
+                </v-col>
+              </v-row>
+            </v-expansion-panel-header>
+            <v-expansion-panel-content>
+              <v-row style="padding-top: 5px">
+                {{item.beschreibung}}
+                <v-spacer></v-spacer>
+                Status: {{item.status}}
+              </v-row>
+              <v-row style="padding-top: 5px">
+                Age: {{item.alter}}
+              </v-row>
+              <v-row style="padding-top: 5px">
+                Preis: {{item.preis}}
+              </v-row>
+              <v-row>
+                <v-col>
+                  <v-btn style="margin-left: 60%" @click="deleteInserat(item.inseratID)">
+                    <v-icon>{{iconDelete}}</v-icon>
+                  </v-btn>
+                </v-col>
+                <v-col>
+                  <v-btn
+                      style="margin-right: 40%"
+                      @click="redirectUser(item.inseratID)"
+                  >
+                    <v-icon>{{iconChange}}</v-icon>
+                  </v-btn>
+                </v-col>
+              </v-row>
+            </v-expansion-panel-content>
+          </v-expansion-panel>
+        </v-expansion-panels>
       </v-tab-item>
       <v-tab-item>
         <v-card flat>
@@ -88,10 +124,30 @@
 
 <script>
 export default {
-  name: "AdminSpace.vue"
-}
+  name: "AdminSpace.vue",
+  components: {
+    // Dashboard
+  },
+  data: () => ({
+    iconDelete: "mdi-delete",
+    iconChange: "mdi-pencil",
+    animal: null,
+  }),
+  computed: {},
+  beforeCreate() {
+    axios({method: "GET", "url": this.$apiUrl + "/inserate", "headers": { "content-type": "application/json" } }).then(response => {
+      this.animal = response.data;})
+  },
+  created() {},
+  async mounted() {},
+  watch: {},
+  methods: {
+    deleteInserat(inseratID){
+      axios.delete(this.$apiUrl + "/inserate/" + inseratID, {headers: {Authorization: sessionStorage.getItem("accessToken")}})
+      window.location.reload()
+    },
+  },
+};
 </script>
 
-<style scoped>
-
-</style>
+<style lang="scss"></style>

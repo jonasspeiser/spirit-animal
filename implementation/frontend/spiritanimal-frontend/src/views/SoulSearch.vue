@@ -61,6 +61,7 @@
               :loading="loading"
               class="mx-auto my-12"
               max-width="374"
+              v-for="(item, i) in animal":key="i"
           >
             <template slot="progress">
               <v-progress-linear
@@ -71,25 +72,25 @@
             </template>
             <v-img
                 height="250"
-                src="https://www.scinexx.de/wp-content/uploads/b/i/bildsynthese_g.jpg"
+                src="item.foto"
             ></v-img>
-            <v-card-title style="margin-bottom: 10px">{{animals[0].name}}</v-card-title>
+            <v-card-title style="margin-bottom: 10px">{{item.tiername}}</v-card-title>
             <v-card-text>
               <v-row align="center" class="mx-0">
               </v-row>
-              <div>{{animals[0].description}}</div>
+              <div>{{item.beschreibung}}</div>
             </v-card-text>
             <v-divider class="mx-4"></v-divider>
             <v-card-title>Informationen</v-card-title>
             <v-card-text>
               <v-row style="padding-left: 10px">
-                Tiergattung: {{animals[0].animal}}
+                Tiergattung: {{item.kategorie}}
               </v-row>
               <v-row style="padding-left: 10px">
-                Alter: {{animals[0].age}} Jahre
+                Alter: {{item.alter}} Jahre
               </v-row>
               <v-row style="padding-left: 10px">
-                Preis: {{animals[0].price}} Euro
+                Preis: {{item.preis}} Euro
               </v-row>
             </v-card-text>
           </v-card>
@@ -106,6 +107,7 @@
 
 <script lang="ts">
 import Vue, { PropType } from "vue";
+import axios from "axios";
 /*TODO: change path to json + change values on top, based on how it is called*/
 import Animals from "@/data/animals.json";
 
@@ -114,20 +116,26 @@ export default Vue.extend({
   components: {},
   data: () => ({
     showMenu: false,
-    valueAge: 0,
-    valuePreis: 10,
     setting: "mdi-cog-outline",
     animalYes:  "mdi-checkbox-marked-circle",
     animalNo: "mdi-close-circle-outline",
-    animals: Animals.animals,
-    categories: ["Hund", "Katze", "Qualle", "Pferd", "Vogel", "..."]
+    animal: null
   }),
   computed: {},
-  beforeCreate() {},
+  beforeCreate() {
+    const headers = {
+      "Content-Type": "application/json",
+      "Authorization": sessionStorage.getItem("accessToken")
+    }
+    axios.get(this.$apiUrl + "/soulsearch/start", { headers }).then(response => this.data = response)
+  },
   created() {},
   async mounted() {},
   watch: {},
-  methods: {},
+  methods: {
+    likeinserate(){},
+    dislikeinserate(){}
+  },
 });
 </script>
 

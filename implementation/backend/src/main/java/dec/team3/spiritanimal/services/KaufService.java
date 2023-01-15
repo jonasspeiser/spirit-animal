@@ -241,4 +241,13 @@ public class KaufService {
         // TODO: benachrichtige Käufer per E-Mail
         return "Rückzahlung bestätigt, Widerruf abgeschlossen";
     }
+
+    public List<Kauf> getAlleKäufe() {
+        return kaufRepository.findAll();
+    }
+
+    public String löscheKauf(String kaufID) {
+        kaufRepository.deleteById(kaufID);
+        return "Löschung erfolgreich";
+    }
 }

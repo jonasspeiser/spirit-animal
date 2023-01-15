@@ -69,7 +69,7 @@ public class InseratServiceController {
         String username = authenticateAndGetUsername(token);
         String result = inseratService.updatePremium(inseratID, username);
         if (result.equals("Unauthorized")) {
-            throw new ResponseStatusException(HttpStatusCode.valueOf(401), "Sie sind nicht authorisiert, die Inserate anderer User zu löschen.");
+            throw new ResponseStatusException(HttpStatusCode.valueOf(401), "Sie sind nicht authorisiert, die Inserate anderer User zu bearbeiten.");
         }
         return result;
     }

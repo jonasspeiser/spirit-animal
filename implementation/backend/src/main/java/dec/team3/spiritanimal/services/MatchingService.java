@@ -1,6 +1,8 @@
 package dec.team3.spiritanimal.services;
 
 import dec.team3.spiritanimal.model.Inserat;
+import dec.team3.spiritanimal.model.InseratStatus;
+import dec.team3.spiritanimal.model.Kategorie;
 import dec.team3.spiritanimal.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,6 +37,27 @@ public class MatchingService {
         return swipeStack;
     }
 
+    public Inserat getNächstesInserat(String username) {
+        List<Inserat> swipeStack = getSwipeStack(username);
+        try {
+            return swipeStack.get(0);
+        } catch (IndexOutOfBoundsException e) {
+            Inserat hierNix = new Inserat(
+                    "keinInserat",
+                    "niemand",
+                    Kategorie.HAUSELFEN,
+                    InseratStatus.ONLINE,
+                    false,
+                    "Ende Gelände",
+                    "Sie haben so viel geswiped, dass Sie das shady Ende von Spirit Animal entdeckt haben. Bitte kommen Sie später wieder.",
+                    "420",
+                    666,
+                    "https://a2.tvspielfilm.de/imedia/0690/10200690,FAtllBlteuEK+MObb6ytMxeTPS+MznGZ1ExAEbjlN8JPHjpUw8JBiVmj1YO0R49a7VXG69SqvJMcI3qILdHXlQ==.jpg"
+            );
+            return hierNix;
+        }
+    }
+
     public List<Inserat> getFavoritenFürUser(String username) {
         List<String> favorisierteInserateIDs = userService.getUser(username).getFavorisierteInserateIDs();
         List<Inserat> favorisierteInserate = new ArrayList<>();
@@ -50,12 +73,20 @@ public class MatchingService {
     }
 
     public String likeInserat(String inseratID, String username) {
+        Inserat inserat = inseratService.getInserat(inseratID);
+        if (inserat == null) {
+            return "Inserat " + inseratID + " nicht vorhanden.";
+        }
         userService.addGesehenesInserat(inseratID, username);
         userService.addFavorisiertesInserat(inseratID, username);
         return "Inserat zu Favoriten hinzugefügt.";
     }
 
     public String dislikeInserat(String inseratID, String username) {
+        Inserat inserat = inseratService.getInserat(inseratID);
+        if (inserat == null) {
+            return "Inserat " + inseratID + " nicht vorhanden.";
+        }
         userService.addGesehenesInserat(inseratID, username);
         return "Inserat zu bereits gesehenen hinzugefügt.";
     }

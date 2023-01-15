@@ -35,9 +35,9 @@ public class MatchingServiceController {
 
     @GetMapping("/start")
     @ResponseBody
-    public List<Inserat> startSoulSearch(@RequestHeader("Authorization") String token) {
+    public Inserat startSoulSearch(@RequestHeader("Authorization") String token) {
         String username = authenticateAndGetUsername(token);
-        return matchingService.getSwipeStack(username);
+        return matchingService.getNächstesInserat(username);
     }
 
     @GetMapping("/mydarlings")

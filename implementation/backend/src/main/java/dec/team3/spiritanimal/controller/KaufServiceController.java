@@ -1,6 +1,7 @@
 package dec.team3.spiritanimal.controller;
 
 import dec.team3.spiritanimal.model.Kauf;
+import dec.team3.spiritanimal.model.Role;
 import dec.team3.spiritanimal.services.AuthService;
 import dec.team3.spiritanimal.services.KaufService;
 import org.json.JSONObject;
@@ -107,5 +108,26 @@ public class KaufServiceController {
         JSONObject json = new JSONObject(request);
         String kaufID = json.getString("kaufID");
         return kaufService.schließeWiderruf(kaufID);
+    }
+
+//    Admin Usecase
+    @GetMapping("")
+    @ResponseBody
+    public List<Kauf> getAlleKäufe(@RequestHeader("Authorization") String token) {
+        //        require Admin Authorization
+        if (!authService.authorizeUserRole(Role.ADMIN, token)) {
+            throw new ResponseStatusException(HttpStatusCode.valueOf(401), "Only Admins allowed!");
+        }
+        return kaufService.getAlleKäufe();
+    }
+
+    @DeleteMapping("/{kaufID}")
+    @ResponseBody
+    public String löscheKauf(@PathVariable String kaufID, @RequestHeader("Authorization") String token) {
+        //        require Admin Authorization
+        if (!authService.authorizeUserRole(Role.ADMIN, token)) {
+            throw new ResponseStatusException(HttpStatusCode.valueOf(401), "Only Admins allowed!");
+        }
+        return kaufService.löscheKauf(kaufID);
     }
 }

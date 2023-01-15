@@ -2,12 +2,12 @@
   <div>
     <v-app-bar color="white" class="ml-0" flat dense>
       <v-col>
-        <div class="title">TinderView</div>
+        <div class="title">SoulSearch</div>
       </v-col>
       <v-spacer></v-spacer>
     </v-app-bar>
     <v-container style="margin-left: 20px">
-      <v-row>
+<!--      <v-row>
         <v-col style="max-width: 90%"></v-col>
         <v-col style="max-width: 10%">
           <v-btn class=" ma-5" fab v-bind="attrs" v-on="on" style="margin-left: 80%" @click="showMenu = !showMenu">
@@ -49,7 +49,7 @@
             </v-row>
           </v-card>
         </v-col>
-      </v-row>
+      </v-row>-->
       <v-row>
         <v-col style="max-width: 20%">
           <v-btn fab dark large color="green" style="margin-top: 323px; margin-left: 125px;" @click="likeinserate(animal.inseratID)">

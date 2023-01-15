@@ -70,6 +70,11 @@ export default new VueRouter({
       name: "Anfragencenter",
       component: ()=> import("@/views/Anfragencenter.vue")
     },
+    {
+      path: "/inserataendern",
+      name: "Inserat Ändern",
+      component: ()=> import("@/views/InseratÄndern.vue")
+    },
   ]
 })
 

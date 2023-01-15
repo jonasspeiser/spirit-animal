@@ -45,14 +45,16 @@
             </v-row>
             <v-row>
               <v-col>
-                <!-- TODO: function when delete button clicked-->
                 <v-btn style="margin-left: 60%" @click="deleteInserat(item.inseratID)">
                   <v-icon>{{iconDelete}}</v-icon>
                 </v-btn>
               </v-col>
               <v-col>
                 <!-- TODO: function when buy button clicked-->
-                <v-btn style="margin-right: 40%" @click="changeInserat">
+                <v-btn
+                    style="margin-right: 40%"
+                    @click="redirectUser(item.inseratID)"
+                >
                   <v-icon>{{iconChange}}</v-icon>
                 </v-btn>
               </v-col>
@@ -82,7 +84,7 @@ export default Vue.extend({
   }),
   computed: {},
   beforeCreate() {
-    axios({method: "GET", "url": this.$apiUrl + "/inserate/" + sessionStorage.getItem("username"), "headers": { "content-type": "application/json" } }).then(response => {
+    axios({method: "GET", "url": this.$apiUrl + "/inserate?user=" + sessionStorage.getItem("username"), "headers": { "content-type": "application/json" } }).then(response => {
       this.animal = response.data;})
   },
   created() {},
@@ -93,7 +95,9 @@ export default Vue.extend({
       axios.delete(this.$apiUrl + "/inserate/" + inseratID, {headers: {Authorization: sessionStorage.getItem("accessToken")}})
       window.location.reload()
     },
-    changeInserat(){}
+    redirectUser(inseratID){
+      window.location.href='/inserataendern/' + inseratID
+    }
   },
 });
 </script>

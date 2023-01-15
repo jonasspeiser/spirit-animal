@@ -70,29 +70,12 @@ export default new VueRouter({
       name: "Anfragencenter",
       component: ()=> import("@/views/Anfragencenter.vue")
     },
+    {
+      path: "/inserataendern/:inseratID",
+      name: "Inserat Ändern",
+      component: ()=> import("@/views/InseratÄndern.vue"),
+      props: true
+    },
   ]
 })
 
-// const routes: Array<RouteConfig> = [
-//   {
-//     path: '/',
-//     name: 'home',
-//     component: HomeView
-//   },
-//   {
-//     path: '/about',
-//     name: 'about',
-//     // route level code-splitting
-//     // this generates a separate chunk (about.[hash].js) for this route
-//     // which is lazy-loaded when the route is visited.
-//     component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
-//   }
-// ]
-//
-// const router = new VueRouter({
-//   mode: 'history',
-//   base: process.env.BASE_URL,
-//   routes
-// })
-//
-// export default router

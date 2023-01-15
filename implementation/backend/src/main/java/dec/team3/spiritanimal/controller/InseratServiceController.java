@@ -69,7 +69,7 @@ public class InseratServiceController {
         String username = authenticateAndGetUsername(token);
         String result = inseratService.updatePremium(inseratID, username);
         if (result.equals("Unauthorized")) {
-            throw new ResponseStatusException(HttpStatusCode.valueOf(401), "Sie sind nicht authorisiert, die Inserate anderer User zu löschen.");
+            throw new ResponseStatusException(HttpStatusCode.valueOf(401), "Sie sind nicht authorisiert, die Inserate anderer User zu bearbeiten.");
         }
         return result;
     }
@@ -80,10 +80,16 @@ public class InseratServiceController {
         return inseratService.getAllInserate();
     }
 
-    @GetMapping("/api/inserate/{user}")
+    @GetMapping(value = "/api/inserate", params = "user")
     @ResponseBody
-    public List<Inserat> getInserateProUser(@PathVariable String user) {
+    public List<Inserat> getInserateProUser(@RequestParam String user) {
         return inseratService.getInserateProUser(user);
+    }
+
+    @GetMapping(value = "/api/inserate", params = "inseratID")
+    @ResponseBody
+    public Inserat getInserat(@RequestParam String inseratID) {
+        return inseratService.getInserat(inseratID);
     }
 
     //test API

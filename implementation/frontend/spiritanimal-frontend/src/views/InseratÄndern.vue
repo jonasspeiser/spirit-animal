@@ -2,7 +2,7 @@
   <div>
     <v-app-bar color="white" class="ml-0" flat dense>
       <v-col>
-        <div class="title">Inserieren</div>
+        <div class="title">Inserat Ändern</div>
       </v-col>
       <v-spacer></v-spacer>
     </v-app-bar>
@@ -52,34 +52,34 @@
           <v-dialog>
             <template v-slot:activator="{ on, attrs }">
               <v-btn style="background-color: #4ebfe7; color: white; margin-left: 80%; margin-top: 20px" v-bind="attrs"
-                     v-on="on" v-on:click="sendData()">
-                Inserieren
+                     v-on="on" v-on:click="changeInserat(input.inseratID)">
+                Update
               </v-btn>
             </template>
-<!--            <v-card>-->
-<!--              <v-card-title class="text-h5">-->
-<!--                Sind Sie sicher, dass sie das Inserat veroeffentlichen wollen?-->
-<!--              </v-card-title>-->
-<!--              &lt;!&ndash; TODO: Text ueberlegen &ndash;&gt;-->
-<!--              <v-card-text>Wenn Sie dem Dialog zustimmen, werden die Daten BLABLABLA</v-card-text>-->
-<!--              <v-card-actions>-->
-<!--                <v-spacer></v-spacer>-->
-<!--                <v-btn-->
-<!--                    color="green darken-1"-->
-<!--                    text-->
-<!--                    @click="dialog = false"-->
-<!--                >-->
-<!--                  Ablehnen-->
-<!--                </v-btn>-->
-<!--                <v-btn-->
-<!--                    color="green darken-1"-->
-<!--                    text-->
-<!--                    @click="dialog = false"-->
-<!--                >-->
-<!--                  Zustimmen-->
-<!--                </v-btn>-->
-<!--              </v-card-actions>-->
-<!--            </v-card>-->
+            <!--            <v-card>-->
+            <!--              <v-card-title class="text-h5">-->
+            <!--                Sind Sie sicher, dass sie das Inserat veroeffentlichen wollen?-->
+            <!--              </v-card-title>-->
+            <!--              &lt;!&ndash; TODO: Text ueberlegen &ndash;&gt;-->
+            <!--              <v-card-text>Wenn Sie dem Dialog zustimmen, werden die Daten BLABLABLA</v-card-text>-->
+            <!--              <v-card-actions>-->
+            <!--                <v-spacer></v-spacer>-->
+            <!--                <v-btn-->
+            <!--                    color="green darken-1"-->
+            <!--                    text-->
+            <!--                    @click="dialog = false"-->
+            <!--                >-->
+            <!--                  Ablehnen-->
+            <!--                </v-btn>-->
+            <!--                <v-btn-->
+            <!--                    color="green darken-1"-->
+            <!--                    text-->
+            <!--                    @click="dialog = false"-->
+            <!--                >-->
+            <!--                  Zustimmen-->
+            <!--                </v-btn>-->
+            <!--              </v-card-actions>-->
+            <!--            </v-card>-->
           </v-dialog>
         </v-col>
       </v-row>
@@ -92,11 +92,10 @@ import Vue from "vue";
 import axios from "axios"
 
 export default Vue.extend({
-  name: "InsertView",
+  name: "InsertChange",
+  props: ['inseratID'],
   components: {},
   data: () => ({
-    valueAge: 0,
-    valuePrice: 0,
     categories: ["HUNDE", "KATZEN", "PFERDE", "QUALLEN", "VÖGEL", "EXOTEN", "WEITERE_NAGER", "FISCHE", "NAGER", "KATZENARTIGE_TIERE", "HAUSELFEN", "DAMMWILD", "SCHNABELTIERE", "PINGUINE", "SCHILDKRÖTEN"],
     input: {
       tiername: "",
@@ -107,13 +106,24 @@ export default Vue.extend({
     }
   }),
   computed: {},
-  beforeCreate() {},
+  beforeCreate() {
+
+  },
   created() {},
-  async mounted() {},
+  async mounted() {
+    const headers = {
+      "Content-Type": "application/json"
+    }
+    axios.get(this.$apiUrl + "/inserate?inseratID=" + this.inseratID, { headers }).then(response => {this.input = response.data})
+  },
   watch: {},
   methods: {
-    sendData() {
-      axios({ method: "POST", "url": this.$apiUrl + "/inserate", "data": this.input, "headers": { "content-type": "application/json", "Authorization": sessionStorage.getItem("accessToken") } }).then(result => {
+    changeInserat(inseratID) {
+      const headers = {
+        "Content-Type": "application/json",
+        "Authorization": sessionStorage.getItem("accessToken")
+      }
+      axios.put(this.$apiUrl + "/inserate/" + inseratID, this.input, { headers }).then(result => {
         this.response = result.data;
         window.location.href="/inserate"
       }, error => {

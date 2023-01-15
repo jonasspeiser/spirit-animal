@@ -52,8 +52,8 @@
           <v-dialog>
             <template v-slot:activator="{ on, attrs }">
               <v-btn style="background-color: #4ebfe7; color: white; margin-left: 80%; margin-top: 20px" v-bind="attrs"
-                     v-on="on" v-on:click="sendData()">
-                Inserieren
+                     v-on="on" v-on:click="changeInserat(input.inseratID)">
+                Update
               </v-btn>
             </template>
             <!--            <v-card>-->
@@ -93,12 +93,10 @@ import axios from "axios"
 
 export default Vue.extend({
   name: "InsertChange",
+  props: ['inseratID'],
   components: {},
   data: () => ({
     categories: ["HUNDE", "KATZEN", "PFERDE", "QUALLEN", "VÖGEL", "EXOTEN", "WEITERE_NAGER", "FISCHE", "NAGER", "KATZENARTIGE_TIERE", "HAUSELFEN", "DAMMWILD", "SCHNABELTIERE", "PINGUINE", "SCHILDKRÖTEN"],
-    requestData: {
-      inseratID: ""
-    },
     input: {
       tiername: "",
       kategorie: "",
@@ -109,14 +107,15 @@ export default Vue.extend({
   }),
   computed: {},
   beforeCreate() {
-    const headers = {
-      "Content-Type": "application/json",
-      "Authorization": sessionStorage.getItem("accessToken")
-    }
-    axios.get(this.$apiUrl + "/inserate?inseratID=" + inseratID, { headers }).then(response => {this.input = response.data})
+
   },
   created() {},
-  async mounted() {},
+  async mounted() {
+    const headers = {
+      "Content-Type": "application/json"
+    }
+    axios.get(this.$apiUrl + "/inserate?inseratID=" + this.inseratID, { headers }).then(response => {this.input = response.data})
+  },
   watch: {},
   methods: {
     changeInserat(inseratID) {

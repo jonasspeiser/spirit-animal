@@ -51,7 +51,10 @@
               </v-col>
               <v-col>
                 <!-- TODO: function when buy button clicked-->
-                <v-btn style="margin-right: 40%" @click="redirectUser">
+                <v-btn
+                    style="margin-right: 40%"
+                    @click="redirectUser(item.inseratID)"
+                >
                   <v-icon>{{iconChange}}</v-icon>
                 </v-btn>
               </v-col>
@@ -92,8 +95,8 @@ export default Vue.extend({
       axios.delete(this.$apiUrl + "/inserate/" + inseratID, {headers: {Authorization: sessionStorage.getItem("accessToken")}})
       window.location.reload()
     },
-    redirectUser(){
-      window.location.href='/inserataendern'
+    redirectUser(inseratID){
+      window.location.href='/inserataendern/' + inseratID
     }
   },
 });

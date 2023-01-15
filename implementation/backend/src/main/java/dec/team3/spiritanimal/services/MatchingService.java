@@ -35,6 +35,11 @@ public class MatchingService {
         return swipeStack;
     }
 
+    public Inserat getNächstesInserat(String username) {
+        List<Inserat> swipeStack = getSwipeStack(username);
+        return swipeStack.get(0);
+    }
+
     public List<Inserat> getFavoritenFürUser(String username) {
         List<String> favorisierteInserateIDs = userService.getUser(username).getFavorisierteInserateIDs();
         List<Inserat> favorisierteInserate = new ArrayList<>();

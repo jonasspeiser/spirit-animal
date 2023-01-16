@@ -34,41 +34,41 @@ services:
     networks:
       - spiritnet
   
-#  backend:
-#    image: backend
-#    build:
-#      context: backend
-#    container_name: backend
-#    ports:
-#      - 8080:8080
+  backend:
+    image: backend
+    build:
+      context: backend
+    container_name: backend
+    ports:
+      - 8080:8080
+    depends_on:
+      - mongodb
+    networks:
+      - spiritnet
+
+  frontend:
+    build: ./frontend/spiritanimal-frontend
+    image: frontend_vue
+    container_name: frontend
+    ports:
+      - 3000:8080
 #    depends_on:
-#      - mongodb
-#    networks:
-#      - spiritnet
+#      - backend
+    networks:
+      - spiritnet
 
-#  frontend:
-#    build: ./frontend/spiritanimal-frontend
-#    image: frontend_vue
-#    container_name: frontend
-#    ports:
-#      - 3000:8080
-##    depends_on:
-##      - backend
-#    networks:
-#      - spiritnet
-
-#  nginx:
-#    image: jwilder/nginx-proxy:latest
-#    container_name: nginx
-#    restart: always
-#    environment:
-#      DEFAULT_HOST: default.vhost
-#    ports:
-#      - "80:80"
-#      - "443:443"
-#    volumes:
-#      - ./certs:/etc/nginx/certs
-#      - /var/run/docker.sock:/tmp/docker.sock:ro
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+      - spiritnet
+    volumes:
+      - ./nginx/conf/:/etc/nginx/conf.d/:ro
+      - ./certs/:/etc/nginx/etc/ssl/:ro
 
 volumes:
   data: {}

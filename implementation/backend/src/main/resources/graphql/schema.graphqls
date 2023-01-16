@@ -1,0 +1,45 @@
+type Query {
+    # Inserat zurückbekommen
+    getInserat(inseratID: ID!): Inserat!
+
+    # liefert alle Inserate
+    getAlleInserate: [Inserat]
+
+    # liefert alle Inserate eines Users
+    getInserateFuerUser(username: String!): [Inserat]
+}
+
+type Mutation {
+    #erstelle ein Inserat
+    createInserat(
+        inserentUsername: String!,
+        kategorie: Kategorie!,
+        tiername: String!,
+        beschreibung: String,
+        alter: String,
+        preis: Float!,
+        foto: String
+    ): Inserat!
+}
+
+type Inserat {
+    inseratID: ID
+    # Username des Inserenten
+    inserentUsername: String!
+    kategorie: Kategorie!
+    status: Status
+    premium: Boolean
+    tiername: String!
+    beschreibung: String
+    alter: String
+    preis: Float!
+    foto: String
+}
+
+enum Kategorie {
+    HUNDE, KATZEN, PFERDE, QUALLEN, EXOTEN, WEITERE_NAGER, FISCHE, NAGER, KATZENARTIGE_TIERE, HAUSELFEN, DAMMWILD, SCHNABELTIERE, PINGUINE
+}
+
+enum Status {
+    ONLINE, DEAKTIVIERT
+}

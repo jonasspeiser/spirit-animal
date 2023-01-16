@@ -70,4 +70,15 @@ public class UserServiceController {
         }
         return userService.getAlleUser();
     }
+
+
+    // Nur fürs Setup der Präsentation. Diesen Endpoint würde es in einem Produktivsystem nicht geben.
+    @PostMapping("/users/batch")
+    @ResponseBody
+    public String batchCreateUsers(@RequestBody List<User> users) throws Exception {
+        for (User user: users) {
+            storeUser(user);
+        }
+        return "Users created successfully";
+    }
 }

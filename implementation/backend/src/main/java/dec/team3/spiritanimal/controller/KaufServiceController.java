@@ -2,6 +2,7 @@ package dec.team3.spiritanimal.controller;
 
 import dec.team3.spiritanimal.model.Kauf;
 import dec.team3.spiritanimal.model.Role;
+import dec.team3.spiritanimal.model.dto.WiderrufRequestDTO;
 import dec.team3.spiritanimal.services.AuthService;
 import dec.team3.spiritanimal.services.KaufService;
 import org.json.JSONObject;
@@ -130,5 +131,26 @@ public class KaufServiceController {
             throw new ResponseStatusException(HttpStatusCode.valueOf(401), "Only Admins allowed!");
         }
         return kaufService.löscheKauf(kaufID);
+    }
+
+//    Batchfähige B2B Endpoints
+    @PostMapping("/batch")
+    @ResponseBody
+    public String batchStarteKauf(@RequestBody List<String> inseratIDs, @RequestHeader("Authorization") String token) {
+        String username = authenticateAndGetUsername(token);
+        for (String inseratID: inseratIDs) {
+            kaufService.starteKauf(username, inseratID);
+        }
+        return "Kaufanfragen erfolgreich gesendet. Warte auf akzeptieren des Anbieters.";
+    }
+
+    @PostMapping("/widerruf/batch")
+    @ResponseBody
+    public String batchStarteWiderruf(@RequestBody List<WiderrufRequestDTO> widerrufe, @RequestHeader("Authorization") String token) {
+        String username = authenticateAndGetUsername(token);
+        for (WiderrufRequestDTO widerruf: widerrufe) {
+            kaufService.starteWiderruf(username, widerruf.isTierBeiKäufer());
+        }
+        return "Widerrufe erfolgreich gestartet";
     }
 }

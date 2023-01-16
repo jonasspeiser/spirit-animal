@@ -2,6 +2,7 @@ package dec.team3.spiritanimal.controller;
 
 import dec.team3.spiritanimal.model.Inserat;
 import dec.team3.spiritanimal.model.Role;
+import dec.team3.spiritanimal.model.dto.InseratIDRequestDTO;
 import dec.team3.spiritanimal.services.AuthService;
 import dec.team3.spiritanimal.services.InseratService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -129,8 +130,9 @@ public class InseratServiceController {
 
     @PostMapping("/api/inserate/premium/batch")
     @ResponseBody
-    public String batchUpdatePremium(@RequestBody List<String> inseratIDs, @RequestHeader("Authorization") String token) {
-        for (String inseratID : inseratIDs) {
+    public String batchUpdatePremium(@RequestBody List<InseratIDRequestDTO> inseratIDRequestDTOS, @RequestHeader("Authorization") String token) {
+        for (InseratIDRequestDTO inseratIDRequestDTO : inseratIDRequestDTOS) {
+            String inseratID = inseratIDRequestDTO.getInseratID();
             updatePremium(inseratID, token);
         }
         return "Inserate erfolgreich auf Premium geupdatet";

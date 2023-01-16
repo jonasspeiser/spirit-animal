@@ -2,6 +2,7 @@ package dec.team3.spiritanimal.controller;
 
 import dec.team3.spiritanimal.model.Kauf;
 import dec.team3.spiritanimal.model.Role;
+import dec.team3.spiritanimal.model.dto.InseratIDRequestDTO;
 import dec.team3.spiritanimal.model.dto.WiderrufRequestDTO;
 import dec.team3.spiritanimal.services.AuthService;
 import dec.team3.spiritanimal.services.KaufService;
@@ -136,9 +137,10 @@ public class KaufServiceController {
 //    Batchfähige B2B Endpoints
     @PostMapping("/batch")
     @ResponseBody
-    public String batchStarteKauf(@RequestBody List<String> inseratIDs, @RequestHeader("Authorization") String token) {
+    public String batchStarteKauf(@RequestBody List<InseratIDRequestDTO> inseratIDRequestDTOS, @RequestHeader("Authorization") String token) {
         String username = authenticateAndGetUsername(token);
-        for (String inseratID: inseratIDs) {
+        for (InseratIDRequestDTO inseratIDRequestDTO: inseratIDRequestDTOS) {
+            String inseratID = inseratIDRequestDTO.getInseratID();
             kaufService.starteKauf(username, inseratID);
         }
         return "Kaufanfragen erfolgreich gesendet. Warte auf akzeptieren des Anbieters.";

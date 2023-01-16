@@ -4,7 +4,7 @@
 ![image](implementation/frontend/spiritanimal-frontend/src/assets/animal-logo.png)  
 Mit SpiritAnimal wird die Suche nach dem perfekten neuen Haustier zum Spaß für Alt und Jung!
 ## Table of Content
-1. [Local Deployment](#local-deployment)
+1. [Deployment](#deployment)
 2. [Tech-Stack](#tech-stack)
 3. [System-Architektur](#system-architektur)
 4. [Use Cases](#use-cases)
@@ -18,15 +18,9 @@ Mit SpiritAnimal wird die Suche nach dem perfekten neuen Haustier zum Spaß für
 5. [Postman Collection](#postman-collection)
 6. [GraphQL Schnittstelle](#graphql-schnittstelle)
 
-## Local Deployment
-**MongoDB** Container starten per `docker compose up`  
-*MongoExpress Datenbankfrontend erreichbar über `localhost:8081`*
-
-**Backend** mit Maven builden lassen und über IDE starten
-
-**Frontend**: Nach `\implementation\frontend\spiritanimal-frontend` navigieren.  
-`npm i`  
-`npm run serve`
+## Deployment
+- `docker compose build`
+- `docker compose up`
 
 ## Tech-Stack
 Datenbank: MongoDB  

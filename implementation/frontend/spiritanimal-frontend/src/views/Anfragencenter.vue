@@ -52,6 +52,10 @@
               Kaufangebot vom: {{item.kaufdatum}}
             </v-row>
 
+            <v-row>
+              <a>{{ response }}</a>
+            </v-row>
+
             <v-row v-if="item.status==='BEZAHLT'">
               <v-col>
                 <v-tooltip bottom>

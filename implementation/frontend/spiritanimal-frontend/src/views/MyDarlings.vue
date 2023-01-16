@@ -102,7 +102,7 @@ export default Vue.extend({
             this.response = result.data;
             console.log(this.response)
             if (this.response.includes("Kauf vorgemerkt")) {
-              window.location.href="/meineKaeufe";
+              window.location.href="/kaeufe";
             }
           }, error => {
             console.error(error);

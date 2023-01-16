@@ -6,6 +6,9 @@ public class InseratIDRequestDTO {
     @NotEmpty
     String inseratID;
 
+    public InseratIDRequestDTO() {
+    }
+
     public InseratIDRequestDTO(String inseratID) {
         this.inseratID = inseratID;
     }

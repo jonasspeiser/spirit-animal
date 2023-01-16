@@ -30,7 +30,7 @@ Mit SpiritAnimal wird die Suche nach dem perfekten neuen Haustier zum Spaß für
 - Frontend erreichbar über: `https://localhost:443/`
 - API erreichbar über: `https://localhost:443/api/`
 - Die weiteren API-Routen finden sich in der Postman Collection
-- Mongo Express erreichbar über: `http://localhost:8081`
+- Es ist zwar nicht "offizieller" Teil der Abgabe, sollten Sie sich aber für die Datenbank im Hintergrund interessieren, ist Mongo Express erreichbar über: `http://localhost:8081`
 ## Tech-Stack
 - Datenbank: MongoDB  
 - Backend: Java/Spring Boot  
@@ -44,7 +44,8 @@ Mit SpiritAnimal wird die Suche nach dem perfekten neuen Haustier zum Spaß für
 
 
 ## Use Cases
-Implementieurng der Use Cases:
+Dies soll nur als kurze Übersicht dienen, eine ausführliche Beschreibung der Use Cases findet sich in Abgabe 2. 
+Implementierung der Use Cases:
 
 | Use Case ID | Name          |
 |-------------|---------------|
@@ -79,9 +80,21 @@ User könen auch batchmäßig angelegt werden.
 ### UC4: Kauf von Premium-Funktionen (B2B)
 **B2B-User** können ihrem Inserat den Status "PREMIUM" über einen entsprechenden PATCH-Request an eine API verpassen. Auch dies geht über Batch-Input.
 
-### UC5: Kauf eines Tiers (B2C)
+### UC5: Kauf eines Tiers (B2C/B2B)
+**B2C-User** können über die Website unter "MyDarlings" ihre favorisierten Tiere betrachten. Dort haben sie die Möglichkeit, 
+per Klick auf einen Button das jeweilige Tier zu kaufen.
+**B2B-User** können dies wiederum über die API tun, indem sie zunächst einen GET-Request an /api/inserate schicken, 
+um aus diesen die inseratIDs zu übernehmen, welche von Interesse sind. Diese können mit einem POST-Request auf /api/kaeufe/batch gekauft werden.  
 
-### UC6: Stornierung eines Kaufs (B2C)
+Bei einem Kauf werden im Hintergrund zunächst eine Zahlung bei einem (gemockten) PaymentProvider ausgelöst. 
+Ist dies geschehen, muss der Anbieter des Tieres zunächst die Kaufanfrage bestätigen damit der Kauf ausgelöst wird. 
+Dies ist über das Anfragencenter des Frontends oder für B2B User per POST auf /api/kaeufe/akzeptieren möglich. 
+Sämtliche Kaufanfragen kann er hierfür über GET /api/kaeufe?anbieter einsehen.
+
+### UC6: Stornierung eines Kaufs (B2C/B2B)
+**B2C-User** können über die Website unter "Meine Käufe" sämtliche getätigten Käufe einsehen. Dort können sie auch per Button-Klick widerrufen werden.
+Befindet sich das Tier bereits beim Käufer, muss zunächst der Anbieter die erfolgte Rückgabe des Tieres bestätigen bevor das Geld über den (gemockten) PaymentProvider zurückerstattet wird.
+**B2B-User** können per POST auf /api/kaeufe/widerruf/batch Widerrufe für beliebig viele Käufe starten. Die hierfür notwendigen kaufIDs erhalten sie über GET /api/kauefe?kaeufer.
 
 ### Zusätzlicher Usecase: Admin Funktionalität
 
@@ -94,4 +107,7 @@ Die Postman Collection `DEC.postman_collection.json` umfasst alle wesentlichen F
 ![image](Screenshot%202023-01-16%20220400.png)  
 
 ## GraphQL Schnittstelle
+Die GraphQL Schnittstelle lässt sich am einfachsten über das graphiql-Interface testen. Dort findet sich auch direkt deren Dokumentation.
+Dieses ist erreichbar über `localhost:8080/graphiql`. 
 
+![image](screenshot_graphiql.png)

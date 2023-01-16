@@ -49,18 +49,28 @@ Passwort: admin
 Der Administrator erhält seinen API-Token genau wie der B2B User, indem er ihn unter "Mein Profil" kopiert.  
 Ist ein Token abgelaufen, muss der User sich wieder übers Frontend einloggen um wiederum seinen neuen Token zu kopieren.
 
+User könen auch batchmäßig angelegt werden.
+
 ### UC2: Soulsearch/Matching (B2C)
 **B2C-User** können unter "SoulSearch" ihren animalischen Seelenverwandten finden, indem sie - ähnlich wie bei gängigen Dating-Apps - durch Inserate navigieren. Dies geschieht entweder über ein "Like", was das Inserat der "My Darlings"-Liste hinzufügt, oder ein "Dislike", welches dem User in weiterer Folge auch nicht mehr angezeigt wird.
 
 ### UC3: Inserat erstellen (B2C/B2B)
 **B2C-User** können über die Website unter "Inserieren" einfach ein neues Inserat erstellen und ihre Inserate unter "Meine Inserate" einsehen, bearbeiten und löschen.
-**B2B-User** können dies über eine Schnittstelle tun, indem ein entsprechender POST/DELETE/PUT-Request an eine API geschickt wird.
+**B2B-User** können dies über eine Schnittstelle tun, indem ein entsprechender POST/DELETE/PUT-Request an eine API geschickt wird. Anlegen und Ändern geht auch über Batch-Input.
 
 ### UC4: Kauf von Premium-Funktionen (B2B)
-**B2B-User** können ihrem Inserat den Status "PREMIUM" über einen entsprechenden PATCH-Request an eine API verpassen.
+**B2B-User** können ihrem Inserat den Status "PREMIUM" über einen entsprechenden PATCH-Request an eine API verpassen. Auch dies geht über Batch-Input.
 
 ### UC5: Kauf eines Tiers (B2C)
 
 ### UC6: Stornierung eines Kaufs (B2C)
+
+### Zusätzlicher Usecase: Admin Funktionalität
+
+Wenn man sich als admin (user admin/password admin) einloggt, erscheint im Menü "Mein Profil" (wo auch die Information zum Token gespeichert ist) ein Button, der zum "Admin Space" führt. Dies ist ein Dashboard, wo der Admin zentral alle User, Inserate und Käufe einsehen kann. Darüber hinaus kann der Admin hier auch einzelne Inserate und Käufe löschen.
+
+## Postman Collection
+
+
 
 

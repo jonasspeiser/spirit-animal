@@ -86,7 +86,7 @@ Wenn man sich als admin (user admin/password admin) einloggt, erscheint im Menü
 
 ## Postman Collection
 
-Die Postman Collection umfasst alle wesentlichen Funktionalitäten und kann prinzipiell on oben nach unten "durchgespielt" werden. Für die Authentifizierung ist es jedoch wichtig, dass man - je nach Vorgang - mit dem "richtigen" User eingeloggt ist - hierfür muss bei den Variables in der Collection der Token hinterlegt werden, der nach dem POST-Request "Login/Get API Token" übermittelt wurde (da jeder User einen eigenen Token hat). Ist dieser Token hier einmal hinterlegt, werden alle weiteren Requests automatisch mit diesem Token (ergo User) ausgeführt:  
+Die Postman Collection `DEC.postman_collection.json` umfasst alle wesentlichen Funktionalitäten und kann prinzipiell on oben nach unten "durchgespielt" werden. Für die Authentifizierung ist es jedoch wichtig, dass man - je nach Vorgang - mit dem "richtigen" User eingeloggt ist - hierfür muss bei den Variables in der Collection der Token hinterlegt werden, der nach dem POST-Request "Login/Get API Token" übermittelt wurde (da jeder User einen eigenen Token hat). Ist dieser Token hier einmal hinterlegt, werden alle weiteren Requests automatisch mit diesem Token (ergo User) ausgeführt:  
 
 ![image](Screenshot%202023-01-16%20220400.png)  
 

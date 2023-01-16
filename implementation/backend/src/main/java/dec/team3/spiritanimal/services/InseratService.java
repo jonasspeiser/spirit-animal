@@ -17,8 +17,6 @@ public class InseratService {
     @Autowired
     UserService userService;
 
-    // TODO
-
     public Inserat getInserat(String inseratID) {
         return inseratRepository.findInseratByInseratID(inseratID);
     }
@@ -91,8 +89,6 @@ public class InseratService {
         }
         return "Unauthorized";
     }
-
-    // TODO: Batch-Funktionalität implementieren
 
     // Methode zur Rückgabe aller Inserate
 

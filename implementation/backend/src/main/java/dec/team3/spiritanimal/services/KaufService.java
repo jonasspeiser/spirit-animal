@@ -38,8 +38,6 @@ public class KaufService {
 
     private void sendeMail(String empfänger, String betreff, String inhalt) {
         // TODO: Möglichkeit E-Mails zu senden einrichten!
-        // TODO: Ist diese Funktion evtl besser im UserService aufgehoben? Der hat schließlich immer die aktuelle email Adresse des Users, nicht nur eine historische Abschrift
-        // -> Auch Datenschutztechnisch besser. So fliegen die Userdaten nicht überall im System rum.
     }
 
     public String starteKauf(String käuferUsername, String inseratID) {

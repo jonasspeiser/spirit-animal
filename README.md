@@ -92,4 +92,3 @@ Die Postman Collection umfasst alle wesentlichen Funktionalitäten und kann prin
 
 ## GraphQL Schnittstelle
 
-

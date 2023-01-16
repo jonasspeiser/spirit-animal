@@ -1,0 +1,802 @@
+{
+	"info": {
+		"_postman_id": "e1c8d7fb-b439-4a0f-ba73-356d1898e338",
+		"name": "DEC",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25316857"
+	},
+	"item": [
+		{
+			"name": "User erstellen",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"username\": \"Chris\",\r\n  \"password\": \"123\",\r\n  \"zahlungsdaten\": \"egal welche, hauptsach geld\",\r\n  \"email\": \"keineEmail@email.de\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:443/api/users",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "443",
+					"path": [
+						"api",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User erstellen batch",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "AccessToken",
+						"value": "",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\r\n    {\r\n        \"username\": \"admin\",\r\n        \"password\": \"admin\",\r\n        \"zahlungsdaten\": \"PayPal\",\r\n        \"email\": \"admin@admin.com\",\r\n        \"addresse\": \"adminstraße 3, teststadt\"\r\n    },\r\n    {\r\n        \"username\": \"Herbert\",\r\n        \"password\": \"123\",\r\n        \"zahlungsdaten\": \"PayPal\",\r\n        \"email\": \"email@email.com\",\r\n        \"addresse\": \"teststraße 3, teststadt\"\r\n    },\r\n    {\r\n        \"username\": \"Simon Schildkröte\",\r\n        \"password\": \"123\",\r\n        \"zahlungsdaten\": \"Sofortüberweisung\",\r\n        \"email\": \"email@email.com\",\r\n        \"addresse\": \"teststraße 9, teststadt\"\r\n    },\r\n    {\r\n        \"username\": \"Max Mustermann\",\r\n        \"password\": \"123\",\r\n        \"zahlungsdaten\": \"PayPal\",\r\n        \"email\": \"email@email.com\",\r\n        \"addresse\": \"teststraße 3, teststadt\"\r\n    },\r\n    {\r\n        \"username\": \"Martina Musterfrau\",\r\n        \"password\": \"123\",\r\n        \"zahlungsdaten\": \"Kreditkarte\",\r\n        \"email\": \"email@email.com\",\r\n        \"addresse\": \"teststraße 4, teststadt\"\r\n    },\r\n    {\r\n        \"username\": \"Thomas Tierfreund\",\r\n        \"password\": \"123\",\r\n        \"zahlungsdaten\": \"Bankomatkarte\",\r\n        \"email\": \"email@email.com\",\r\n        \"addresse\": \"teststraße 5, teststadt\"\r\n    },\r\n    {\r\n        \"username\": \"Theodora Tierlieb\",\r\n        \"password\": \"123\",\r\n        \"zahlungsdaten\": \"Sofortüberweisung\",\r\n        \"email\": \"email@email.com\",\r\n        \"addresse\": \"teststraße 6, teststadt\"\r\n    },\r\n    {\r\n        \"username\": \"Konrad Katzenmensch\",\r\n        \"password\": \"123\",\r\n        \"zahlungsdaten\": \"PayPal\",\r\n        \"email\": \"email@email.com\",\r\n        \"addresse\": \"teststraße 7, teststadt\"\r\n    },\r\n    {\r\n        \"username\": \"Hannah Hundeliebhaberin\",\r\n        \"password\": \"123\",\r\n        \"zahlungsdaten\": \"Kreditkarte\",\r\n        \"email\": \"email@email.com\",\r\n        \"addresse\": \"teststraße 8, teststadt\"\r\n    },\r\n    {\r\n        \"username\": \"Norbert Nagetier\",\r\n        \"password\": \"123\",\r\n        \"zahlungsdaten\": \"Sofortüberweisung\",\r\n        \"email\": \"email@email.com\",\r\n        \"addresse\": \"teststraße 10, teststadt\"\r\n    },\r\n    {\r\n        \"username\": \"Paula Pferd\",\r\n        \"password\": \"123\",\r\n        \"zahlungsdaten\": \"Kreditkarte\",\r\n        \"email\": \"email@email.com\",\r\n        \"addresse\": \"teststraße 11, teststadt\"\r\n    }\r\n]\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:443/api/users/batch",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "443",
+					"path": [
+						"api",
+						"users",
+						"batch"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login/ Get API token",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "AccessToken",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiJzcGlyaXRhbmltYWwiLCJzdWIiOiJIZXJiZXJ0IiwiYXV0aG9yaXRpZXMiOlsiVVNFUiJdLCJpYXQiOjE2NzM1Mzk3NDYsImV4cCI6MTY3MzU0MzM0Nn0.M7QYQbHfGIDsXu0ijZyE3JDcWd62gYHrBPionCsWjq1k5wxG2iH5y9e9y1qKX7x77-g6TVXKi1Ve7vFZq6T7Mg",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"Herbert\",\r\n    \"password\": \"123\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:443/api/login",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "443",
+					"path": [
+						"api",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Inserat erstellen 1",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"kategorie\": \"HUNDE\",\r\n    \"tiername\": \"Helga\",\r\n    \"beschreibung\": \"Helga ist keine Qualle\",\r\n    \"alter\": \"6\",\r\n    \"preis\": 30,\r\n    \"foto\": \"https://image.geo.de/32682864/t/I3/v2/w1440/r1.5/-/hund-starrt---a301617009.jpg\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:443/api/inserate",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "443",
+					"path": [
+						"api",
+						"inserate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Inserat erstellen 2",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "AccessToken",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiJzcGlyaXRhbmltYWwiLCJzdWIiOiJIZXJiZXJ0IiwiYXV0aG9yaXRpZXMiOlsiVVNFUiJdLCJpYXQiOjE2NzM1Mzk3NDYsImV4cCI6MTY3MzU0MzM0Nn0.M7QYQbHfGIDsXu0ijZyE3JDcWd62gYHrBPionCsWjq1k5wxG2iH5y9e9y1qKX7x77-g6TVXKi1Ve7vFZq6T7Mg",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"kategorie\": \"QUALLEN\",\r\n    \"tiername\": \"Quallon\",\r\n    \"beschreibung\": \"Quallon ist eine Qualle\",\r\n    \"alter\": \"100\",\r\n    \"preis\": 10,\r\n    \"foto\": \"https://upload.wikimedia.org/wikipedia/commons/3/31/Trieste_Hafenbecken_Qualle_09022008_05.jpg\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:443/api/inserate",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "443",
+					"path": [
+						"api",
+						"inserate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Inserat erstellen 3",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"kategorie\": \"QUALLEN\",\r\n    \"tiername\": \"Kilian\",\r\n    \"beschreibung\": \"Kilian ist eine Qualle\",\r\n    \"alter\": \"1000\",\r\n    \"preis\": 100,\r\n    \"foto\": \"https://www.zoovienna.at/media/_versions_/userphotos/robert_trakl/2019-03/foto_148_do_animal_detail_801.jpg\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:443/api/inserate",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "443",
+					"path": [
+						"api",
+						"inserate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Inserat erstellen batch 1",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[\r\n    {\r\n    \"kategorie\": \"QUALLEN\",\r\n    \"tiername\": \"Jelly-Boy\",\r\n    \"beschreibung\": \"Verspielt, manchmal giftig\",\r\n    \"alter\": \"500\",\r\n    \"preis\": 75,\r\n    \"status\": \"ONLINE\",\r\n    \"foto\": \"https://images.unsplash.com/photo-1590013330451-3946e83e0392?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80\"\r\n    },\r\n    {\r\n    \"kategorie\": \"FISCHE\",\r\n    \"tiername\": \"Goldi\",\r\n    \"beschreibung\": \"Goldi ist ein Goldfisch\",\r\n    \"alter\": \"2\",\r\n    \"preis\": 5,\r\n    \"status\": \"ONLINE\",\r\n    \"foto\": \"https://images.unsplash.com/photo-1522069169874-c58ec4b76be5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1912&q=80\"\r\n    },\r\n    {\r\n    \"kategorie\": \"SCHILDKRÖTEN\",\r\n    \"tiername\": \"Frida\",\r\n    \"beschreibung\": \"Frida ist alt und schläft gerne\",\r\n    \"alter\": \"150\",\r\n    \"preis\": 200,\r\n    \"status\": \"ONLINE\",\r\n    \"foto\": \"https://images.unsplash.com/photo-1581242163695-19d0acfd486f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80\"\r\n    },\r\n    {\r\n    \"kategorie\": \"NAGER\",\r\n    \"tiername\": \"Fritzi\",\r\n    \"beschreibung\": \"Fritzi flitzt gerne durch den Garten\",\r\n    \"alter\": \"3\",\r\n    \"preis\": 25,\r\n    \"status\": \"ONLINE\",\r\n    \"foto\": \"https://images.unsplash.com/photo-1518796745738-41048802f99a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1169&q=80\"\r\n    },\r\n    {\r\n    \"kategorie\": \"VÖGEL\",\r\n    \"tiername\": \"Birb\",\r\n    \"beschreibung\": \"Birb\",\r\n    \"alter\": \"3\",\r\n    \"preis\": 15,\r\n    \"status\": \"ONLINE\",\r\n    \"foto\": \"https://images.unsplash.com/photo-1560595643-90bb555b2eaa?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80\"\r\n    },\r\n    {\r\n    \"kategorie\": \"KATZEN\",\r\n    \"tiername\": \"Bob\",\r\n    \"beschreibung\": \"Bob is a huge fan of space, both outer & personal\",\r\n    \"alter\": \"7\",\r\n    \"preis\": 60,\r\n    \"status\": \"ONLINE\",\r\n    \"foto\": \"https://pbs.twimg.com/media/FJ0ZzYbaQAIpp1A.jpg\"\r\n    },\r\n    {\r\n    \"kategorie\": \"KATZEN\",\r\n    \"tiername\": \"Tom\",\r\n    \"beschreibung\": \"Tom sieht manchmal etwas grantig aus\",\r\n    \"alter\": \"7\",\r\n    \"preis\": 60,\r\n    \"status\": \"ONLINE\",\r\n    \"foto\": \"https://yt3.ggpht.com/ytc/AMLnZu-6_5maCEdXeXNGMSWLcTPGqRSEoEZ-jhreCYL6=s900-c-k-c0x00ffffff-no-rj\"\r\n    },\r\n    {\r\n    \"kategorie\": \"PFERDE\",\r\n    \"tiername\": \"Sir Handlesmith III\",\r\n    \"beschreibung\": \"Sir Handlesmith ist einen gewissen Lebensstandard gewohnt\",\r\n    \"alter\": \"6\",\r\n    \"preis\": 200000,\r\n    \"status\": \"ONLINE\",\r\n    \"foto\": \"https://sadanduseless.b-cdn.net/wp-content/uploads/2020/10/suit1.jpg\"\r\n    },\r\n    {\r\n    \"kategorie\": \"NAGER\",\r\n    \"tiername\": \"Nicole\",\r\n    \"beschreibung\": \"Nicole ist sehr fotogen\",\r\n    \"alter\": \"6\",\r\n    \"preis\": 200000,\r\n    \"status\": \"ONLINE\",\r\n    \"foto\": \"https://m.media-amazon.com/images/I/31QvaqPJjlL._AC_SY580_.jpg\"\r\n    },\r\n    {\r\n    \"kategorie\": \"EXOTEN\",\r\n    \"tiername\": \"Der Exot\",\r\n    \"beschreibung\": \"Nicht vergessen regelmäßig zu füttern\",\r\n    \"alter\": \"15000000\",\r\n    \"preis\": 2,\r\n    \"status\": \"ONLINE\",\r\n    \"foto\": \"https://www.geek-germany.de/wp-content/uploads/2018/01/2-48.jpg\"\r\n    }\r\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:443/api/inserate/batch",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "443",
+					"path": [
+						"api",
+						"inserate",
+						"batch"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Inserat erstellen batch 2",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[\r\n    {\r\n    \"kategorie\": \"KATZENARTIGE_TIERE\",\r\n    \"tiername\": \"Bruno\",\r\n    \"beschreibung\": \"Nicht mit kleinen Kindern im gleichen Raum unbeaufsichtigt lassen\",\r\n    \"alter\": \"4\",\r\n    \"preis\": 3500,\r\n    \"status\": \"ONLINE\",\r\n    \"foto\": \"https://images.unsplash.com/photo-1615824996195-f780bba7cfab?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1887&q=80\"\r\n    },\r\n    {\r\n    \"kategorie\": \"DAMMWILD\",\r\n    \"tiername\": \"Bambi\",\r\n    \"beschreibung\": \"Spielt am liebsten mit ihrem Freund Klopfer\",\r\n    \"alter\": \"4\",\r\n    \"preis\": 3500,\r\n    \"status\": \"ONLINE\",\r\n    \"foto\": \"https://images.unsplash.com/photo-1451303688941-9e06d4b1277a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80\"\r\n    },\r\n    {\r\n    \"kategorie\": \"WEITERE_NAGER\",\r\n    \"tiername\": \"Rolf Rüdiger\",\r\n    \"beschreibung\": \"Ehemaliger Fernsehmoderator, sucht neues Zuhause\",\r\n    \"alter\": \"45\",\r\n    \"preis\": 50,\r\n    \"status\": \"ONLINE\",\r\n    \"foto\": \"https://image.kurier.at/images/cfs_square_1232/2016834/rolf-ruediger.jpg\"\r\n    },\r\n    {\r\n    \"kategorie\": \"WEITERE_NAGER\",\r\n    \"tiername\": \"Speedy Gonzales\",\r\n    \"beschreibung\": \"Die schnellste Maus von Mexiko\",\r\n    \"alter\": \"2\",\r\n    \"preis\": 35,\r\n    \"status\": \"ONLINE\",\r\n    \"foto\": \"https://images.unsplash.com/photo-1613773215530-471bd830edb9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=413&q=80\"\r\n    },\r\n    {\r\n    \"kategorie\": \"SCHNABELTIERE\",\r\n    \"tiername\": \"Duckface\",\r\n    \"beschreibung\": \"Der Beweis das Gott Humor hat\",\r\n    \"alter\": \"7\",\r\n    \"preis\": 200,\r\n    \"status\": \"ONLINE\",\r\n    \"foto\": \"https://static01.nyt.com/images/2021/01/19/science/09TB-PLATYPUS/09TB-PLATYPUS-videoSixteenByNineJumbo1600.jpg\"\r\n    }\r\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:443/api/inserate/batch",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "443",
+					"path": [
+						"api",
+						"inserate",
+						"batch"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Inserat erstellen batch 3",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[\r\n    {\r\n    \"kategorie\": \"PINGUINE\",\r\n    \"tiername\": \"Ingu Pien, der Pinguin\",\r\n    \"beschreibung\": \"Hat immer Hunger auf Fisch\",\r\n    \"alter\": \"5\",\r\n    \"preis\": 300,\r\n    \"status\": \"ONLINE\",\r\n    \"foto\": \"https://images.unsplash.com/photo-1598257733238-97cf162c5ae0?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80\"\r\n    },\r\n    {\r\n    \"kategorie\": \"HUNDE\",\r\n    \"tiername\": \"Doge\",\r\n    \"beschreibung\": \"Ein wahrer Internet-Celebrity\",\r\n    \"alter\": \"5\",\r\n    \"preis\": 750,\r\n    \"status\": \"ONLINE\",\r\n    \"foto\": \"https://i.kym-cdn.com/entries/icons/mobile/000/013/564/doge.jpg\"\r\n    },\r\n    {\r\n    \"kategorie\": \"KATZEN\",\r\n    \"tiername\": \"Long Cat\",\r\n    \"beschreibung\": \"Eine laaaaaange Gadse\",\r\n    \"alter\": \"10\",\r\n    \"preis\": 80,\r\n    \"status\": \"ONLINE\",\r\n    \"foto\": \"https://image.k.at/images/cfs_square_1232/4649504/longcat-vs-tacgnol-2.jpg\"\r\n    },\r\n    {\r\n    \"kategorie\": \"HUNDE\",\r\n    \"tiername\": \"Bello\",\r\n    \"beschreibung\": \"Sein Humor ist so flach wie sein Gesicht\",\r\n    \"alter\": \"6\",\r\n    \"preis\": 75,\r\n    \"status\": \"ONLINE\",\r\n    \"foto\": \"https://images.unsplash.com/photo-1517849845537-4d257902454a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=435&q=80\"\r\n    },\r\n    {\r\n    \"kategorie\": \"PFERDE\",\r\n    \"tiername\": \"Idylle\",\r\n    \"beschreibung\": \"Einfach nur ein schönes Tier\",\r\n    \"alter\": \"11\",\r\n    \"preis\": 5500,\r\n    \"status\": \"ONLINE\",\r\n    \"foto\": \"https://images.unsplash.com/photo-1553284965-fa61e9ad4795?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1171&q=80\"\r\n    }\r\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:443/api/inserate/batch",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "443",
+					"path": [
+						"api",
+						"inserate",
+						"batch"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Inserat updaten",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[\r\n    {\r\n    \"kategorie\": \"QUALLEN\",\r\n    \"tiername\": \"Jelly-Boy\",\r\n    \"beschreibung\": \"Verspielt, manchmal giftig\",\r\n    \"alter\": \"500\",\r\n    \"preis\": 75,\r\n    \"status\": \"ONLINE\",\r\n    \"foto\": \"https://images.unsplash.com/photo-1590013330451-3946e83e0392?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80\"\r\n    }\r\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:443/api/inserate/63c5a546631b3d3b71e8162e",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "443",
+					"path": [
+						"api",
+						"inserate",
+						"63c5a546631b3d3b71e8162e"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Inserat updaten batch",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[\r\n    {\r\n    \"kategorie\": \"QUALLEN\",\r\n    \"tiername\": \"Jelly-Boy\",\r\n    \"beschreibung\": \"Verspielt, manchmal giftig\",\r\n    \"alter\": \"500\",\r\n    \"preis\": 75,\r\n    \"status\": \"ONLINE\",\r\n    \"foto\": \"https://images.unsplash.com/photo-1590013330451-3946e83e0392?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80\"\r\n    },\r\n    {\r\n    \"kategorie\": \"FISCHE\",\r\n    \"tiername\": \"Goldi\",\r\n    \"beschreibung\": \"Goldi ist ein Goldfisch\",\r\n    \"alter\": \"2\",\r\n    \"preis\": 5,\r\n    \"status\": \"ONLINE\",\r\n    \"foto\": \"https://images.unsplash.com/photo-1522069169874-c58ec4b76be5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1912&q=80\"\r\n    }\r\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:443/api/inserate/batch",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "443",
+					"path": [
+						"api",
+						"inserate",
+						"batch"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get alle Inserate",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:443/api/inserate",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "443",
+					"path": [
+						"api",
+						"inserate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Inserate für User",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:443/api/inserate?user=Herbert",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "443",
+					"path": [
+						"api",
+						"inserate"
+					],
+					"query": [
+						{
+							"key": "user",
+							"value": "Herbert"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Inserat PREMIUM",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:443/api/inserate/63c5a546631b3d3b71e8162e",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "443",
+					"path": [
+						"api",
+						"inserate",
+						"63c5a546631b3d3b71e8162e"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Inserat PREMIUM Batch",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[\r\n    {\"inseratID\": \"63c5a546631b3d3b71e8162e\"},\r\n    {\"inseratID\": \"63c5a546631b3d3b71e81630\"},\r\n    {\"inseratID\": \"63c5a546631b3d3b71e8162f\"}\r\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:443/api/inserate/premium/batch",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "443",
+					"path": [
+						"api",
+						"inserate",
+						"premium",
+						"batch"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Inserat löschen",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:443/api/inserate/63c5a546631b3d3b71e8162e",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "443",
+					"path": [
+						"api",
+						"inserate",
+						"63c5a546631b3d3b71e8162e"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Kauf tätigen",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"inseratID\": \"63c06376f991db43b5fbfd77\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:443/api/kaeufe",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "443",
+					"path": [
+						"api",
+						"kaeufe"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Kauf tätigen batch",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "AccessToken",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiJzcGlyaXRhbmltYWwiLCJzdWIiOiJIZXJiZXJ0IiwiYXV0aG9yaXRpZXMiOlsiVVNFUiJdLCJpYXQiOjE2NzM1Mzk3NDYsImV4cCI6MTY3MzU0MzM0Nn0.M7QYQbHfGIDsXu0ijZyE3JDcWd62gYHrBPionCsWjq1k5wxG2iH5y9e9y1qKX7x77-g6TVXKi1Ve7vFZq6T7Mg",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\r\n    {\r\n        \"inseratID\": \"63c06376f991db43b5fbfd77\"\r\n    },\r\n    {\r\n        \"inseratID\": \"63c06389f991db43b5fbfd78\"\r\n    }\r\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:443/api/kaeufe/batch",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "443",
+					"path": [
+						"api",
+						"kaeufe",
+						"batch"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Käufe für Anbieter",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "AccessToken",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiJzcGlyaXRhbmltYWwiLCJzdWIiOiJIZXJiZXJ0IiwiYXV0aG9yaXRpZXMiOlsiVVNFUiJdLCJpYXQiOjE2NzM1Mzk3NDYsImV4cCI6MTY3MzU0MzM0Nn0.M7QYQbHfGIDsXu0ijZyE3JDcWd62gYHrBPionCsWjq1k5wxG2iH5y9e9y1qKX7x77-g6TVXKi1Ve7vFZq6T7Mg",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://localhost:443/api/kaeufe?anbieter",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "443",
+					"path": [
+						"api",
+						"kaeufe"
+					],
+					"query": [
+						{
+							"key": "anbieter",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Käufe für Käufer",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "AccessToken",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiJzcGlyaXRhbmltYWwiLCJzdWIiOiJIZXJiZXJ0IiwiYXV0aG9yaXRpZXMiOlsiVVNFUiJdLCJpYXQiOjE2NzM1Mzk3NDYsImV4cCI6MTY3MzU0MzM0Nn0.M7QYQbHfGIDsXu0ijZyE3JDcWd62gYHrBPionCsWjq1k5wxG2iH5y9e9y1qKX7x77-g6TVXKi1Ve7vFZq6T7Mg",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://localhost:443/api/kaeufe?kaeufer",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "443",
+					"path": [
+						"api",
+						"kaeufe"
+					],
+					"query": [
+						{
+							"key": "kaeufer",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Kauf bestätigen",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "AccessToken",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiJzcGlyaXRhbmltYWwiLCJzdWIiOiJIZXJiZXJ0IiwiYXV0aG9yaXRpZXMiOlsiVVNFUiJdLCJpYXQiOjE2NzM1Mzk3NDYsImV4cCI6MTY3MzU0MzM0Nn0.M7QYQbHfGIDsXu0ijZyE3JDcWd62gYHrBPionCsWjq1k5wxG2iH5y9e9y1qKX7x77-g6TVXKi1Ve7vFZq6T7Mg",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"kaufID\": \"63c033bbfc5dcd42a757f54a\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:443/api/kaeufe/akzeptieren",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "443",
+					"path": [
+						"api",
+						"kaeufe",
+						"akzeptieren"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Kauf ablehnen",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"kaufID\": \"63c072fa830ee417295b6af4\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:443/api/kaeufe/ablehnen",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "443",
+					"path": [
+						"api",
+						"kaeufe",
+						"ablehnen"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SoulSearch Start",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:443/api/soulsearch/start",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "443",
+					"path": [
+						"api",
+						"soulsearch",
+						"start"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SoulSearch Like",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"inseratID\":\"63c06376f991db43b5fbfd77\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:443/api/soulsearch/like",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "443",
+					"path": [
+						"api",
+						"soulsearch",
+						"like"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Lösche Favorit",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:443/api/soulsearch/mydarlings/63c06389f991db43b5fbfd78",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "443",
+					"path": [
+						"api",
+						"soulsearch",
+						"mydarlings",
+						"63c06389f991db43b5fbfd78"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{API Token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "API Token",
+			"value": "Please enter the token you get after Login",
+			"type": "string"
+		}
+	]
+}

@@ -13,6 +13,9 @@ public class WiderrufRequestDTO {
         this.tierBeiKäufer = tierBeiKäufer;
     }
 
+    public WiderrufRequestDTO() {
+    }
+
     public String getKaufID() {
         return kaufID;
     }

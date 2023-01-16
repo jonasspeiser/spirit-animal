@@ -33,7 +33,13 @@
             <v-row style="padding-top: 5px">
               {{item.inserat.beschreibung}}
               <v-spacer></v-spacer>
-              Status: {{item.status}}
+              Status:&nbsp;
+              <span v-if="item.status==='BEZAHLT'">
+                BEZAHLT - ANBIETER MUSS BESTÄTIGEN
+              </span>
+              <span v-else>
+                {{item.status}}
+              </span>
             </v-row>
             <v-row style="padding-top: 5px">
               Age: {{item.inserat.alter}}
@@ -44,6 +50,9 @@
               Preis: {{item.inserat.preis}}
               <v-spacer></v-spacer>
               Gekauft am: {{item.kaufdatum}}
+            </v-row>
+            <v-row>
+              <a>{{ response }}</a>
             </v-row>
             <v-row>
               <v-col>

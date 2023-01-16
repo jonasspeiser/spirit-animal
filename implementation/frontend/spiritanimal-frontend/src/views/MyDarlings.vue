@@ -40,6 +40,9 @@
               Preis: {{item.preis}}
             </v-row>
             <v-row>
+              <a>{{ response }}</a>
+            </v-row>
+            <v-row>
               <v-col>
                 <!-- TODO: function when delete button clicked-->
                 <v-btn style="margin-left: 60%" @click="deleteDarling(item.inseratID)">

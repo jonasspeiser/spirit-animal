@@ -26,10 +26,6 @@ public class KaufServiceController {
     @Autowired
     private AuthService authService;
 
-    // TODO: DTOs statt Strings als RequestBodies erwarten (sprich, DTOs entsprechend der EDI-Sprache aus A2 definieren)
-    // -> Alternativ Request-payload anhand des json-Schemas aus A2 überprüfen
-    // TODO: Fehlercode 400 retournieren falls verlangtes Zeug nicht enthalten ist (ergibt sich wahrscheinlich aus obigem Todo)
-
     private String authenticateAndGetUsername(String token) {
         // Authentication
         if (!authService.isTokenValid(token)) {
@@ -56,7 +52,6 @@ public class KaufServiceController {
     }
 
 
-    // TODO: Batchfähigkeit wie in A2 beschrieben (Übergabe eines Arrays mit mehreren IDs)
     @PostMapping("")
     @ResponseBody
     public String starteKauf(@RequestBody String request, @RequestHeader("Authorization") String token) {

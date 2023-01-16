@@ -62,7 +62,6 @@ public class KaufServiceController {
         return kaufService.starteKauf(username, inseratID);
     }
 
-    // TODO: User kann nur eigene Verkäufe akzeptieren oder ablehnen (Authorisierung)
     @PostMapping("/akzeptieren")
     @ResponseBody
     public String bestätigungKauf(@RequestBody String request, @RequestHeader("Authorization") String token) {
@@ -73,7 +72,6 @@ public class KaufServiceController {
         return kaufService.bestätigungKauf(kaufID);
     }
 
-    // TODO: User kann nur eigene Verkäufe akzeptieren oder ablehnen (Authorisierung)
     @PostMapping("/ablehnen")
     @ResponseBody
     public String ablehnungKauf(@RequestBody String request, @RequestHeader("Authorization") String token) {
@@ -84,7 +82,6 @@ public class KaufServiceController {
         return kaufService.ablehnungKauf(kaufID);
     }
 
-    // TODO: User kann nur eigene Käufe widerrufen (Authorisierung)
     @PostMapping("/widerruf")
     @ResponseBody
     public String widerrufeKauf(@RequestBody String request, @RequestHeader("Authorization") String token) {
@@ -96,7 +93,6 @@ public class KaufServiceController {
         return kaufService.starteWiderruf(kaufID, tierBeiKäufer);
     }
 
-//     TODO: User kann nur eigene Käufe widerrufen (Authorisierung)
     @PostMapping("/widerruf/schliessen")
     @ResponseBody
     public String schließeWiderruf(@RequestBody String request, @RequestHeader("Authorization") String token) {

@@ -5,6 +5,8 @@
 Mit SpiritAnimal wird die Suche nach dem perfekten neuen Haustier zum Spaß für Alt und Jung!
 ## Table of Content
 1. [Deployment](#deployment)
+   1. [Docker](#docker)
+   2. [Endpoints](#endpoints)
 2. [Tech-Stack](#tech-stack)
 3. [System-Architektur](#system-architektur)
 4. [Use Cases](#use-cases)
@@ -18,15 +20,22 @@ Mit SpiritAnimal wird die Suche nach dem perfekten neuen Haustier zum Spaß für
 5. [Postman Collection](#postman-collection)
 6. [GraphQL Schnittstelle](#graphql-schnittstelle)
 
-## Deployment
-- `docker compose build`
-- `docker compose up`
+## Deployment 
+### Docker
 
+- `docker compose build`
+- `docker compose up`  
+
+### Endpoints:
+- Frontend erreichbar über: `https://localhost:443/`
+- API erreichbar über: `https://localhost:443/api/`
+- Die weiteren API-Routen finden sich in der Postman Collection
+- Mongo Express erreichbar über: `http://localhost:8081`
 ## Tech-Stack
-Datenbank: MongoDB  
-Backend: Java/Spring Boot  
-Frontend: Vue.js  
-Deployment: Docker
+- Datenbank: MongoDB  
+- Backend: Java/Spring Boot  
+- Frontend: Vue.js  
+- Deployment: Docker
 
 ## System-Architektur
 ![image](SystemArchitecture.png)

@@ -3,6 +3,21 @@
 
 ![image](implementation/frontend/spiritanimal-frontend/src/assets/animal-logo.png)  
 Mit SpiritAnimal wird die Suche nach dem perfekten neuen Haustier zum Spaß für Alt und Jung!
+## Table of Content
+1. [Local Deployment](#local-deployment)
+2. [Tech-Stack](#tech-stack)
+3. [System-Architektur](#system-architektur)
+4. [Use Cases](#use-cases)
+   1. [UC1: User erstellen/Login (B2C/B2B)](#uc1-user-erstellenlogin-b2cb2b)
+   2. [UC2: Soulsearch/Matching (B2C)](#uc2-soulsearchmatching-b2c)
+   3. [UC3: Inserat erstellen (B2C/B2B)](#uc3-inserat-erstellen-b2cb2b)
+   4. [UC4: Kauf von Premium-Funktionen (B2B)](#uc4-kauf-von-premium-funktionen-b2b)
+   5. [UC5: Kauf eines Tiers (B2C)](#uc5-kauf-eines-tiers-b2c)
+   6. [UC6: Stornierung eines Kaufs (B2C)](#uc6-stornierung-eines-kaufs-b2c)
+   7. [Zusätzlicher Usecase: Admin Funktionalität](#zustzlicher-usecase-admin-funktionalitt)
+5. [Postman Collection](#postman-collection)
+6. [GraphQL Schnittstelle](#graphql-schnittstelle)
+
 ## Local Deployment
 **MongoDB** Container starten per `docker compose up`  
 *MongoExpress Datenbankfrontend erreichbar über `localhost:8081`*
@@ -22,7 +37,7 @@ Deployment: Docker
 ## System-Architektur
 ![image](SystemArchitecture.png)
 
-Über NginX wird die SSL-Verschlüsselung sichergestellt. Ansonsten orientiert sich der Aufbau des Systems am MVC-Ansatz (Model-View-Controller).
+Über NginX wird die SSL-Verschlüsselung sichergestellt. Ansonsten entspricht das System einem modularen Monolithen und orientiert sich am MVC-Ansatz (Model-View-Controller).
 
 
 ## Use Cases
@@ -71,6 +86,10 @@ Wenn man sich als admin (user admin/password admin) einloggt, erscheint im Menü
 
 ## Postman Collection
 
+Die Postman Collection umfasst alle wesentlichen Funktionalitäten und kann prinzipiell on oben nach unten "durchgespielt" werden. Für die Authentifizierung ist es jedoch wichtig, dass man - je nach Vorgang - mit dem "richtigen" User eingeloggt ist - hierfür muss bei den Variables in der Collection der Token hinterlegt werden, der nach dem POST-Request "Login/Get API Token" übermittelt wurde (da jeder User einen eigenen Token hat). Ist dieser Token hier einmal hinterlegt, werden alle weiteren Requests automatisch mit diesem Token (ergo User) ausgeführt:  
 
+![image](Screenshot%202023-01-16%20220400.png)  
+
+## GraphQL Schnittstelle
 
 

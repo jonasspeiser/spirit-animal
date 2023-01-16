@@ -25,14 +25,14 @@ type Mutation {
 type Inserat {
     inseratID: ID
     # Username des Inserenten
-    inserentUsername: String
-    kategorie: Kategorie
+    inserentUsername: String!
+    kategorie: Kategorie!
     status: Status
     premium: Boolean
-    tiername: String
+    tiername: String!
     beschreibung: String
     alter: String
-    preis: Float
+    preis: Float!
     foto: String
 }
 

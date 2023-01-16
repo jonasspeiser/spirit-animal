@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @CrossOrigin
@@ -102,5 +103,36 @@ public class InseratServiceController {
     @ResponseBody
     public String string() {
         return "success";
+    }
+
+    // Batchfähige B2B Endpoints
+    @PostMapping("/api/inserate/batch")
+    @ResponseBody
+    public List<Inserat> batchCreateInserate(@RequestBody List<Inserat> inserate, @RequestHeader("Authorization") String token) {
+        ArrayList<Inserat> created = new ArrayList<>();
+        for (Inserat inserat : inserate) {
+            created.add(createInserat(inserat, token));
+        }
+        return created;
+    }
+
+    @PutMapping("/api/inserate/batch")
+    @ResponseBody
+    public List<Inserat> batchUpdateInserate(@RequestBody List<Inserat> inserate, @RequestHeader("Authorization") String token) {
+        ArrayList<Inserat> changed = new ArrayList<>();
+        for (Inserat inserat : inserate) {
+            String inseratID = inserat.getInseratID();
+            changed.add(updateInserat(inserat, inseratID, token));
+        }
+        return changed;
+    }
+
+    @PostMapping("/api/inserate/premium/batch")
+    @ResponseBody
+    public String batchUpdatePremium(@RequestBody List<String> inseratIDs, @RequestHeader("Authorization") String token) {
+        for (String inseratID : inseratIDs) {
+            updatePremium(inseratID, token);
+        }
+        return "Inserate erfolgreich auf Premium geupdatet";
     }
 }
